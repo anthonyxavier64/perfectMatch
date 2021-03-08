@@ -18,3 +18,9 @@ Code styling
 2. To auto-format in NetBeans, use alt-shift-f
 3. Leave an empty line between methods
 4. Camel case for variable and method names
+
+**Important**
+When adding new features, do it on a new branch first.
+Name the branch something like this: anthony/registration_feature
+Then after completed, create a pull request and if no conflict, merge with main branch.
+This is to avoid merge conflicts as much as possible.
