@@ -20,9 +20,7 @@ Code styling
 4. Camel case for variable and method names
 
 **Important**
-
-
-When adding new features, do it on a new branch first.
-Name the branch something like this: anthony/registration_feature
-Then after completed, create a pull request and if no conflict, merge with main branch.
-This is to avoid merge conflicts as much as possible.
+1. When adding new features, do it on a new branch first.
+2. Name the branch something like this: anthony/registration_feature
+3. Then after completed, create a pull request and if no conflict, merge with main branch.
+4. This is to avoid merge conflicts as much as possible.
