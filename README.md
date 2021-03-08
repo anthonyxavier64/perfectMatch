@@ -24,3 +24,13 @@ Code styling
 2. Name the branch something like this: anthony/registration_feature
 3. Then after completed, create a pull request and if no conflict, merge with main branch.
 4. This is to avoid merge conflicts as much as possible.
+
+**How to use git branch**
+1. Create local branch: git branch *name*/*branch name*
+2. Checkout to newly create branch: git checkout *name*/*branch name*
+3. Push local branch to github and set local branch to track remote branch: git push --set-upstream origin *name*/*branch name*
+
+**WHEN PUSHING TO GITHUB**
+1. Make sure you are pushing to the correct branch
+2. Check which branch your local branch is tracking: git branch -vv
+3. Safe method to push to correct branch: git push origin *name*/*branch name*:*name*/*branch name*, where name and branch name is the same to the left and right of the colon
