@@ -6,10 +6,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -22,6 +26,37 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
+    
+    private String biography;
+    
+    @NotNull
+    @Column(nullable = false, unique = true)
+    private String email;
+    
+    @NotNull
+    @Column(nullable = false, length = 32)
+    @Min(6)
+    private String password;
+    
+    @NotNull
+    @Column(nullable = false)
+    private String educationalInstitute;
+    
+    @NotNull
+    @Column(nullable = false)
+    private String courseOfStudy;
+    
+    @NotNull
+    @Column(nullable = false)
+    private Integer yearOfStudy;
+    
+    @NotNull
+    @Column(nullable = false)
+    private Date projectedGraduationYear;
+    
+    private String[] relevantSkills;
+    
+    private Date[] availabiltiyPeriod;
 
     public Long getStudentId() {
         return studentId;
