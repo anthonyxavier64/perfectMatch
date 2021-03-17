@@ -5,55 +5,147 @@
  */
 package entity;
 
+import enumeration.Industry;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Timer;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Antho
  */
 @Entity
-public class Project implements Serializable {
+public class Project extends Posting implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @NotNull
+    @Column(nullable = false)
+    private String projectTitle;
 
-    public Long getId() {
-        return id;
+    @NotNull
+    @Column(nullable = false)
+    private String projectDescription;
+
+    @NotNull
+    @Column(nullable = false)
+    private Double compensation;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date earliestStartDate;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date latestStartDate;
+    
+    private Timer validityPeriod;
+
+    @NotNull
+    @Column(nullable = false)
+    private Industry industry;
+
+    private String[] requiredSkills;
+
+    private String projectSpecialisation;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean isComplete;
+    
+
+    public Project() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Project(String projectTitle, String projectDescription, Double compensation, Industry industry, boolean isComplete) {
+        this.projectTitle = projectTitle;
+        this.projectDescription = projectDescription;
+        this.compensation = compensation;
+        this.industry = industry;
+        this.isComplete = isComplete;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String getProjectTitle() {
+        return projectTitle;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Project)) {
-            return false;
-        }
-        Project other = (Project) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
     }
 
-    @Override
-    public String toString() {
-        return "entity.Project[ id=" + id + " ]";
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
+    }
+
+    public Date getEarliestStartDate() {
+        return earliestStartDate;
+    }
+
+    public void setEarliestStartDate(Date earliestStartDate) {
+        this.earliestStartDate = earliestStartDate;
+    }
+
+    public Date getLatestStartDate() {
+        return latestStartDate;
+    }
+
+    public void setLatestStartDate(Date latestStartDate) {
+        this.latestStartDate = latestStartDate;
+    }
+
+    public Industry getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(Industry industry) {
+        this.industry = industry;
+    }
+
+    public String[] getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public void setRequiredSkills(String[] requiredSkills) {
+        this.requiredSkills = requiredSkills;
+    }
+
+    public String getProjectSpecialisation() {
+        return projectSpecialisation;
+    }
+
+    public void setProjectSpecialisation(String projectSpecialisation) {
+        this.projectSpecialisation = projectSpecialisation;
+    }
+
+    public boolean isIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(boolean isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public Timer getValidityPeriod() {
+        return validityPeriod;
+    }
+
+    public void setValidityPeriod(Timer validityPeriod) {
+        this.validityPeriod = validityPeriod;
     }
     
+    
+
 }
