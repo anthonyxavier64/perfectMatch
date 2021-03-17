@@ -5,55 +5,123 @@
  */
 package entity;
 
+import enumeration.Industry;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Timer;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Antho
  */
 @Entity
-public class Job implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Job)) {
-            return false;
-        }
-        Job other = (Job) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Job[ id=" + id + " ]";
-    }
+public class Job extends Posting implements Serializable {
     
+    @NotNull
+    @Column(nullable = false)
+    private String jobTitle;
+    
+    @NotNull
+    @Column(nullable = false)
+    private String jobDescription;
+    
+    @NotNull
+    @Column(nullable = false)
+    private Double monthlySalary;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date earlietStartDate;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date latestStartDate;
+    
+    private Timer validityPeriod;
+    
+    @NotNull
+    @Column(nullable = false)
+    private Industry industry;
+    
+    private String[] requiredSkills;
+
+    public Job() {
+    }
+
+    public Job(String jobTitle, String jobDescription, Double monthlySalary, Date earlietStartDate, Date latestStartDate, Industry industry, String[] requiredSkills) {
+        this.jobTitle = jobTitle;
+        this.jobDescription = jobDescription;
+        this.monthlySalary = monthlySalary;
+        this.earlietStartDate = earlietStartDate;
+        this.latestStartDate = latestStartDate;
+        this.industry = industry;
+        this.requiredSkills = requiredSkills;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
+
+    public Double getMonthlySalary() {
+        return monthlySalary;
+    }
+
+    public void setMonthlySalary(Double monthlySalary) {
+        this.monthlySalary = monthlySalary;
+    }
+
+    public Date getEarlietStartDate() {
+        return earlietStartDate;
+    }
+
+    public void setEarlietStartDate(Date earlietStartDate) {
+        this.earlietStartDate = earlietStartDate;
+    }
+
+    public Date getLatestStartDate() {
+        return latestStartDate;
+    }
+
+    public void setLatestStartDate(Date latestStartDate) {
+        this.latestStartDate = latestStartDate;
+    }
+
+    public Industry getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(Industry industry) {
+        this.industry = industry;
+    }
+
+    public String[] getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public void setRequiredSkills(String[] requiredSkills) {
+        this.requiredSkills = requiredSkills;
+    }
+
+    public Timer getValidityPeriod() {
+        return validityPeriod;
+    }
+
+    public void setValidityPeriod(Timer validityPeriod) {
+        this.validityPeriod = validityPeriod;
+    }
+
 }
