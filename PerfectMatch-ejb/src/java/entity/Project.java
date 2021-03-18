@@ -39,8 +39,6 @@ public class Project extends Posting implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date latestStartDate;
-    
-    private Timer validityPeriod;
 
     @NotNull
     @Column(nullable = false)
@@ -137,15 +135,5 @@ public class Project extends Posting implements Serializable {
     public void setIsComplete(boolean isComplete) {
         this.isComplete = isComplete;
     }
-
-    public Timer getValidityPeriod() {
-        return validityPeriod;
-    }
-
-    public void setValidityPeriod(Timer validityPeriod) {
-        this.validityPeriod = validityPeriod;
-    }
-    
-    
 
 }

@@ -39,8 +39,6 @@ public class Job extends Posting implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date latestStartDate;
     
-    private Timer validityPeriod;
-    
     @NotNull
     @Column(nullable = false)
     private Industry industry;
@@ -114,14 +112,6 @@ public class Job extends Posting implements Serializable {
 
     public void setRequiredSkills(String[] requiredSkills) {
         this.requiredSkills = requiredSkills;
-    }
-
-    public Timer getValidityPeriod() {
-        return validityPeriod;
-    }
-
-    public void setValidityPeriod(Timer validityPeriod) {
-        this.validityPeriod = validityPeriod;
     }
 
 }
