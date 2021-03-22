@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -52,6 +53,15 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         } catch (NonUniqueResultException | NoResultException ex) {
             throw ex;
         }
+    }
+    
+    @Override
+    public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException {
+        Student student = em.find(Student.class, studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student ID " + studentId + " does not exist");
+        }
+        return student;
     }
 
     @Override

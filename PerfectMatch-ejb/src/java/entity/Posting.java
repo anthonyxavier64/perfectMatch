@@ -32,6 +32,9 @@ public abstract class Posting implements Serializable {
     @OneToMany(mappedBy = "posting")
     private List<Offer> offers;
     
+    @OneToMany(mappedBy = "posting")
+    private List<Application> applications;
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Startup startup;
@@ -86,6 +89,14 @@ public abstract class Posting implements Serializable {
 
     public void setStartup(Startup startup) {
         this.startup = startup;
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
     
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -30,5 +31,7 @@ public interface StudentSessionBeanLocal {
     List<Application> getStudentApplications(Long studentId);
 
     List<Payment> getStudentPayments(Long studentId);
+
+    public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
 
 }
