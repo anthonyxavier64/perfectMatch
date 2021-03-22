@@ -5,30 +5,36 @@
  */
 package ejb.session.stateless;
 
-import entity.Job;
 import entity.Payment;
-import entity.Project;
+import entity.Posting;
 import entity.Startup;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import util.exception.CreateNewStartupException;
+import util.exception.InputDataValidationException;
+import util.exception.StartupNotFoundException;
 
 /**
  *
- * @author Antho
+ * @author yappeizhen
  */
 @Local
 public interface StartupSessionBeanLocal {
 
-    Startup registerStartupAccount(Startup startup);
+    public List<Startup> retrieveAllStartups();
 
-    Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException;
+    public Startup retrieveStartupByStartupId(Long startupId) throws StartupNotFoundException;
 
-    List<Job> getJobPostings(Long startupId);
+    public void updateStartup(Startup startup);
 
-    List<Project> getProjectPostings(Long startupId);;
+    public Startup createNewStartup(Startup startup) throws CreateNewStartupException, InputDataValidationException;
 
-    List<Payment> getStartupPayments(Long startupId);
+    public List<Payment> retrieveStartupPayments(Long startupId);
 
+    public List<Posting> retrieveStartupPostings(Long startupId);
+
+    public Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException;
+    
 }
