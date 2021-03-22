@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -53,10 +54,19 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw ex;
         }
     }
+    
+    @Override
+    public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException {
+        Student student = em.find(Student.class, studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student ID " + studentId + " does not exist");
+        }
+        return student;
+    }
 
     @Override
     public List<Offer> getStudentOffers(Long studentId) {
-        Query query = em.createQuery("SELECT o FROM Offer o WHERE o.studentId = :studentId");
+        Query query = em.createQuery("SELECT o FROM Offer WHERE offer.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Offer> offers = query.getResultList();
@@ -65,7 +75,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Application> getStudentApplications(Long studentId) {
-        Query query = em.createQuery("SELECT a FROM Application a WHERE a.studentId = :studentId");
+        Query query = em.createQuery("SELECT a FROM Application WHERE Application.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Application> applications = query.getResultList();
@@ -74,7 +84,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Payment> getStudentPayments(Long studentId) {
-        Query query = em.createQuery("SELECT p FROM Payment p WHERE p.studentId = :studentId");
+        Query query = em.createQuery("SELECT p FROM Payment WHERE Payment.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Payment> payments = query.getResultList();

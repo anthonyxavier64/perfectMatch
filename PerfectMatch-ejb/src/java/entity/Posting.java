@@ -13,8 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,7 +22,6 @@ import javax.persistence.OneToMany;
  * @author Antho
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Posting implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +31,9 @@ public abstract class Posting implements Serializable {
     
     @OneToMany(mappedBy = "posting")
     private List<Offer> offers;
+    
+    @OneToMany(mappedBy = "posting")
+    private List<Application> applications;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -89,6 +89,14 @@ public abstract class Posting implements Serializable {
 
     public void setStartup(Startup startup) {
         this.startup = startup;
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
     
 }
