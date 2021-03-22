@@ -5,10 +5,10 @@
  */
 package ejb.session.stateless;
 
-import entity.Application;
-import entity.Offer;
+import entity.Job;
 import entity.Payment;
-import entity.Student;
+import entity.Project;
+import entity.Startup;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
@@ -19,16 +19,16 @@ import javax.persistence.NonUniqueResultException;
  * @author Antho
  */
 @Local
-public interface StudentSessionBeanLocal {
+public interface StartupSessionBeanLocal {
 
-    Student registerStudentAccount(Student student);
+    Startup registerStartupAccount(Startup startup);
 
-    Student loginStudent(String email, String password) throws NonUniqueResultException, NoResultException;
+    Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException;
 
-    List<Offer> getStudentOffers(Long studentId);
+    List<Job> getJobPostings(Long startupId);
 
-    List<Application> getStudentApplications(Long studentId);
+    List<Project> getProjectPostings(Long startupId);;
 
-    List<Payment> getStudentPayments(Long studentId);
+    List<Payment> getStartupPayments(Long startupId);
 
 }
