@@ -130,3 +130,32 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
         return msg;
     }
 }
+
+    @Override
+    public List<Job> getJobPostings(Long startupId) {
+        Query query = em.createQuery("SELECT j FROM Job j WHERE j.startupId = :startupId");
+        query.setParameter("startupId", startupId);
+
+        List<Job> jobPostings = query.getResultList();
+        return jobPostings;
+    }
+
+    @Override
+    public List<Project> getProjectPostings(Long startupId) {
+        Query query = em.createQuery("SELECT p FROM Posting p WHERE p.startupId = :startupId");
+        query.setParameter("startupId", startupId);
+
+        List<Project> projectPostings = query.getResultList();
+        return projectPostings;
+    }
+
+    @Override
+    public List<Payment> getStartupPayments(Long startupId) {
+        Query query = em.createQuery("SELECT p FROM Payment p WHERE p.startupId = :startupId");
+        query.setParameter("startupId", startupId);
+
+        List<Payment> payments = query.getResultList();
+        return payments;
+    }
+
+}
