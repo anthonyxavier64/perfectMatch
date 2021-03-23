@@ -13,9 +13,6 @@ Instructions to run application
 4. Deploy the main application
 5. To run the JSF application, open a browser and use localhost:8080/PerfectMatch
 
-6. To run the Angular application, use ng serve on the terminal in the directory of the Angular project
-   and go to localhost:4200 on your browser
-
 Code styling
 1. Use tab spaces
 2. To auto-format in NetBeans, use alt-shift-f
@@ -37,6 +34,3 @@ Code styling
 1. Make sure you are pushing to the correct branch
 2. Check which branch your local branch is tracking: git branch -vv
 3. Safe method to push to correct branch: git push origin *name*/*branch name*:*name*/*branch name*, where name and branch name is the same to the left and right of the colon
-
-**First time pulling Angular application**
-1. In the Angular project folder, run the command npm install to install node modules on the terminal
