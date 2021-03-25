@@ -6,7 +6,7 @@
 package entity;
 
 import enumeration.Industry;
-import enumeration.StartupLocation;
+import enumeration.StartUpLocation;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
  * @author Antho
  */
 @Entity
-public class Startup implements Serializable {
+public class StartUp implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,7 +51,7 @@ public class Startup implements Serializable {
     @Column(nullable = false)
     private Industry industry;
     
-    private StartupLocation startupLocation;
+    private StartUpLocation startupLocation;
     
     @OneToMany(mappedBy = "startup")
     private List<Posting> postings;
@@ -59,10 +59,10 @@ public class Startup implements Serializable {
     @OneToMany(mappedBy = "startup")
     private List<Payment> payments;
 
-    public Startup() {
+    public StartUp() {
     }
 
-    public Startup(String startupRegistrationNum, String description, String email, String password, Industry industry, StartupLocation startupLocation) {
+    public StartUp(String startupRegistrationNum, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
         this.startupRegistrationNum = startupRegistrationNum;
         this.description = description;
         this.email = email;
@@ -70,6 +70,18 @@ public class Startup implements Serializable {
         this.industry = industry;
         this.startupLocation = startupLocation;
     }
+
+    public StartUp(String startupRegistrationNum, String companyName, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
+        this.startupRegistrationNum = startupRegistrationNum;
+        this.companyName = companyName;
+        this.description = description;
+        this.email = email;
+        this.password = password;
+        this.industry = industry;
+        this.startupLocation = startupLocation;
+    }
+    
+    
    
 
     public Long getStartupId() {
@@ -90,10 +102,10 @@ public class Startup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the startupId fields are not set
-        if (!(object instanceof Startup)) {
+        if (!(object instanceof StartUp)) {
             return false;
         }
-        Startup other = (Startup) object;
+        StartUp other = (StartUp) object;
         if ((this.startupId == null && other.startupId != null) || (this.startupId != null && !this.startupId.equals(other.startupId))) {
             return false;
         }
@@ -153,11 +165,11 @@ public class Startup implements Serializable {
         this.industry = industry;
     }
 
-    public StartupLocation getStartupLocation() {
+    public StartUpLocation getStartupLocation() {
         return startupLocation;
     }
 
-    public void setStartupLocation(StartupLocation startupLocation) {
+    public void setStartupLocation(StartUpLocation startupLocation) {
         this.startupLocation = startupLocation;
     }
 

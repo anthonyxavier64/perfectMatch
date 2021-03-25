@@ -10,7 +10,7 @@ import entity.Job;
 import entity.Offer;
 import entity.Posting;
 import entity.Project;
-import entity.Startup;
+import entity.StartUp;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -40,7 +40,7 @@ public class PostingSessionBean implements PostingSessionBeanLocal {
     private EntityManager em;
 
     @EJB
-    private StartupSessionBeanLocal startupSessionBeanLocal;
+    private StartUpSessionBeanLocal startupSessionBeanLocal;
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
@@ -63,7 +63,7 @@ public class PostingSessionBean implements PostingSessionBeanLocal {
         }
 
         try {
-            Startup startup = startupSessionBeanLocal.retrieveStartupByStartupId(startupId);
+            StartUp startup = startupSessionBeanLocal.retrieveStartUpByStartUpId(startupId);
             posting.setStartup(startup);
             em.persist(posting);
 
@@ -167,7 +167,7 @@ public class PostingSessionBean implements PostingSessionBeanLocal {
     }
     
     @Override
-    public Startup retrieveStartupFromPostingId(Long postingId) throws PostingNotFoundException {
+    public StartUp retrieveStartupFromPostingId(Long postingId) throws PostingNotFoundException {
         Posting post = retrievePostingByPostingId(postingId);
         return post.getStartup();
     }

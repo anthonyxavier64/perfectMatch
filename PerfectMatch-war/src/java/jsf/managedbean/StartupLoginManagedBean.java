@@ -1,7 +1,6 @@
 package jsf.managedbean;
 
-import ejb.session.stateless.StartupSessionBeanLocal;
-import entity.Startup;
+import entity.StartUp;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -12,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.http.HttpSession;
+import ejb.session.stateless.StartUpSessionBeanLocal;
 
 
 
@@ -22,7 +22,7 @@ public class StartupLoginManagedBean
 {
 
     @EJB
-    private StartupSessionBeanLocal startupSessionBean;
+    private StartUpSessionBeanLocal startupSessionBean;
 
     private String email;
     private String password;
@@ -39,7 +39,7 @@ public class StartupLoginManagedBean
     {
         try
         {
-            Startup currentStartup = startupSessionBean.loginStartup(email, password);
+            StartUp currentStartup = startupSessionBean.loginStartUp(email, password);
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()

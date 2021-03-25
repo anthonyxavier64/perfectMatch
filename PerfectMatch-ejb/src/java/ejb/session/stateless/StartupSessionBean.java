@@ -8,7 +8,7 @@ package ejb.session.stateless;
 import entity.Payment;
 import entity.Posting;
 import util.exception.CreateNewStartupException;
-import entity.Startup;
+import entity.StartUp;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -29,7 +29,7 @@ import util.exception.StartupNotFoundException;
  * @author yappeizhen
  */
 @Stateless
-public class StartupSessionBean implements StartupSessionBeanLocal {
+public class StartUpSessionBean implements StartUpSessionBeanLocal {
 
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
@@ -37,14 +37,14 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
 
-    public StartupSessionBean() {
+    public StartUpSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
 
     @Override
-    public Startup createNewStartup(Startup startup) throws CreateNewStartupException, InputDataValidationException {
-        Set<ConstraintViolation<Startup>> constraintViolations = validator.validate(startup);
+    public StartUp createNewStartUp(StartUp startup) throws CreateNewStartupException, InputDataValidationException {
+        Set<ConstraintViolation<StartUp>> constraintViolations = validator.validate(startup);
 
         if (!constraintViolations.isEmpty()) {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
@@ -60,13 +60,13 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     }
 
     @Override
-    public Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException {
+    public StartUp loginStartUp(String email, String password) throws NonUniqueResultException, NoResultException {
         Query query = em.createQuery("SELECT s FROM Startup s WHERE s.email = :email and s.password = :password");
         query.setParameter("email", email);
         query.setParameter("password", password);
 
         try {
-            Startup startup = (Startup) query.getSingleResult();
+            StartUp startup = (StartUp) query.getSingleResult();
             return startup;
         } catch (NonUniqueResultException | NoResultException ex) {
             throw ex;
@@ -74,10 +74,10 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     }
 
     @Override
-    public List<Startup> retrieveAllStartups() {
+    public List<StartUp> retrieveAllStartUps() {
         Query q = em.createQuery("SELECT s FROM Startup s");
-        List<Startup> results = q.getResultList();
-        for (Startup s : results) {
+        List<StartUp> results = q.getResultList();
+        for (StartUp s : results) {
             s.getPostings().size();
             s.getPayments().size();
         }
@@ -85,8 +85,8 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     }
 
     @Override
-    public Startup retrieveStartupByStartupId(Long startupId) throws StartupNotFoundException {
-        Startup startup = em.find(Startup.class, startupId);
+    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartupNotFoundException {
+        StartUp startup = em.find(StartUp.class, startupId);
         if (startup == null) {
             throw new StartupNotFoundException("Startup ID " + startupId + " does not exist");
         }
@@ -96,12 +96,12 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     }
 
     @Override
-    public void updateStartup(Startup startup) {
+    public void updateStartUp(StartUp startup) {
         em.merge(startup);
     }
 
     @Override
-    public List<Posting> retrieveStartupPostings(Long startupId) {
+    public List<Posting> retrieveStartUpPostings(Long startupId) {
         Query query = em.createQuery("SELECT p FROM Posting WHERE p.startupId = :startupId");
         query.setParameter("startupId", startupId);
 
@@ -110,7 +110,7 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     }
 
     @Override
-    public List<Payment> retrieveStartupPayments(Long startupId) {
+    public List<Payment> retrieveStartUpPayments(Long startupId) {
         Query query = em.createQuery("SELECT p FROM Payments WHERE p.startupId = :startupId");
         query.setParameter("startupId", startupId);
 
@@ -118,7 +118,16 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
         return payments;
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Startup>> constraintViolations) {
+    @Override
+    public void deleteAllStartUps() {
+        Query q = em.createQuery("SELECT s FROM Startup s");
+        List<StartUp> results = q.getResultList();
+        for (StartUp s : results) {
+            em.remove(s);
+        }
+    }
+    
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StartUp>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {

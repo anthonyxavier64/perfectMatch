@@ -7,7 +7,7 @@ package ejb.session.stateless;
 
 import entity.Payment;
 import entity.Project;
-import entity.Startup;
+import entity.StartUp;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +41,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     private PostingSessionBeanLocal postingSessionBeanLocal;
 
     @EJB
-    private StartupSessionBeanLocal startupSessionBeanLocal;
+    private StartUpSessionBeanLocal startupSessionBeanLocal;
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
@@ -66,7 +66,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Project project = postingSessionBeanLocal.retrieveProjectByProjectId(projectId);
-            Startup startup = startupSessionBeanLocal.retrieveStartupByStartupId(startupId);
+            StartUp startup = startupSessionBeanLocal.retrieveStartUpByStartUpId(startupId);
 
             pay.setStudent(student);
             pay.setProject(project);
@@ -102,7 +102,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
     
     @Override
-    public Startup retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException {
+    public StartUp retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException {
         Payment payment = retrievePaymentByPaymentId(paymentId);
         return payment.getStartup();
     }
