@@ -10,24 +10,12 @@
             <h:form id="loginForm">
 
                 <p:outputLabel for="email" value="Email" />&nbsp;
-                <p:inputText
-                    id="email"
-                    value="#{startupLoginManagedBean.email}"
-                    size="16"
-                    required="true"
-                    requiredMessage="Username is required"
-                    maxlength="64">
+                <p:inputText id="email" value="#{startupLoginManagedBean.email}" size="16" required="true" requiredMessage="Email is required" maxlength="64">
                     <f:validateLength minimum="4" />
                 </p:inputText>
                 &nbsp;
                 <p:outputLabel for="password" value="Password" />&nbsp;
-                <p:password
-                    id="password"
-                    value="#{startupLoginManagedBean.password}"
-                    size="16"
-                    required="true"
-                    requiredMessage="Password is required"
-                    maxlength="32">
+                <p:password id="password" value="#{startupLoginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
                     <f:validateLength minimum="4" />
                 </p:password>
                 &nbsp;
