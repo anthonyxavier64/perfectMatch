@@ -45,7 +45,7 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
     @Override
     public Startup createNewStartup(Startup startup) throws CreateNewStartupException, InputDataValidationException {
         Set<ConstraintViolation<Startup>> constraintViolations = validator.validate(startup);
-        
+
         if (!constraintViolations.isEmpty()) {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
@@ -58,7 +58,7 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
             throw new CreateNewStartupException("Startup information not provided");
         }
     }
-    
+
     @Override
     public Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException {
         Query query = em.createQuery("SELECT s FROM Startup s WHERE s.email = :email and s.password = :password");
@@ -94,12 +94,12 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
         startup.getPayments().size();
         return startup;
     }
-    
+
     @Override
     public void updateStartup(Startup startup) {
         em.merge(startup);
     }
-    
+
     @Override
     public List<Posting> retrieveStartupPostings(Long startupId) {
         Query query = em.createQuery("SELECT p FROM Posting WHERE p.startupId = :startupId");
@@ -108,7 +108,7 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
         List<Posting> postings = query.getResultList();
         return postings;
     }
-    
+
     @Override
     public List<Payment> retrieveStartupPayments(Long startupId) {
         Query query = em.createQuery("SELECT p FROM Payments WHERE p.startupId = :startupId");
@@ -117,16 +117,14 @@ public class StartupSessionBean implements StartupSessionBeanLocal {
         List<Payment> payments = query.getResultList();
         return payments;
     }
-    
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Startup>>constraintViolations)
-    {
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Startup>> constraintViolations) {
         String msg = "Input data validation error!:";
-            
-        for(ConstraintViolation constraintViolation:constraintViolations)
-        {
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
         }
-        
+
         return msg;
     }
 
