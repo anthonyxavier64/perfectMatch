@@ -8,7 +8,48 @@
                 template="./template/defaultTemplate.xhtml">
 
     <ui:define name="content">
-        content
+        <h:form id="formViewAllStudents" >
+            <p:panel header="View All Students">
+                <p:dataTable id="dataTableViewAllStudents" widgetVar="dataTableViewAllStudents" value="#{studentManagementManagedBean.listOfStudents}" var="student">
+
+                    <p:column headerText="Student ID" sortBy="#{student.studentId}" filterBy="#{student.studentId}" filterMatchMode="contains">
+                        <h:outputText value="#{student.studentId}" />
+                    </p:column> 
+
+                    <p:column headerText="Student Name" sortBy="#{student.name}" filterBy="#{student.name}" filterMatchMode="contains">
+                        <h:outputText value="#{student.name}" />
+                    </p:column> 
+
+                    <p:column headerText="Educational Institute" sortBy="#{student.educationalInstitute}" filterBy="#{student.educationalInstitute}" filterMatchMode="contains">
+                        <h:outputText value="#{student.educationalInstitute}" />
+                    </p:column> 
+                    
+                    <p:column headerText="Course of Study" sortBy="#{student.courseOfStudy}" filterBy="#{student.courseOfStudy}" filterMatchMode="contains">
+                        <h:outputText value="#{student.courseOfStudy}" />
+                    </p:column> 
+
+                    <p:column headerText="Student Email" sortBy="#{student.email}" filterBy="#{student.email}" filterMatchMode="contains">
+                        <h:outputText value="#{student.email}" />
+                    </p:column> 
+                    
+                    <p:column headerText="Relevant Skills" sortBy="#{student.relevantSkills}" filterBy="#{student.relevantSkills}" filterMatchMode="contains">
+                        <h:outputText value="#{student.relevantSkills}" />
+                    </p:column> 
+
+                    <p:column headerText="Availability Period" sortBy="#{student.availabiltiyPeriod}" filterBy="#{student.availabiltiyPeriod}" filterMatchMode="contains">
+                        <h:outputText value="#{student.availabiltiyPeriod}" />
+                    </p:column> 
+
+
+                    <p:column headerText="View Details">
+                        <!--Error comes in because i need to INCLUDE the page holding on to the other form-->
+                        <p:commandButton process="@form" update="@form" value="View Student Details" actionListener="#{viewStudentManagedBean.getStudentEntityToView}" />
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </p:panel>
     </ui:define>
 
 </ui:composition>
