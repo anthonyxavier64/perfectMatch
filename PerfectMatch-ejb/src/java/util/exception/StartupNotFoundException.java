@@ -9,13 +9,13 @@ package util.exception;
  *
  * @author yappeizhen
  */
-public class StartupNotFoundException extends Exception {
+public class StartUpNotFoundException extends Exception {
 
     /**
      * Creates a new instance of <code>StartupNotFoundException</code> without
      * detail message.
      */
-    public StartupNotFoundException() {
+    public StartUpNotFoundException() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class StartupNotFoundException extends Exception {
      *
      * @param msg the detail message.
      */
-    public StartupNotFoundException(String msg) {
+    public StartUpNotFoundException(String msg) {
         super(msg);
     }
 }

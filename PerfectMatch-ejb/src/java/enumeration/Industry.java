@@ -10,5 +10,5 @@ package enumeration;
  * @author Antho
  */
 public enum Industry {
-    
+    FOR_TESTING_ONLY
 }

@@ -7,7 +7,7 @@ package ejb.session.stateless;
 
 import entity.Payment;
 import entity.Project;
-import entity.Startup;
+import entity.StartUp;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +24,7 @@ import util.exception.CreateNewPaymentException;
 import util.exception.InputDataValidationException;
 import util.exception.PaymentNotFoundException;
 import util.exception.ProjectNotFoundException;
-import util.exception.StartupNotFoundException;
+import util.exception.StartUpNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -41,7 +41,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     private PostingSessionBeanLocal postingSessionBeanLocal;
 
     @EJB
-    private StartupSessionBeanLocal startupSessionBeanLocal;
+    private StartUpSessionBeanLocal startupSessionBeanLocal;
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
@@ -66,7 +66,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Project project = postingSessionBeanLocal.retrieveProjectByProjectId(projectId);
-            Startup startup = startupSessionBeanLocal.retrieveStartupByStartupId(startupId);
+            StartUp startup = startupSessionBeanLocal.retrieveStartUpByStartUpId(startupId);
 
             pay.setStudent(student);
             pay.setProject(project);
@@ -80,7 +80,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
             return pay;
 
-        } catch (StudentNotFoundException | ProjectNotFoundException | StartupNotFoundException ex) {
+        } catch (StudentNotFoundException | ProjectNotFoundException | StartUpNotFoundException ex) {
             throw new CreateNewPaymentException(ex.getMessage());
         }
 
@@ -102,7 +102,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
     
     @Override
-    public Startup retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException {
+    public StartUp retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException {
         Payment payment = retrievePaymentByPaymentId(paymentId);
         return payment.getStartup();
     }

@@ -8,21 +8,21 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Perfect Match</title>
+        <title>perfectMatch Startup Portal</title>
         <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
-<!--        <h:outputStylesheet library="css" name="default.css" />-->
+        <h:outputStylesheet library="css" name="default.css" />
     </h:head>
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">
+            <ui:insert name="header">
                 <ui:include src="/header.xhtml" />
             </ui:insert>
         </div>
         <div>
             <div id="left">
                 <ui:insert name="menu">
-                    menu
+                    <ui:include src="/mainmenu.xhtml" />
                 </ui:insert>
             </div>
             <div>
@@ -41,5 +41,6 @@
                 <ui:include src="/footer.xhtml" />
             </ui:insert>
         </div>
+
     </h:body>
 </html>

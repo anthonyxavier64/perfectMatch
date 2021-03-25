@@ -7,34 +7,36 @@ package ejb.session.stateless;
 
 import entity.Payment;
 import entity.Posting;
-import entity.Startup;
+import entity.StartUp;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import util.exception.CreateNewStartupException;
+import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
-import util.exception.StartupNotFoundException;
+import util.exception.StartUpNotFoundException;
 
 /**
  *
  * @author yappeizhen
  */
 @Local
-public interface StartupSessionBeanLocal {
+public interface StartUpSessionBeanLocal {
 
-    public List<Startup> retrieveAllStartups();
+    public List<StartUp> retrieveAllStartUps();
 
-    public Startup retrieveStartupByStartupId(Long startupId) throws StartupNotFoundException;
+    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartUpNotFoundException;
 
-    public void updateStartup(Startup startup);
+    public void updateStartUp(StartUp startup);
 
-    public Startup createNewStartup(Startup startup) throws CreateNewStartupException, InputDataValidationException;
+    public StartUp createNewStartUp(StartUp startup) throws CreateNewStartUpException, InputDataValidationException;
 
-    public List<Payment> retrieveStartupPayments(Long startupId);
+    public List<Payment> retrieveStartUpPayments(Long startupId);
 
-    public List<Posting> retrieveStartupPostings(Long startupId);
+    public List<Posting> retrieveStartUpPostings(Long startupId);
 
-    public Startup loginStartup(String email, String password) throws NonUniqueResultException, NoResultException;
+    public StartUp loginStartUp(String email, String password) throws NonUniqueResultException, NoResultException;
+
+    public void deleteAllStartUps();
     
 }
