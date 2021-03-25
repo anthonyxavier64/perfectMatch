@@ -48,7 +48,7 @@ public class Payment implements Serializable {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private Startup startup;
+    private StartUp startup;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -104,11 +104,11 @@ public class Payment implements Serializable {
         this.project = project;
     }
 
-    public Startup getStartup() {
+    public StartUp getStartup() {
         return startup;
     }
 
-    public void setStartup(Startup startup) {
+    public void setStartup(StartUp startup) {
         this.startup = startup;
     }
 

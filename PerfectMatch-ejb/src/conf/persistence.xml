@@ -8,8 +8,8 @@
     <class>entity.Payment</class>
     <class>entity.Posting</class>
     <class>entity.Project</class>
-    <class>entity.Startup</class>
     <class>entity.Student</class>
+    <class>entity.StartUp</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
