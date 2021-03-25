@@ -8,15 +8,15 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Point of Sale System (v5.4)</title>
+        <title>Perfect Match</title>
         <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
-        <h:outputStylesheet library="css" name="default.css" />
+<!--        <h:outputStylesheet library="css" name="default.css" />-->
     </h:head>
     <h:body>
 
         <div id="top">
-            <ui:insert name="header">
-                Header
+            <ui:insert name="top">
+                <ui:include src="/header.xhtml" />
             </ui:insert>
         </div>
         <div>
@@ -41,6 +41,5 @@
                 <ui:include src="/footer.xhtml" />
             </ui:insert>
         </div>
-
     </h:body>
 </html>
