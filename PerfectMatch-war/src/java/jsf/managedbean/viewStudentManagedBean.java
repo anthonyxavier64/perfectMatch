@@ -7,16 +7,16 @@ package jsf.managedbean;
 
 import entity.Student;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author user
  */
 @Named(value = "viewStudentManagedBean")
-@SessionScoped
+@ViewScoped
 public class viewStudentManagedBean implements Serializable {
     
     private Student studentEntityToView;

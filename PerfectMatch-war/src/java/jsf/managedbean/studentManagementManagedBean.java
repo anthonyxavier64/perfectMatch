@@ -9,13 +9,13 @@ import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Student;
 import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * @author user
  */
 @Named(value = "studentManagementManagedBean")
-@SessionScoped
+@ViewScoped
 public class studentManagementManagedBean implements Serializable {
 
     @EJB

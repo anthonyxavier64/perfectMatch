@@ -1,5 +1,6 @@
 package web.filter;
 
+import entity.StartUp;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -48,32 +49,24 @@ public class SecurityFilter implements Filter
         }
 
         Boolean isLogin = (Boolean)httpSession.getAttribute("isLogin");
-        chain.doFilter(request, response);
+//        chain.doFilter(request, response);
         
-//        if(!excludeLoginCheck(requestServletPath))
-//        {
-//            if(isLogin == true)
-//            {
-//                StaffEntity currentStaffEntity = (StaffEntity)httpSession.getAttribute("currentStaffEntity");
-//                
-//                if(checkAccessRight(requestServletPath, currentStaffEntity.getAccessRightEnum()))
-//                {
-//                    chain.doFilter(request, response);
-//                }
-//                else
-//                {
-//                    httpServletResponse.sendRedirect(CONTEXT_ROOT + "/accessRightError.xhtml");
-//                }
-//            }
-//            else
-//            {
-//                httpServletResponse.sendRedirect(CONTEXT_ROOT + "/accessRightError.xhtml");
-//            }
-//        }
-//        else
-//        {
-//            chain.doFilter(request, response);
-//        }
+        if(!excludeLoginCheck(requestServletPath))
+        {
+            if(isLogin == true)
+            {
+                StartUp currentStartUp = (StartUp)httpSession.getAttribute("currentStartUp");
+                chain.doFilter(request, response);
+            }
+            else
+            {
+                httpServletResponse.sendRedirect(CONTEXT_ROOT + "/accessDeniedPage.xhtml");
+            }
+        }
+        else
+        {
+            chain.doFilter(request, response);
+        }
     }
 
 
@@ -126,10 +119,11 @@ public class SecurityFilter implements Filter
 
     private Boolean excludeLoginCheck(String path)
     {
-        if(path.equals("/index.xhtml") ||
-            path.equals("/accessRightError.xhtml") ||
-            path.startsWith("/javax.faces.resource"))
-        {
+        if (path.equals("/index.xhtml")
+//                || path.equals("/header.xhtml")
+                || path.equals("/footer.xhtml")
+                || path.equals("/accessRightError.xhtml")
+                || path.startsWith("/javax.faces.resource")) {
             return true;
         }
         else

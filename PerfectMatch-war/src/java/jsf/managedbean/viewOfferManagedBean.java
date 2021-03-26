@@ -7,16 +7,16 @@ package jsf.managedbean;
 
 import entity.Offer;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author user
  */
 @Named(value = "viewOfferManagedBean")
-@SessionScoped
+@ViewScoped
 public class viewOfferManagedBean implements Serializable {
     
     private Offer offerEntityToView;
