@@ -8,6 +8,7 @@
 
     <header style="text-align: right;">
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
+            <h:head>Welcome to Perfect Match</h:head>
             <h:form id="loginForm">
 
                 <p:outputLabel for="email" value="Email" />&nbsp;
@@ -34,7 +35,7 @@
             <h:form id="logoutForm">
                 <h:outputText
                     value="You are login as #{sessionScope.currentStartUp.companyName}" />&nbsp;
-                <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" icon="pi pi-sign-out" />
+                <p:commandButton value="Logout" actionListener="#{startUpLoginManagedBean.logout}" icon="pi pi-sign-out" />
             </h:form>
         </h:panelGroup>
 
