@@ -16,9 +16,9 @@ import enumeration.Industry;
 import enumeration.StartUpLocation;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import util.exception.CreateNewStartUpException;
+import util.exception.CreateNewStartupException;
 import util.exception.InputDataValidationException;
-import util.exception.StartUpNotFoundException;
+import util.exception.StartupNotFoundException;
 
 /**
  *
@@ -40,7 +40,7 @@ public class DataInitSessionBean {
         try {
 
             startUpSessionBean.retrieveStartUpByStartUpId(1l);
-        } catch (StartUpNotFoundException ex) {
+        } catch (StartupNotFoundException ex) {
             initStartUps();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
@@ -90,7 +90,8 @@ public class DataInitSessionBean {
                                     Industry.FOR_TESTING_ONLY,
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
-        } catch (CreateNewStartUpException | InputDataValidationException ex) {
+        } catch (CreateNewStartupException
+                | InputDataValidationException ex) {
             System.out.println("There was an error in initialising the StartUps: "
                     + ex.getMessage());
         }

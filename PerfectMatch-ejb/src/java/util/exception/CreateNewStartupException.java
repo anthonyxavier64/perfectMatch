@@ -10,13 +10,13 @@ package util.exception;
  *
  * @author yappeizhen
  */
-public class CreateNewStartUpException extends Exception {
+public class CreateNewStartupException extends Exception {
 
     /**
      * Creates a new instance of <code>CreateNewStartupException</code> without
      * detail message.
      */
-    public CreateNewStartUpException() {
+    public CreateNewStartupException() {
     }
 
     /**
@@ -25,7 +25,7 @@ public class CreateNewStartUpException extends Exception {
      *
      * @param msg the detail message.
      */
-    public CreateNewStartUpException(String msg) {
+    public CreateNewStartupException(String msg) {
         super(msg);
     }
 }

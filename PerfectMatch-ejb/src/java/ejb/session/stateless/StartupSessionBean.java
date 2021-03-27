@@ -7,7 +7,7 @@ package ejb.session.stateless;
 
 import entity.Payment;
 import entity.Posting;
-import util.exception.CreateNewStartUpException;
+import util.exception.CreateNewStartupException;
 import entity.StartUp;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.InputDataValidationException;
-import util.exception.StartUpNotFoundException;
+import util.exception.StartupNotFoundException;
 
 /**
  *
@@ -43,7 +43,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
     }
 
     @Override
-    public StartUp createNewStartUp(StartUp startup) throws CreateNewStartUpException, InputDataValidationException {
+    public StartUp createNewStartUp(StartUp startup) throws CreateNewStartupException, InputDataValidationException {
         Set<ConstraintViolation<StartUp>> constraintViolations = validator.validate(startup);
 
         if (!constraintViolations.isEmpty()) {
@@ -55,13 +55,13 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
             em.flush();
             return startup;
         } else {
-            throw new CreateNewStartUpException("Startup information not provided");
+            throw new CreateNewStartupException("Startup information not provided");
         }
     }
 
     @Override
     public StartUp loginStartUp(String email, String password) throws NonUniqueResultException, NoResultException {
-        Query query = em.createQuery("SELECT s FROM StartUp s WHERE s.email = :email and s.password = :password");
+        Query query = em.createQuery("SELECT s FROM Startup s WHERE s.email = :email and s.password = :password");
         query.setParameter("email", email);
         query.setParameter("password", password);
 
@@ -75,7 +75,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
 
     @Override
     public List<StartUp> retrieveAllStartUps() {
-        Query q = em.createQuery("SELECT s FROM StartUp s");
+        Query q = em.createQuery("SELECT s FROM Startup s");
         List<StartUp> results = q.getResultList();
         for (StartUp s : results) {
             s.getPostings().size();
@@ -85,10 +85,10 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
     }
 
     @Override
-    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartUpNotFoundException {
+    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartupNotFoundException {
         StartUp startup = em.find(StartUp.class, startupId);
         if (startup == null) {
-            throw new StartUpNotFoundException("StartUp ID " + startupId + " does not exist");
+            throw new StartupNotFoundException("Startup ID " + startupId + " does not exist");
         }
         startup.getPostings().size();
         startup.getPayments().size();
@@ -131,7 +131,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
 
     @Override
     public void deleteAllStartUps() {
-        Query q = em.createQuery("SELECT s FROM StartUp s");
+        Query q = em.createQuery("SELECT s FROM Startup s");
         List<StartUp> results = q.getResultList();
         for (StartUp s : results) {
             em.remove(s);

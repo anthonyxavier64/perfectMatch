@@ -27,7 +27,7 @@ import util.exception.InputDataValidationException;
 import util.exception.JobNotFoundException;
 import util.exception.PostingNotFoundException;
 import util.exception.ProjectNotFoundException;
-import util.exception.StartUpNotFoundException;
+import util.exception.StartupNotFoundException;
 
 /**
  *
@@ -71,7 +71,7 @@ public class PostingSessionBean implements PostingSessionBeanLocal {
 
             em.flush();
 
-        } catch (StartUpNotFoundException ex) {
+        } catch (StartupNotFoundException ex) {
             throw new CreateNewPostingException(ex.getMessage());
         }
 
