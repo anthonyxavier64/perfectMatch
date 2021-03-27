@@ -15,21 +15,21 @@ import ejb.session.stateless.StartUpSessionBeanLocal;
 
 
 
-@Named(value = "startUpLoginManagedBean")
+@Named(value = "startupLoginManagedBean")
 @RequestScoped
 
-public class StartUpLoginManagedBean 
+public class StartupLoginManagedBean 
 {
 
     @EJB
-    private StartUpSessionBeanLocal startUpSessionBean;
+    private StartUpSessionBeanLocal startupSessionBean;
 
     private String email;
     private String password;
     
     
     
-    public StartUpLoginManagedBean() 
+    public StartupLoginManagedBean() 
     {
     }
     
@@ -39,13 +39,13 @@ public class StartUpLoginManagedBean
     {
         try
         {
-            StartUp currentStartUp = startUpSessionBean.loginStartUp(email, password);
+            StartUp currentStartup = startupSessionBean.loginStartUp(email, password);
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                     .put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("currentStartUp", currentStartUp);
+                    .put("currentStartup", currentStartup);
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
         }
@@ -60,7 +60,8 @@ public class StartUpLoginManagedBean
     public void logout(ActionEvent event) throws IOException
     {
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext()
+                .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
     }
 
     

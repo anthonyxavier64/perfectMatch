@@ -19,37 +19,36 @@
 
 
 
-                <p:panelGrid columns="2" rendered="#{sessionScope.isLogin == true}">
+                <p:panelGrid columns="1" rendered="#{sessionScope.isLogin == true}">
                     <f:facet name="header">
                         Welcome to Perfect Match StartUp Portal!
                     </f:facet>
                     <h:form id="formViewLoggedInStartUp" >
-                        <!--value="#{viewStartUpManagedBean.setStartUpToView(sessionScope.get(currentStartUp).email)}" var="startup"-->
-                        <p:dataTable id="dataTableViewStartUpDetails" widgetVar="dataTableViewStartUpDetails" >
+                        <p:dataTable id="dataTableViewStartUpDetails" widgetVar="dataTableViewStartUpDetails"
+                                     value="#{sessionScope.currentStartup}" var="startup">
 
                             <p:column headerText="StartUp ID" >
-                                <!--<h:outputText value="#{startup.startupId}" />-->
+                                <h:outputText value="#{startup.startupId}" />
                             </p:column> 
 
                             <p:column headerText="StartUp Name" >
-                                <!--<h:outputText value="#{startup.companyName}" />-->
+                                <h:outputText value="#{startup.companyName}" />
                             </p:column>
 
                             <p:column headerText="StartUp Registration Number" >
-                                <!--<h:outputText value="#{startup.startupRegistrationNum}" />-->
+                                <h:outputText value="#{startup.startupRegistrationNum}" />
                             </p:column> 
 
-                            <p:column headerText="StartUp Registration Number" >
-                                <!--<h:outputText value="#{startup.startupRegistrationNum}" />-->
+                            <p:column headerText="StartUp Email" >
+                                <h:outputText value="#{startup.email}" />
                             </p:column> 
 
                             <p:column headerText="View Details">
-<!--                                Error comes in because i need to INCLUDE the page holding on to the other form
-                                <p:commandButton process="@form" update="@form" value="View StartUp Details" actionListener="#{viewStartUpManagedBean.getStartUpToView}" />-->
+                                <p:commandButton process="@form" update="@form" value="View StartUp Details" />
                             </p:column>
 
                         </p:dataTable>
-                        </h:form>
+                    </h:form>
 
                 </p:panelGrid>
             </ui:define>

@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
-import ejb.session.stateless.StartUpSessionBeanLocal;
 import entity.StartUp;
 import enumeration.Industry;
 import enumeration.StartUpLocation;
@@ -19,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
 import util.exception.StartUpNotFoundException;
+import ejb.session.stateless.StartUpSessionBeanLocal;
 
 /**
  *
