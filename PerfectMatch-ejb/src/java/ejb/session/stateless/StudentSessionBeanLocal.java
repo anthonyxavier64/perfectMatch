@@ -25,7 +25,7 @@ public interface StudentSessionBeanLocal {
     Student registerStudentAccount(Student student);
 
     Student loginStudent(String email, String password) throws NonUniqueResultException, NoResultException;
-
+    
     List<Offer> getStudentOffers(Long studentId);
 
     List<Application> getStudentApplications(Long studentId);
@@ -34,4 +34,5 @@ public interface StudentSessionBeanLocal {
 
     public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
 
+    public List<Student> getAllStudents(); 
 }

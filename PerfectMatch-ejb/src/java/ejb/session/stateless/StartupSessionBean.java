@@ -94,6 +94,17 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
         startup.getPayments().size();
         return startup;
     }
+    
+    @Override
+    public StartUp retrieveStartUpByEmail(String email) throws StartUpNotFoundException {
+        StartUp startup = em.find(StartUp.class, email);
+        if (startup == null) {
+            throw new StartUpNotFoundException("StartUp Email " + email + " does not exist");
+        }
+        startup.getPostings().size();
+        startup.getPayments().size();
+        return startup;
+    }
 
     @Override
     public void updateStartUp(StartUp startup) {

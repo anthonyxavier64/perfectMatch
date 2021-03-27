@@ -30,6 +30,8 @@ public interface StartUpSessionBeanLocal {
     public void updateStartUp(StartUp startup);
 
     public StartUp createNewStartUp(StartUp startup) throws CreateNewStartUpException, InputDataValidationException;
+    
+    public StartUp retrieveStartUpByEmail(String email) throws StartUpNotFoundException; 
 
     public List<Payment> retrieveStartUpPayments(Long startupId);
 

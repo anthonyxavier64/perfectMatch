@@ -32,6 +32,10 @@ public class Student implements Serializable {
     private String biography;
     
     @NotNull
+    @Column(nullable = false)
+    private String name;
+    
+    @NotNull
     @Column(nullable = false, unique = true)
     private String email;
     
@@ -72,7 +76,8 @@ public class Student implements Serializable {
     public Student() {
     }
 
-    public Student(String biography, String email, String password, String courseOfStudy, Integer yearOfStudy, Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+    public Student(String name, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy, Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+        this.name = name;
         this.biography = biography;
         this.email = email;
         this.password = password;
@@ -116,6 +121,14 @@ public class Student implements Serializable {
         return "entity.StudentEntity[ id=" + studentId + " ]";
     }
 
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getBiography() {
         return biography;
     }
