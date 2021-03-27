@@ -13,6 +13,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -25,15 +26,13 @@ public class viewStartUpManagedBean implements Serializable {
     @EJB
     private StartUpSessionBeanLocal startUpSessionBean;
 
-    
-    
     private StartUp startUpToView;
 
     /**
      * Creates a new instance of viewStartUpManagedBean
      */
     public viewStartUpManagedBean() {
-        startUpToView = new StartUp();
+        startUpToView = (StartUp) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentStartup");
     }
 
     @PostConstruct
