@@ -24,7 +24,7 @@ import util.exception.CreateNewPaymentException;
 import util.exception.InputDataValidationException;
 import util.exception.PaymentNotFoundException;
 import util.exception.ProjectNotFoundException;
-import util.exception.StartupNotFoundException;
+import util.exception.StartUpNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -80,7 +80,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
             return pay;
 
-        } catch (StudentNotFoundException | ProjectNotFoundException | StartupNotFoundException ex) {
+        } catch (StudentNotFoundException | ProjectNotFoundException | StartUpNotFoundException ex) {
             throw new CreateNewPaymentException(ex.getMessage());
         }
 

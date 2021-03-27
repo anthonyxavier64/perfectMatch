@@ -12,9 +12,9 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import util.exception.CreateNewStartupException;
 import util.exception.InputDataValidationException;
-import util.exception.StartupNotFoundException;
+import util.exception.StartUpNotFoundException;
+import util.exception.CreateNewStartUpException;
 
 /**
  *
@@ -25,7 +25,7 @@ public interface StartUpSessionBeanLocal {
 
     public List<StartUp> retrieveAllStartUps();
 
-    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartupNotFoundException;
+    public StartUp retrieveStartUpByStartUpId(Long startupId) throws StartUpNotFoundException;
 
     public void updateStartUp(StartUp startup);
 
