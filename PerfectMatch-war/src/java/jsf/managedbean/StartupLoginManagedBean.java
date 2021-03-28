@@ -12,33 +12,28 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.http.HttpSession;
 import ejb.session.stateless.StartUpSessionBeanLocal;
-
-
+import java.io.File;
+import javax.inject.Inject;
 
 @Named(value = "startupLoginManagedBean")
 @RequestScoped
 
-public class StartupLoginManagedBean 
-{
+public class StartupLoginManagedBean {
 
     @EJB
     private StartUpSessionBeanLocal startupSessionBean;
 
+    @Inject
+    private StartupManagementManagedBean startupManagementManagedBean;
+
     private String email;
     private String password;
-    
-    
-    
-    public StartupLoginManagedBean() 
-    {
+
+    public StartupLoginManagedBean() {
     }
-    
-    
-    
-    public void login(ActionEvent event) throws IOException
-    {
-        try
-        {
+
+    public void login(ActionEvent event) throws IOException {
+        try {
             StartUp currentStartup = startupSessionBean.loginStartUp(email, password);
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSession(true);
@@ -48,24 +43,52 @@ public class StartupLoginManagedBean
                     .put("currentStartup", currentStartup);
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
-        }
-        catch(NonUniqueResultException | NoResultException ex)
-        {
+
+            startupManagementManagedBean.DynamicImageController();
+            // Check if CompanyProfilePic exists
+//            String profilePicturePath = FacesContext
+//                    .getCurrentInstance()
+//                    .getExternalContext()
+//                    .getInitParameter("alternatedocroot_1")
+//                    + System.getProperty("file.separator")
+//                    + currentStartup.getStartupId()
+//                    + "_ProfilePicture";
+//            boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
+//
+//            boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
+//
+//            boolean hasProfilePicturePng = ((new File(profilePicturePath + ".png")).exists());
+//
+//            if (hasProfilePictureJpg) {
+//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpg");
+//
+//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpg");
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+//            } else if (hasProfilePictureJpeg) {
+//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpeg");
+//
+//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpeg");
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+//            } else if (hasProfilePicturePng) {
+//                System.out.println("********** StartupLoginManagedBean.hasProfilePicturePng");
+//
+//                File currentStartupProfilePicture = new File(profilePicturePath + ".png");
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+//            }
+        } catch (NonUniqueResultException | NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential: " + ex.getMessage(), null));
         }
     }
-    
-    
-    
-    public void logout(ActionEvent event) throws IOException
-    {
-        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
+
+    public void logout(ActionEvent event) throws IOException {
+        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         FacesContext.getCurrentInstance().getExternalContext()
                 .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
     }
 
-    
-    
     public String getEmail() {
         return email;
     }
