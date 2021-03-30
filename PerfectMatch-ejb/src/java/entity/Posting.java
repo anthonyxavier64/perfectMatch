@@ -40,6 +40,8 @@ public abstract class Posting implements Serializable {
     private Startup startup;
 
     public Posting() {
+        offers = new ArrayList<>();
+        applications = new ArrayList<>();
     }
 
     public Long getPostingId() {
