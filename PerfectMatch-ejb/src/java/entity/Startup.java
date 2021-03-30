@@ -8,6 +8,7 @@ package entity;
 import enumeration.Industry;
 import enumeration.StartupLocation;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +70,8 @@ public class Startup implements Serializable {
         this.password = password;
         this.industry = industry;
         this.startupLocation = startupLocation;
+        this.postings = new ArrayList<>();
+        this.payments = new ArrayList<>();
     }
    
 

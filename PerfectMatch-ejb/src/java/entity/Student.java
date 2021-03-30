@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -72,7 +73,8 @@ public class Student implements Serializable {
     public Student() {
     }
 
-    public Student(String biography, String email, String password, String courseOfStudy, Integer yearOfStudy, Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+    public Student(String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
+            Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
         this.biography = biography;
         this.email = email;
         this.password = password;
@@ -81,6 +83,9 @@ public class Student implements Serializable {
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
         this.availabiltiyPeriod = availabiltiyPeriod;
+        this.applications = new ArrayList<>();
+        this.payments = new ArrayList<>();
+        this.offers = new ArrayList<>();
     }
 
     public Long getStudentId() {
