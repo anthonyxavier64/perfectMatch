@@ -120,7 +120,7 @@ public class SecurityFilter implements Filter
     private Boolean excludeLoginCheck(String path)
     {
         if (path.equals("/index.xhtml")
-//                || path.equals("/header.xhtml")
+                || path.equals("/accountManagement/registerStartup.xhtml")
                 || path.equals("/footer.xhtml")
                 || path.equals("/accessDeniedPage.xhtml")
                 || path.startsWith("/javax.faces.resource")) {

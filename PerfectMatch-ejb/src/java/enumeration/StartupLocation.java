@@ -10,5 +10,10 @@ package enumeration;
  * @author Antho
  */
 public enum StartUpLocation {
-    FOR_TESTING_ONLY
+    FOR_TESTING_ONLY,
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+    CENTRAL
 }

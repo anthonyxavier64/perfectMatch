@@ -13,13 +13,18 @@
 
             <p:menu style="width:200px;">				
 
-                <p:submenu label="Perfect Match StartUp Navigation">            
+                <p:submenu label="Perfect Match StartUp Navigation" rendered="#{sessionScope.isLogin == true}">            
                     <p:menuitem value="Home" outcome="/index.xhtml" icon="pi pi-arrow-circle-right"/>
                     <p:menuitem value="Search Students" outcome="/studentManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     <p:menuitem value="Offers" outcome="/offersManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     <p:menuitem value="Messages" icon="pi pi-arrow-circle-right" />
                     <p:menuitem value="Profile" icon="pi pi-arrow-circle-right" />
                     <p:menuitem value="Settings" icon="pi pi-arrow-circle-right" />
+                    <p:menuitem value="Upload Profile Picture" outcome="/accountManagement/uploadProfilePhoto.xhtml" icon="pi pi-arrow-circle-right" />
+                </p:submenu>
+                
+                <p:submenu label="Perfect Match StartUp Navigation" rendered="#{sessionScope.isLogin == false}">            
+                    <p:menuitem value="Register New StartUp" outcome="/accountManagement/registerStartup.xhtml" icon="pi pi-arrow-circle-right"/>
                 </p:submenu>
 
             </p:menu>
