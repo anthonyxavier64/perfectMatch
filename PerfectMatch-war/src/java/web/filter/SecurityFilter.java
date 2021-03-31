@@ -122,7 +122,7 @@ public class SecurityFilter implements Filter
         if (path.equals("/index.xhtml")
 //                || path.equals("/header.xhtml")
                 || path.equals("/footer.xhtml")
-                || path.equals("/accessRightError.xhtml")
+                || path.equals("/accessDeniedPage.xhtml")
                 || path.startsWith("/javax.faces.resource")) {
             return true;
         }
