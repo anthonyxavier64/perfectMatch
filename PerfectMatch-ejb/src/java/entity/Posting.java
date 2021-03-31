@@ -37,7 +37,7 @@ public abstract class Posting implements Serializable {
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private Startup startup;
+    private StartUp startup;
 
     public Posting() {
         offers = new ArrayList<>();
@@ -85,11 +85,11 @@ public abstract class Posting implements Serializable {
         this.offers = offers;
     }
 
-    public Startup getStartup() {
+    public StartUp getStartup() {
         return startup;
     }
 
-    public void setStartup(Startup startup) {
+    public void setStartup(StartUp startup) {
         this.startup = startup;
     }
 

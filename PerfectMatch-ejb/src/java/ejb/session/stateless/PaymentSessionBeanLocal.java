@@ -7,7 +7,7 @@ package ejb.session.stateless;
 
 import entity.Payment;
 import entity.Project;
-import entity.Startup;
+import entity.StartUp;
 import entity.Student;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,7 +30,7 @@ public interface PaymentSessionBeanLocal {
 
     public void updatePayment(Payment payment);
 
-    public Startup retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException;
+    public StartUp retrieveStartupByPaymentId(Long paymentId) throws PaymentNotFoundException;
 
     public Project retrieveProjectByPaymentId(Long paymentId) throws PaymentNotFoundException;
 

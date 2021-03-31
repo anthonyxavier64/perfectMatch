@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
@@ -110,6 +111,27 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
     @Override
     public void updateOffer(Offer offer) {
         em.merge(offer);
+    }
+    
+    @Override
+    public void deleteOffer(Long offerId) throws OfferNotFoundException
+    {
+        try {
+            Offer offerToRemove = retrieveOfferByOfferId(offerId);
+
+            Student studentOffered = offerToRemove.getStudent();
+
+            if (studentOffered != null) {
+                studentOffered.getOffers().remove(offerToRemove);
+            }
+
+            em.remove(offerToRemove);
+        }
+        catch(NoResultException ex)
+        {
+            throw new OfferNotFoundException("Offer ID" + offerId + "does not exist!");
+        }
+        
     }
     
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Offer>> constraintViolations) {

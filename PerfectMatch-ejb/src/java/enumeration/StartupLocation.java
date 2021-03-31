@@ -9,6 +9,11 @@ package enumeration;
  *
  * @author Antho
  */
-public enum StartupLocation {
-    
+public enum StartUpLocation {
+    FOR_TESTING_ONLY,
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+    CENTRAL
 }
