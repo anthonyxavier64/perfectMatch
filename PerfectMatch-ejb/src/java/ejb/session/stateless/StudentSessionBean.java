@@ -8,7 +8,7 @@ package ejb.session.stateless;
 import entity.Application;
 import entity.Offer;
 import entity.Payment;
-import entity.Startup;
+import entity.StartUp;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -111,15 +111,15 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
-    @Override
-    public List<Student> retrieveAllStudents() {
-        Query query = em.createQuery("SELECT s FROM Student s");
-        List<Student> students = query.getResultList();
+//    @Override
+//    public List<Student> retrieveAllStudents() {
+//        Query query = em.createQuery("SELECT s FROM Student s");
+//        List<Student> students = query.getResultList();
+//
+//        return students;
+//    }
 
-        return students;
-    }
-
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Startup>>constraintViolations)
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StartUp>>constraintViolations)
     {
         String msg = "Input data validation error!:";
             
