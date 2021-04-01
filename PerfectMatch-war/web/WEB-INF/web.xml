@@ -23,6 +23,6 @@
     </welcome-file-list>
     <context-param>
         <param-name>alternatedocroot_1</param-name>
-        <param-value>C:\Users\Phire\OneDrive\Documents\GitHub\perfectMatch\uploadedFiles</param-value>
+        <param-value>C:\Users\user\Desktop\SchoolLifeandShit\NUSY2S2\IS3106\GroupProject\perfectMatch\uploadedFiles</param-value>
     </context-param>
 </web-app>

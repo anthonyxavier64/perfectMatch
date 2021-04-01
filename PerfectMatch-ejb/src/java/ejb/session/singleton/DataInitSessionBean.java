@@ -19,6 +19,11 @@ import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
 import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
+import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Student;
+import java.util.Date;
+import util.exception.CreateNewStudentException;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -28,6 +33,9 @@ import ejb.session.stateless.StartUpSessionBeanLocal;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private StudentSessionBeanLocal studentSessionBean;
 
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
@@ -40,8 +48,10 @@ public class DataInitSessionBean {
         try {
 
             startUpSessionBean.retrieveStartUpByStartUpId(1l);
-        } catch (StartUpNotFoundException ex) {
+            studentSessionBean.retrieveStudentByStudentId(1l);
+        } catch (StartUpNotFoundException | StudentNotFoundException ex) {
             initStartUps();
+            initStudents();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
         }
@@ -95,9 +105,70 @@ public class DataInitSessionBean {
                     + ex.getMessage());
         }
     }
+
+    private void initStudents() {
+        try {
+            studentSessionBean
+                    .createNewStudent(
+                            new Student(
+                                    "Anthony",
+                                    "NUS",
+                                    "forTesting",
+                                    "anthony@gmail.com",
+                                    "password",
+                                    "testCourse",
+                                    2,
+                                    new Date(2023, 5, 10),
+                                    new String[]{"Eat", "Study", "Code"},
+                                    new Date[]{new Date(2021, 5, 10), new Date(2021, 7, 31)}));
+            studentSessionBean
+                    .createNewStudent(
+                            new Student(
+                                    "Taha",
+                                    "NUS",
+                                    "forTesting",
+                                    "taha@gmail.com",
+                                    "password",
+                                    "testCourse",
+                                    2,
+                                    new Date(2023, 5, 10),
+                                    new String[]{"Eat", "Study", "Code"},
+                                    new Date[]{new Date(2021, 5, 10), new Date(2021, 7, 31)}));
+            studentSessionBean
+                    .createNewStudent(
+                            new Student(
+                                    "Pei Zhen",
+                                    "NUS",
+                                    "forTesting",
+                                    "peizhen@gmail.com",
+                                    "password",
+                                    "testCourse",
+                                    2,
+                                    new Date(2023, 5, 10),
+                                    new String[]{"Eat", "Study", "Code"},
+                                    new Date[]{new Date(2021, 5, 10), new Date(2021, 7, 31)}));
+            studentSessionBean
+                    .createNewStudent(
+                            new Student(
+                                    "Marcus",
+                                    "NUS",
+                                    "forTesting",
+                                    "marcus@gmail.com",
+                                    "password",
+                                    "testCourse",
+                                    2,
+                                    new Date(2023, 5, 10),
+                                    new String[]{"Eat", "Study", "Code"},
+                                    new Date[]{new Date(2021, 5, 10), new Date(2021, 7, 31)}));
+            System.out.println("**************** DataInitSessionBean.initStudents");
+        } catch (CreateNewStudentException | InputDataValidationException ex) {
+            System.out.println("There was an error in initialising the StartUps: "
+                    + ex.getMessage());
+        }
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     public void persist(Object object) {
         em.persist(object);
     }
