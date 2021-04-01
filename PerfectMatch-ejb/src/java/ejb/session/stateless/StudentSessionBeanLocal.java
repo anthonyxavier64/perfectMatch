@@ -34,5 +34,5 @@ public interface StudentSessionBeanLocal {
 
     public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
 
-    public List<Student> getAllStudents(); 
+    public List<Student> getAllStudents();
 }
