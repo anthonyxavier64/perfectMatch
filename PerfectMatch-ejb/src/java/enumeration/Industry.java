@@ -10,5 +10,12 @@ package enumeration;
  * @author Antho
  */
 public enum Industry {
-    
+    FOR_TESTING_ONLY,
+    ENGINEERING,
+    FINANCE,
+    MARKETING,
+    SOFTWARE_DEV,
+    MEDIA,
+    EDUCATION,
+    TOURISM
 }

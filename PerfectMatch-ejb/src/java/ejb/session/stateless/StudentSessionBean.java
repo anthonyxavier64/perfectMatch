@@ -73,6 +73,16 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
         return student;
     }
+    
+    @Override
+    public List<Student> getAllStudents() 
+    {
+        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");        
+        List<Student> studentEntities = query.getResultList();
+        
+        
+        return studentEntities;
+    }
 
     @Override
     public List<Offer> getStudentOffers(Long studentId) {

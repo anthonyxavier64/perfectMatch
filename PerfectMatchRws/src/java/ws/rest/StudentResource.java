@@ -87,11 +87,11 @@ public class StudentResource {
         }
     }
 
-    @Path("loginStudent")
+    @Path("studentLogin")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response loginStudent(@QueryParam("email") String email,
+    public Response studentLogin(@QueryParam("email") String email,
             @QueryParam("password") String password) {
         try {
             System.out.println("comes here**************");
@@ -101,7 +101,7 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-
+    
     @Path("retrieveStudentById")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -115,7 +115,7 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-
+    
     @Path("getStudentOffers")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)

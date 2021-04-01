@@ -10,7 +10,7 @@ import entity.Job;
 import entity.Offer;
 import entity.Posting;
 import entity.Project;
-import entity.Startup;
+import entity.StartUp;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPostingException;
@@ -46,6 +46,6 @@ public interface PostingSessionBeanLocal {
 
     public List<Offer> retrievePostingOffers(Long postingId);
 
-    public Startup retrieveStartupFromPostingId(Long postingId) throws PostingNotFoundException;
+    public StartUp retrieveStartupFromPostingId(Long postingId) throws PostingNotFoundException;
     
 }

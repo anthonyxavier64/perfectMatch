@@ -33,4 +33,5 @@ public interface OfferSessionBeanLocal {
 
     public Posting getPostingByOfferId(Long offerId) throws OfferNotFoundException;
     
+    public void deleteOffer(Long offerId) throws OfferNotFoundException;
 }
