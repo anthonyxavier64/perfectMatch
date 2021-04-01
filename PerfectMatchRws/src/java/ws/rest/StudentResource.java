@@ -5,11 +5,14 @@
  */
 package ws.rest;
 
+import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
 import entity.Offer;
 import entity.Payment;
 import entity.Student;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,11 +55,33 @@ public class StudentResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response registerStudentAccount(Student student) {
+    public Response registerStudentAccount(StudentWrapper student) {
         try {
-            Student newStudent = studentSessionBeanLocal.registerStudentAccount(student);
+            System.out.println("here");
+            Date[] availableDates = new Date[2];
+            availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
+            availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
+            Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
 
-            return Response.status(Status.OK).entity(newStudent).build();
+            Student newStudent = new Student(student.getName(), student.getEducationalInstitute(),
+                    student.getBiography(), student.getEmail(), student.getPassword(),
+                    student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
+                    student.getRelevantSkills(), availableDates);
+
+            newStudent = studentSessionBeanLocal.registerStudentAccount(newStudent);
+
+            String[] availablePeriod = new String[2];
+
+            availablePeriod[0] = newStudent.getAvailabiltiyPeriod()[0].toString();
+            availablePeriod[1] = newStudent.getAvailabiltiyPeriod()[1].toString();
+
+            StudentWrapper newStudentWrapper = new StudentWrapper(
+                    newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
+                    newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
+                    newStudent.getYearOfStudy(), newStudent.getProjectedGraduationYear().toString(),
+                    newStudent.getRelevantSkills(), availablePeriod);
+
+            return Response.status(Status.OK).entity(newStudentWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -69,8 +94,8 @@ public class StudentResource {
     public Response loginStudent(@QueryParam("email") String email,
             @QueryParam("password") String password) {
         try {
+            System.out.println("comes here**************");
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-
             return Response.status(Status.OK).entity(student).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
@@ -134,6 +159,22 @@ public class StudentResource {
             List<Payment> payments = studentSessionBeanLocal.getStudentPayments(id);
 
             GenericEntity<List<Payment>> genericEntity = new GenericEntity<List<Payment>>(payments) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("retrieveAllStudents")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveAllStudents() {
+        try {
+            List<Student> students = studentSessionBeanLocal.retrieveAllStudents();
+
+            GenericEntity<List<Student>> genericEntity = new GenericEntity<List<Student>>(students) {
             };
 
             return Response.status(Status.OK).entity(genericEntity).build();
