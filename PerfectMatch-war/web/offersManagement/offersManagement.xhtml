@@ -5,10 +5,14 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./template/defTemplate.xhtml">
+                template="../template/defTemplate.xhtml">
 
     <ui:define name="content">
-        content
+         <h3>What would you like to do today? </h3>
+         <p:row>
+             <p:button id="viewAllOffers" outcome="/offersManagement/viewAllOffers" value="View All Offers" />
+             <p:button id="createNewOffer" outcome="/offersManagement/createNewOffer" value="Create New Offer" />
+         </p:row>
     </ui:define>
 
 </ui:composition>
