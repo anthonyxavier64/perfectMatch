@@ -43,7 +43,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -92,14 +92,12 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
         return student;
     }
-    
+
     @Override
-    public List<Student> getAllStudents() 
-    {
-        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");        
+    public List<Student> getAllStudents() {
+        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");
         List<Student> studentEntities = query.getResultList();
-        
-        
+
         return studentEntities;
     }
 
@@ -130,13 +128,18 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
-//    @Override
-//    public List<Student> retrieveAllStudents() {
-//        Query query = em.createQuery("SELECT s FROM Student s");
-//        List<Student> students = query.getResultList();
-//
-//        return students;
-//    }
+   
+    @Override
+    public Student editStudentDetails(Student student) {
+        try {
+            em.merge(student);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return student;
+    }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
         String msg = "Input data validation error!:";
@@ -147,4 +150,5 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
         return msg;
     }
+
 }

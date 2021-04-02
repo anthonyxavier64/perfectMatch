@@ -5,8 +5,11 @@
  */
 package ejb.session.singleton;
 
+
 import ejb.session.stateless.OfferSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
+import ejb.session.stateless.ProjectSessionBeanLocal;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -21,10 +24,10 @@ import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
 import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
+
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Job;
 import entity.Offer;
-import entity.Posting;
 import entity.Project;
 import entity.Student;
 import enumeration.OfferStatus;
@@ -35,6 +38,7 @@ import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
 import util.exception.PostingNotFoundException;
 import util.exception.StudentNotFoundException;
+
 
 /**
  *
@@ -50,6 +54,8 @@ public class DataInitSessionBean {
 
     @EJB
     private StartUpSessionBeanLocal startUpSessionBean;
+    @EJB
+    private ProjectSessionBeanLocal projectSessionBean;
 
     @EJB
     private OfferSessionBeanLocal offerSessionBean;
@@ -74,7 +80,7 @@ public class DataInitSessionBean {
             initStartUps();
             initStudents();
             initJobs();
-            initProjects();
+//            initProjects();
             initOffers();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
@@ -124,7 +130,27 @@ public class DataInitSessionBean {
                                     Industry.FOR_TESTING_ONLY,
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
-        } catch (CreateNewStartUpException | InputDataValidationException ex) {
+            projectSessionBean.createNewProject(
+                    new Project("Project 1", "Project 1", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 2", "Project 2", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 3", "Project 3", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 4", "Project 4", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 5", "Project 5", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 6", "Project 6", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 7", "Project 7", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 8", "Project 8", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 9", "Project 9", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 10", "Project 10", 2000.00, Industry.ENGINEERING, false), 1l);
+        } catch (CreateNewStartUpException | InputDataValidationException | CreateNewPostingException ex) {
             System.out.println("There was an error in initialising the StartUps: "
                     + ex.getMessage());
         }
@@ -224,54 +250,54 @@ public class DataInitSessionBean {
         }
     }
     
-    private void initProjects() {
-        try {
-            postingSessionBean.
-                    createNewPosting(
-                            new Project(
-                                    "Project1",
-                                    "TestProject1",
-                                    1000.00,
-                                    Industry.EDUCATION,
-                                    false
-                            ), 
-                            (long) 1);
-            postingSessionBean.
-                    createNewPosting(
-                            new Project(
-                                    "Project2",
-                                    "TestProject2",
-                                    1500.00,
-                                    Industry.FINANCE,
-                                    false
-                            ), 
-                            (long) 2);
-            postingSessionBean.
-                    createNewPosting(
-                            new Project(
-                                    "Project3",
-                                    "TestProject3",
-                                    800.00,
-                                    Industry.ENGINEERING,
-                                    false
-                            ), 
-                            (long) 3);
-            postingSessionBean.
-                    createNewPosting(
-                            new Project(
-                                    "Project4",
-                                    "TestProject4",
-                                    1800.00,
-                                    Industry.SOFTWARE_DEV,
-                                    false
-                            ), 
-                            (long) 4);
-            System.out.println("**************** DataInitSessionBean.initProjects");
-        } catch (CreateNewPostingException | InputDataValidationException ex) {
-            System.out.println("There was an error in initialising the Projects: "
-                    + ex.getMessage());
-        }
-    }
+//    private void initProjects() {
+//        try {
+//            postingSessionBean.
+//                    createNewPosting(
+//                            new Project(
+//                                    "Project1",
+//                                    "TestProject1",
+//                                    1000.00,
+//                                    Industry.EDUCATION,
+//                                    false
+//                            ), 
+//                            (long) 1);
+//            postingSessionBean.
+//                    createNewPosting(
+//                            new Project(
+//                                    "Project2",
+//                                    "TestProject2",
+//                                    1500.00,
+//                                    Industry.FINANCE,
+//                                    false
+//                            ), 
+//                            (long) 2);
+//            postingSessionBean.
+//                    createNewPosting(
+//                            new Project(
+//                                    "Project3",
+//                                    "TestProject3",
+//                                    800.00,
+//                                    Industry.ENGINEERING,
+//                                    false
+//                            ), 
+//                            (long) 3);
+//            postingSessionBean.
+//                    createNewPosting(
+//                            new Project(
+//                                    "Project4",
+//                                    "TestProject4",
+//                                    1800.00,
+//                                    Industry.SOFTWARE_DEV,
+//                                    false
+//                            ), 
+//                            (long) 4);
+//            System.out.println("**************** DataInitSessionBean.initProjects");
+//        } catch (CreateNewPostingException | InputDataValidationException ex) {
+//            System.out.println("There was an error in initialising the Projects: "
+//                    + ex.getMessage());
+//        }
+//    }
     
     private void initJobs() {
         try {

@@ -39,4 +39,7 @@ public interface StudentSessionBeanLocal {
     public List<Student> getAllStudents();
     
     public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException; 
+
+    Student editStudentDetails(Student student);
+
 }

@@ -65,7 +65,7 @@ public class Student implements Serializable {
     private Date projectedGraduationYear;
 
     private String[] relevantSkills;
-    
+
     private Date[] availabiltiyPeriod;
 
     @OneToMany(mappedBy = "student")
@@ -82,6 +82,24 @@ public class Student implements Serializable {
 
     public Student(String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
             Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+        this.name = name;
+        this.educationalInstitute = educationalInstitute;
+        this.biography = biography;
+        this.email = email;
+        this.password = password;
+        this.courseOfStudy = courseOfStudy;
+        this.yearOfStudy = yearOfStudy;
+        this.projectedGraduationYear = projectedGraduationYear;
+        this.relevantSkills = relevantSkills;
+        this.availabiltiyPeriod = availabiltiyPeriod;
+        this.applications = new ArrayList<>();
+        this.payments = new ArrayList<>();
+        this.offers = new ArrayList<>();
+    }
+
+    public Student(long studentId, String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
+            Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+        this.studentId = studentId;
         this.name = name;
         this.educationalInstitute = educationalInstitute;
         this.biography = biography;

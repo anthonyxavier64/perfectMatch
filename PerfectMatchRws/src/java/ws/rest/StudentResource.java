@@ -57,7 +57,6 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerStudentAccount(StudentWrapper student) {
         try {
-            System.out.println("here");
             Date[] availableDates = new Date[2];
             availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
             availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
@@ -94,9 +93,22 @@ public class StudentResource {
     public Response studentLogin(@QueryParam("email") String email,
             @QueryParam("password") String password) {
         try {
-            System.out.println("comes here**************");
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-            return Response.status(Status.OK).entity(student).build();
+            
+            String[] availablePeriod = new String[2];
+            
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            availablePeriod[0] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[0]);
+            availablePeriod[1] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[1]);
+                        
+             StudentWrapper studentWrapper = new StudentWrapper(
+                    student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
+                    student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
+                    student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
+                    student.getRelevantSkills(), availablePeriod);
+             
+            return Response.status(Status.OK).entity(studentWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
@@ -172,7 +184,7 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllStudents() {
         try {
-            List<Student> students = studentSessionBeanLocal.retrieveAllStudents();
+            List<Student> students = studentSessionBeanLocal.getAllStudents();
 
             GenericEntity<List<Student>> genericEntity = new GenericEntity<List<Student>>(students) {
             };
