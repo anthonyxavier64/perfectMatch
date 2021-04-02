@@ -5,6 +5,8 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.OfferSessionBeanLocal;
+import ejb.session.stateless.PostingSessionBeanLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -20,9 +22,18 @@ import util.exception.InputDataValidationException;
 import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Job;
+import entity.Offer;
+import entity.Posting;
+import entity.Project;
 import entity.Student;
+import enumeration.OfferStatus;
 import java.util.Date;
+import util.exception.CreateNewOfferException;
+import util.exception.CreateNewPostingException;
 import util.exception.CreateNewStudentException;
+import util.exception.OfferNotFoundException;
+import util.exception.PostingNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -35,13 +46,20 @@ import util.exception.StudentNotFoundException;
 public class DataInitSessionBean {
 
     @EJB
+    private PostingSessionBeanLocal postingSessionBean;
+
+    @EJB
+    private StartUpSessionBeanLocal startUpSessionBean;
+
+    @EJB
+    private OfferSessionBeanLocal offerSessionBean;
+
+    @EJB
     private StudentSessionBeanLocal studentSessionBean;
 
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
 
-    @EJB
-    private StartUpSessionBeanLocal startUpSessionBean;
 
     @PostConstruct
     public void postConstruct() {
@@ -49,9 +67,15 @@ public class DataInitSessionBean {
 
             startUpSessionBean.retrieveStartUpByStartUpId(1l);
             studentSessionBean.retrieveStudentByStudentId(1l);
-        } catch (StartUpNotFoundException | StudentNotFoundException ex) {
+            postingSessionBean.retrievePostingByPostingId(1l);
+            offerSessionBean.retrieveOfferByOfferId(1l);
+            
+        } catch (StartUpNotFoundException | StudentNotFoundException | OfferNotFoundException | PostingNotFoundException ex) {
             initStartUps();
             initStudents();
+            initJobs();
+            initProjects();
+            initOffers();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
         }
@@ -162,10 +186,153 @@ public class DataInitSessionBean {
                                     new Date[]{new Date(2021, 5, 10), new Date(2021, 7, 31)}));
             System.out.println("**************** DataInitSessionBean.initStudents");
         } catch (CreateNewStudentException | InputDataValidationException ex) {
-            System.out.println("There was an error in initialising the StartUps: "
+            System.out.println("There was an error in initialising the Students: "
                     + ex.getMessage());
         }
     }
+    
+    private void initOffers() {
+        try {
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer1",
+                                    OfferStatus.ACCEPTED), 
+                            (long) 1, (long) 1);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer2",
+                                    OfferStatus.PENDING), 
+                            (long) 2, (long) 2);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.REJECTED), 
+                            (long) 3, (long) 3);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer4",
+                                    OfferStatus.PENDING), 
+                            (long) 4, (long) 4);
+            System.out.println("**************** DataInitSessionBean.initOffers");
+        } catch (CreateNewOfferException | InputDataValidationException ex) {
+            System.out.println("There was an error in initialising the Offers: "
+                    + ex.getMessage());
+        }
+    }
+    
+    private void initProjects() {
+        try {
+            postingSessionBean.
+                    createNewPosting(
+                            new Project(
+                                    "Project1",
+                                    "TestProject1",
+                                    1000.00,
+                                    Industry.EDUCATION,
+                                    false
+                            ), 
+                            (long) 1);
+            postingSessionBean.
+                    createNewPosting(
+                            new Project(
+                                    "Project2",
+                                    "TestProject2",
+                                    1500.00,
+                                    Industry.FINANCE,
+                                    false
+                            ), 
+                            (long) 2);
+            postingSessionBean.
+                    createNewPosting(
+                            new Project(
+                                    "Project3",
+                                    "TestProject3",
+                                    800.00,
+                                    Industry.ENGINEERING,
+                                    false
+                            ), 
+                            (long) 3);
+            postingSessionBean.
+                    createNewPosting(
+                            new Project(
+                                    "Project4",
+                                    "TestProject4",
+                                    1800.00,
+                                    Industry.SOFTWARE_DEV,
+                                    false
+                            ), 
+                            (long) 4);
+            System.out.println("**************** DataInitSessionBean.initProjects");
+        } catch (CreateNewPostingException | InputDataValidationException ex) {
+            System.out.println("There was an error in initialising the Projects: "
+                    + ex.getMessage());
+        }
+    }
+    
+    private void initJobs() {
+        try {
+            postingSessionBean.
+                    createNewPosting(
+                            new Job(
+                                    "Job1",
+                                    "TestJob1",
+                                    1000.00,
+                                    new Date(2021, 5, 10),
+                                    new Date(2021, 7, 31),
+                                    Industry.EDUCATION,
+                                    new String[]{"Eat", "Study", "Code"}
+                            ), 
+                            (long) 1);
+            postingSessionBean.
+                    createNewPosting(
+                            new Job(
+                                    "Job2",
+                                    "TestJob2",
+                                    1500.00,
+                                    new Date(2021, 5, 10),
+                                    new Date(2021, 7, 31),
+                                    Industry.MARKETING,
+                                    new String[]{"Eat", "Study", "Code"}
+                            ), 
+                            (long) 2);
+            postingSessionBean.
+                    createNewPosting(
+                            new Job(
+                                    "Job3",
+                                    "TestJob3",
+                                    800.00,
+                                    new Date(2021, 5, 10),
+                                    new Date(2021, 7, 31),
+                                    Industry.ENGINEERING,
+                                    new String[]{"Eat", "Study", "Code"}
+                            ), 
+                            (long) 3);
+            postingSessionBean.
+                    createNewPosting(
+                            new Job(
+                                    "Job4",
+                                    "TestJob4",
+                                    2000.00,
+                                    new Date(2021, 5, 10),
+                                    new Date(2021, 7, 31),
+                                    Industry.SOFTWARE_DEV,
+                                    new String[]{"Eat", "Study", "Code"}
+                            ), 
+                            (long) 4);
+            System.out.println("**************** DataInitSessionBean.initJobs");
+        } catch (CreateNewPostingException | InputDataValidationException ex) {
+            System.out.println("There was an error in initialising the Jobs: "
+                    + ex.getMessage());
+        }
+    }
+    
+    
+
+      
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
