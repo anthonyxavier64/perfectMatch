@@ -13,6 +13,8 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import util.exception.CreateNewStudentException;
+import util.exception.InputDataValidationException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -35,6 +37,9 @@ public interface StudentSessionBeanLocal {
     public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
 
     public List<Student> getAllStudents();
+    
+    public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException; 
 
     Student editStudentDetails(Student student);
+
 }

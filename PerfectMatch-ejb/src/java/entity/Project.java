@@ -52,6 +52,7 @@ public class Project extends Posting implements Serializable {
     @Column(nullable = false)
     private boolean isComplete;
     
+    
 
     public Project() {
     }
@@ -135,5 +136,4 @@ public class Project extends Posting implements Serializable {
     public void setIsComplete(boolean isComplete) {
         this.isComplete = isComplete;
     }
-
 }

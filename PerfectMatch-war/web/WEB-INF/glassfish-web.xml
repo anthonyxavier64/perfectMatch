@@ -12,4 +12,8 @@
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
   </jsp-config>
+<<<<<<< HEAD
+    <property name="alternatedocroot_1" value="from=/uploadedFiles/* dir=C:\Users\user\Desktop\SchoolLifeandShit\NUSY2S2\IS3106\GroupProject\perfectMatch\uploadedFiles"/>
+=======
+>>>>>>> ede10ffc5f0ab7ecb06fee34acad65ba4c502dfa
 </glassfish-web-app>
