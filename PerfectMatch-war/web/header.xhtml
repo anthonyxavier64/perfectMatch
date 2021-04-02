@@ -42,7 +42,7 @@
                 <h:outputText value="You are login as #{sessionScope.currentStartup.companyName}" />&nbsp;
                 <p:commandButton value="Logout" actionListener="#{startupLoginManagedBean.logout}" icon="pi pi-sign-out" />
             </h:form>&nbsp;
-            <p:graphicImage alt="StartUp Profile Picture" value="#{startupManagementManagedBean.startUpProfilePicture}" height="20" />
+            <img src="#{startupManagementManagedBean.startUpProfilePicture}" width="20" align="right" alt="startUpProfilePic"/>
         </h:panelGroup>
 
     </header>

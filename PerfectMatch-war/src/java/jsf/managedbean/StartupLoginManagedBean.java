@@ -46,38 +46,39 @@ public class StartupLoginManagedBean {
 
             startupManagementManagedBean.DynamicImageController();
             // Check if CompanyProfilePic exists
-//            String profilePicturePath = FacesContext
-//                    .getCurrentInstance()
-//                    .getExternalContext()
-//                    .getInitParameter("alternatedocroot_1")
-//                    + System.getProperty("file.separator")
-//                    + currentStartup.getStartupId()
-//                    + "_ProfilePicture";
-//            boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
-//
-//            boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
-//
-//            boolean hasProfilePicturePng = ((new File(profilePicturePath + ".png")).exists());
-//
-//            if (hasProfilePictureJpg) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpg");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpg");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            } else if (hasProfilePictureJpeg) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpeg");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpeg");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            } else if (hasProfilePicturePng) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePicturePng");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".png");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            }
+            String profilePicturePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+                    + System.getProperty("file.separator") + "resources"
+                    + System.getProperty("file.separator") + "images"
+                    + System.getProperty("file.separator") + "startUpProfilePictures"
+                    + System.getProperty("file.separator")
+                    + currentStartup.getStartupId()
+                    + "_ProfilePicture";
+            
+            boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
+
+            boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
+
+            boolean hasProfilePicturePng = ((new File(profilePicturePath + ".png")).exists());
+
+            if (hasProfilePictureJpg) {
+                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpg");
+
+                File currentStartupProfilePicture = new File(profilePicturePath + ".jpg");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+            } else if (hasProfilePictureJpeg) {
+                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpeg");
+
+                File currentStartupProfilePicture = new File(profilePicturePath + ".jpeg");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+            } else if (hasProfilePicturePng) {
+                System.out.println("********** StartupLoginManagedBean.hasProfilePicturePng");
+
+                File currentStartupProfilePicture = new File(profilePicturePath + ".png");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
+            }
         } catch (NonUniqueResultException | NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential: " + ex.getMessage(), null));
         }

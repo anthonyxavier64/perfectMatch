@@ -40,11 +40,10 @@ public class ProfilePictureManagedBean {
             String outputFileName = currentStartUp.getStartupId()
                     + "_ProfilePicture"
                     + fileExtension;
-            String newFilePath
-                    = FacesContext
-                            .getCurrentInstance()
-                            .getExternalContext()
-                            .getInitParameter("alternatedocroot_1")
+            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+                    + System.getProperty("file.separator") + "resources"
+                    + System.getProperty("file.separator") + "images"
+                    + System.getProperty("file.separator") + "startUpProfilePictures"
                     + System.getProperty("file.separator")
                     + outputFileName;
 
