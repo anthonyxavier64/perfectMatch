@@ -8,14 +8,20 @@ package ejb.session.stateless;
 import entity.Application;
 import entity.Offer;
 import entity.Payment;
+import entity.Startup;
 import entity.Student;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -28,10 +34,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
+    private final ValidatorFactory validatorFactory;
+    private final Validator validator;
 
+    public StudentSessionBean() {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -54,7 +64,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw ex;
         }
     }
-    
+
     @Override
     public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException {
         Student student = em.find(Student.class, studentId);
@@ -101,4 +111,23 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
+    @Override
+    public List<Student> retrieveAllStudents() {
+        Query query = em.createQuery("SELECT s FROM Student s");
+        List<Student> students = query.getResultList();
+
+        return students;
+    }
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Startup>>constraintViolations)
+    {
+        String msg = "Input data validation error!:";
+            
+        for(ConstraintViolation constraintViolation:constraintViolations)
+        {
+            msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
+        }
+        
+        return msg;
+    }
 }

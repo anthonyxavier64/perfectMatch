@@ -7,19 +7,19 @@ package util.exception;
 
 /**
  *
- * @author yappeizhen
+ * @author Antho
  */
 public class StartUpNotFoundException extends Exception {
 
     /**
-     * Creates a new instance of <code>StartupNotFoundException</code> without
+     * Creates a new instance of <code>StartUpNotFoundException</code> without
      * detail message.
      */
     public StartUpNotFoundException() {
     }
 
     /**
-     * Constructs an instance of <code>StartupNotFoundException</code> with the
+     * Constructs an instance of <code>StartUpNotFoundException</code> with the
      * specified detail message.
      *
      * @param msg the detail message.
