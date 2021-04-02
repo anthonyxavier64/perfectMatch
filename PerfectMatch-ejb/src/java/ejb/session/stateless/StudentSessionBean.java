@@ -41,7 +41,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -73,14 +73,12 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
         return student;
     }
-    
+
     @Override
-    public List<Student> getAllStudents() 
-    {
-        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");        
+    public List<Student> getAllStudents() {
+        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");
         List<Student> studentEntities = query.getResultList();
-        
-        
+
         return studentEntities;
     }
 
@@ -110,16 +108,27 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         List<Payment> payments = query.getResultList();
         return payments;
     }
-    
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StartUp>>constraintViolations)
-    {
+
+    @Override
+    public Student editStudentDetails(Student student) {
+        try {
+            em.merge(student);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return student;
+    }
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StartUp>> constraintViolations) {
         String msg = "Input data validation error!:";
-            
-        for(ConstraintViolation constraintViolation:constraintViolations)
-        {
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
         }
-        
+
         return msg;
     }
+
 }

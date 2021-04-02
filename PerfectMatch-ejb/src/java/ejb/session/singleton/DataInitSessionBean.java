@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.ProjectSessionBeanLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -19,6 +20,8 @@ import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
 import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
+import entity.Project;
+import util.exception.CreateNewPostingException;
 
 /**
  *
@@ -34,6 +37,8 @@ public class DataInitSessionBean {
 
     @EJB
     private StartUpSessionBeanLocal startUpSessionBean;
+    @EJB
+    private ProjectSessionBeanLocal projectSessionBean;
 
     @PostConstruct
     public void postConstruct() {
@@ -90,7 +95,27 @@ public class DataInitSessionBean {
                                     Industry.FOR_TESTING_ONLY,
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
-        } catch (CreateNewStartUpException | InputDataValidationException ex) {
+            projectSessionBean.createNewProject(
+                    new Project("Project 1", "Project 1", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 2", "Project 2", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 3", "Project 3", 2000.00, Industry.FINANCE, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 4", "Project 4", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 5", "Project 5", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 6", "Project 6", 2000.00, Industry.EDUCATION, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 7", "Project 7", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 8", "Project 8", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 9", "Project 9", 2000.00, Industry.ENGINEERING, false), 1l);
+            projectSessionBean.createNewProject(
+                    new Project("Project 10", "Project 10", 2000.00, Industry.ENGINEERING, false), 1l);
+        } catch (CreateNewStartUpException | InputDataValidationException | CreateNewPostingException ex) {
             System.out.println("There was an error in initialising the StartUps: "
                     + ex.getMessage());
         }
