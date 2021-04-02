@@ -193,6 +193,7 @@ public class StartUp implements Serializable {
         this.payments = payments;
     }
 
+
     public List<Project> getProjects() {
         return projects;
     }
@@ -210,3 +211,4 @@ public class StartUp implements Serializable {
     }
 
 }
+

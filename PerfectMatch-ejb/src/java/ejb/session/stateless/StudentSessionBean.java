@@ -22,6 +22,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.CreateNewStudentException;
+import util.exception.InputDataValidationException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -49,6 +51,23 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         em.persist(student);
         em.flush();
         return student;
+    }
+    
+    @Override
+    public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException {
+        Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
+
+        if (!constraintViolations.isEmpty()) {
+            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+
+        if (student != null) {
+            em.persist(student);
+            em.flush();
+            return student;
+        } else {
+            throw new CreateNewStudentException("Studednt information not provided");
+        }
     }
 
     @Override
@@ -109,6 +128,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
+   
     @Override
     public Student editStudentDetails(Student student) {
         try {
@@ -121,7 +141,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return student;
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StartUp>> constraintViolations) {
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {

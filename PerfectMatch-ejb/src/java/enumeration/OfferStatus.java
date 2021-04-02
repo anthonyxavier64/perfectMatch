@@ -10,5 +10,7 @@ package enumeration;
  * @author Antho
  */
 public enum OfferStatus {
-    
+    ACCEPTED, 
+    REJECTED,
+    PENDING
 }
