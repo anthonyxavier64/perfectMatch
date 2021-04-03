@@ -16,10 +16,6 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.PerfectMatchRws.dist-ear}</file>
-                    <path-in-war>/</path-in-war>
-                </library>
-                <library>
                     <file>${reference.PerfectMatchRws-1.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
@@ -38,14 +34,6 @@
                 <foreign-project>PerfectMatch-war</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>${project.PerfectMatch-war}/build.xml</script>
-                <target>dist-ear</target>
-                <clean-target>clean-ear</clean-target>
-                <id>dist-ear</id>
-            </reference>
-            <reference>
-                <foreign-project>PerfectMatchRws</foreign-project>
-                <artifact-type>j2ee_ear_archive</artifact-type>
-                <script>${project.PerfectMatchRws}/build.xml</script>
                 <target>dist-ear</target>
                 <clean-target>clean-ear</clean-target>
                 <id>dist-ear</id>
