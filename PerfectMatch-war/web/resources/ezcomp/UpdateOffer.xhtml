@@ -11,10 +11,12 @@
 
     <cc:implementation>
 
-        <h:form id="formViewOffer">
+        <h:form id="formUpdateOffer">
 
-            <p:dialog id="dialogViewOffer" widgetVar="dialogViewOffer" header="View Offer" closable="true">
+            <p:dialog id="dialogUpdateOffer" widgetVar="dialogUpdateOffer" header="Update Offer" closable="true">
 
+                <p:messages id="messagesUpdateOffer" redisplay="false" />
+                
                 <p:panelGrid>
 
                     <p:row>
@@ -22,7 +24,7 @@
                             <h:outputLabel value="Offer ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.offerId}" />
+                            <p:inputText id="offerId" value="#{viewOfferManagedBean.offerEntityToView.offerId}" placeholder="0000" />
                         </p:column>
                     </p:row>
 
@@ -31,7 +33,7 @@
                             <h:outputLabel value="Offer Message: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.offerMessage}" />
+                            <p:inputText id="offerMessage" value="#{viewOfferManagedBean.offerEntityToView.offerMessage}" placeholder="Offer Message" />
                         </p:column>
                     </p:row>
 
@@ -40,7 +42,7 @@
                             <h:outputLabel value="Offered Student ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.student.studentId}" />
+                            <p:inputText id="offeredStudentId" value="#{viewOfferManagedBean.offerEntityToView.student.studentId}" placeholder="0000" />
                         </p:column>
                     </p:row>
 
@@ -49,7 +51,7 @@
                             <h:outputLabel value="Offered Student Name: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.student.name}" />
+                            <p:inputText id="offeredStudentName" value="#{viewOfferManagedBean.offerEntityToView.student.name}" placeholder="Name" />
                         </p:column>
                     </p:row>
 
@@ -58,7 +60,7 @@
                             <h:outputLabel value="Associated Posting: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.posting.postingId}" />
+                            <p:inputText id="associatedPosting" value="#{viewOfferManagedBean.offerEntityToView.posting.postingId}" placeholder="0000" />
                         </p:column>
                     </p:row>
                     
@@ -67,8 +69,14 @@
                             <h:outputLabel value="Offer Status: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewOfferManagedBean.offerEntityToView.offerStatus}" />
+                            <p:inputText id="offerStatus" value="#{viewOfferManagedBean.offerEntityToView.offerStatus}" placeholder="PENDING/ACCEPTED/REJECTED" />
                         </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Update Offer" update="@form formViewAllOffers:dataTableViewAllOffers" actionListener="#{offersManagementManagedBean.doUpdateOffer}" oncomplete="PF('dialogUpdateOffer').show();" />
+                            </p:column>
                     </p:row>
 
 

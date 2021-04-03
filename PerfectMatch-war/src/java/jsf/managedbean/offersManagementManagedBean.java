@@ -33,6 +33,8 @@ import util.exception.StudentNotFoundException;
 @ViewScoped
 public class offersManagementManagedBean implements Serializable {
 
+
+
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
 
@@ -215,5 +217,13 @@ public class offersManagementManagedBean implements Serializable {
 
     public void setStudentIdUpdate(Long studentIdUpdate) {
         this.studentIdUpdate = studentIdUpdate;
+    }
+    
+    public viewOfferManagedBean getViewOfferManagedBean() {
+        return viewOfferManagedBean;
+    }
+
+    public void setViewOfferManagedBean(viewOfferManagedBean viewOfferManagedBean) {
+        this.viewOfferManagedBean = viewOfferManagedBean;
     }
 }
