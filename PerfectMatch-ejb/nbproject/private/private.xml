@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Desktop/SchoolLifeandShit/NUSY2S2/IS3106/GroupProject/perfectMatch/PerfectMatch-ejb/src/java/ejb/session/stateless/JobSessionBeanLocal.java</file>
-            <file>file:/C:/Users/user/Desktop/SchoolLifeandShit/NUSY2S2/IS3106/GroupProject/perfectMatch/PerfectMatch-ejb/src/java/ejb/session/stateless/ProjectSessionBean.java</file>
-            <file>file:/C:/Users/user/Desktop/SchoolLifeandShit/NUSY2S2/IS3106/GroupProject/perfectMatch/PerfectMatch-ejb/src/java/ejb/session/singleton/DataInitSessionBean.java</file>
-            <file>file:/C:/Users/user/Desktop/SchoolLifeandShit/NUSY2S2/IS3106/GroupProject/perfectMatch/PerfectMatch-ejb/src/java/ejb/session/stateless/JobSessionBean.java</file>
+            <file>file:/C:/Users/Antho/Documents/School/Y2/S2/IS3106/Project/perfectMatch/PerfectMatch-ejb/src/java/ejb/session/stateless/ProjectSessionBean.java</file>
+            <file>file:/C:/Users/Antho/Documents/School/Y2/S2/IS3106/Project/perfectMatch/PerfectMatch-ejb/setup/glassfish-resources.xml</file>
         </group>
     </open-files>
 </project-private>

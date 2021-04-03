@@ -9,6 +9,7 @@ import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPostingException;
+import util.exception.PostingNotFoundException;
 
 /**
  *
@@ -20,5 +21,7 @@ public interface ProjectSessionBeanLocal {
     List<Project> retrieveAllProjects();
 
     long createNewProject(Project project, Long startupId) throws CreateNewPostingException;
-    
+
+    Project retrieveProjectById(Long projectId) throws PostingNotFoundException;
+
 }
