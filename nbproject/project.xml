@@ -16,7 +16,7 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.PerfectMatchRws-1.dist-ear}</file>
+                    <file>${reference.PerfectMatchRws.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -39,9 +39,9 @@
                 <id>dist-ear</id>
             </reference>
             <reference>
-                <foreign-project>PerfectMatchRws-1</foreign-project>
+                <foreign-project>PerfectMatchRws</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
-                <script>${project.PerfectMatchRws-1}/build.xml</script>
+                <script>${project.PerfectMatchRws}/build.xml</script>
                 <target>dist-ear</target>
                 <clean-target>clean-ear</clean-target>
                 <id>dist-ear</id>
