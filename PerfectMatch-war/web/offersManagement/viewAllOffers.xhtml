@@ -13,6 +13,7 @@
         <div>
             <h3> View All Offers </h3>
             <h:form id="formViewAllOffers" >
+                <p:messages id="messages" redisplay="false" closable="true" />
                 <p:panel header="View All Offers">
                     <p:dataTable id="dataTableViewAllOffers" widgetVar="dataTableViewAllOffers" value="#{offersManagementManagedBean.listOfOffers}" var="offer">
 
@@ -31,12 +32,20 @@
                         <p:column headerText="Action">
                             <p:commandButton update="ccViewOffer:formViewOffer" oncomplete="PF('dialogViewOffer').show()" icon="ui-icon-document" title="View">
                                 <f:setPropertyActionListener value="#{offer}" target="#{offersManagementManagedBean.viewOfferManagedBean.offerEntityToView}" />
-                            </p:commandButton>   
+                            </p:commandButton>
+
+
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{offersManagementManagedBean.deleteOffer}" update="formViewAllOffers:dataTableViewAllOffers formViewAllOffers:messages">
+                                <f:attribute name="offerToDelete" value="#{offer}" />
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete #{offer.offerId}?" icon="ui-icon-alert" />
+                            </p:commandButton>                            
+                           
                         </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
             <ez:ViewOffer id="ccViewOffer" />
+            <!--<ez:UpdateOffer id="ccUpdateOffer" />-->
         </div>
 
 
