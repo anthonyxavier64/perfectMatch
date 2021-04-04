@@ -40,10 +40,13 @@ public class ProfilePictureManagedBean {
             String outputFileName = currentStartUp.getStartupId()
                     + "_ProfilePicture"
                     + fileExtension;
-            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-                    + System.getProperty("file.separator") + "resources"
-                    + System.getProperty("file.separator") + "images"
-                    + System.getProperty("file.separator") + "startUpProfilePictures"
+
+            System.out.println("********** profilePictureManagedBean.handleFileUpload() - Absolute Path: " + event.getFile().getFileName());
+
+            String newFilePath = FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator")
                     + outputFileName;
 

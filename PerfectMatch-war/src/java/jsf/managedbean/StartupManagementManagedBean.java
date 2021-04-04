@@ -28,7 +28,7 @@ import util.exception.InputDataValidationException;
  *
  * @author Phire
  */
-@Named(value = "startupManagementManagedBean")
+@Named(value = "startUpManagementManagedBean")
 @ViewScoped
 public class StartupManagementManagedBean implements Serializable {
 
@@ -43,8 +43,6 @@ public class StartupManagementManagedBean implements Serializable {
     private StartUpLocation[] startUpLocations;
     private Industry[] industries;
 
-    private StreamedContent startUpProfilePicture;
-
     /**
      * Creates a new instance of StartupManagementManagedBean
      */
@@ -54,7 +52,7 @@ public class StartupManagementManagedBean implements Serializable {
         industries = Industry.values();
     }
 
-    public void DynamicImageController() {
+    public void setProfilePic() {
         StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartup");
 
@@ -74,24 +72,21 @@ public class StartupManagementManagedBean implements Serializable {
         if (hasProfilePictureJpg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpg");
 
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/jpg")
-                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpg"))
-                    .build();
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpg";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
         } else if (hasProfilePictureJpeg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpeg");
-
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/jpeg")
-                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpeg"))
-                    .build();
+            
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpeg";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
         } else if (hasProfilePicturePng) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePicturePng");
-
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/png")
-                    .stream(() -> this.getClass().getResourceAsStream("/" + profilePicturePath + ".png"))
-                    .build();
+            
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.png";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
         }
     }
 
@@ -107,16 +102,6 @@ public class StartupManagementManagedBean implements Serializable {
         }
     }
 
-    public StreamedContent getStartUpProfilePicture() {
-        return startUpProfilePicture;
-    }
-
-    public void setStartUpProfilePicture(StreamedContent startUpProfilePicture) {
-        this.startUpProfilePicture = startUpProfilePicture;
-    }
-
-    
-    
     public StartUp getNewStartUp() {
         return newStartUp;
     }
