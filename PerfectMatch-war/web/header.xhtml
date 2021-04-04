@@ -38,21 +38,20 @@
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.isLogin == true}">
-            <p:link outcome="startUpProfile">
-                <p:graphicImage library="images" name="#{sessionScope.startUpProfilePicture}" alt="profile"
-                                style="width:5%;
-                                height:5%;
-                                padding-top:0px;
-                                overflow:hidden;
-                                position:relative;  
-                                border-radius:50%;
-                                background-position: top right" />
-            </p:link>
             <h:form id="logoutForm">
                 <h:outputText value="You are login as #{sessionScope.currentStartup.companyName}" />&nbsp;
                 <p:commandButton value="Logout" actionListener="#{startupLoginManagedBean.logout}" icon="pi pi-sign-out" />
-            </h:form>&nbsp;
-            
+                <p:link outcome="/accountManagement/startUpProfile.xhtml">
+                    <p:graphicImage library="images" name="#{sessionScope.startUpProfilePicture}" alt="profilePicture"
+                                    style="max-height:50px;
+                                    padding-right: 20px;
+                                    float: right; "  />
+                </p:link>&nbsp;
+            </h:form>
+
+
+
+
         </h:panelGroup>
 
     </header>
