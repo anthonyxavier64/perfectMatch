@@ -36,7 +36,7 @@
                                 <p:outputLabel for="startupRegistrationNum" value="StartUp Registration Number: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="startupRegistrationNum" value="#{startupManagementManagedBean.newStartUp.startupRegistrationNum}" placeholder="0000" required="true" requiredMessage="StartUp Registration Number is required" />
+                                <p:inputText id="startupRegistrationNum" value="#{startUpManagementManagedBean.newStartUp.startupRegistrationNum}" placeholder="0000" required="true" requiredMessage="StartUp Registration Number is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="startupRegistrationNum" />
@@ -48,7 +48,7 @@
                                 <p:outputLabel for="companyName" value="Company Name: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="companyName" value="#{startupManagementManagedBean.newStartUp.companyName}" placeholder="Cool Startup Name" required="true" requiredMessage="Company Name is required" />
+                                <p:inputText id="companyName" value="#{startUpManagementManagedBean.newStartUp.companyName}" placeholder="Cool Startup Name" required="true" requiredMessage="Company Name is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="companyName" />
@@ -60,7 +60,7 @@
                                 <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{startupManagementManagedBean.newStartUp.description}" placeholder="This is a legit company" />
+                                <p:inputText id="description" value="#{startUpManagementManagedBean.newStartUp.description}" placeholder="This is a legit company" />
                             </p:column>
                             <p:column>
                                 <p:message for="description" />
@@ -72,7 +72,7 @@
                                 <p:outputLabel for="email" value="Email: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{startupManagementManagedBean.newStartUp.email}" placeholder="realStartUp@gmail.com"  required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{startUpManagementManagedBean.newStartUp.email}" placeholder="realStartUpstartupManagementManagedBean@gmail.com"  required="true" requiredMessage="Email is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="email" />
@@ -84,7 +84,7 @@
                                 <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:password id="password" value="#{startupManagementManagedBean.newStartUp.password}" placeholder="P@ssw0rd"  required="true" requiredMessage="Password is required" />
+                                <p:password id="password" value="#{startUpManagementManagedBean.newStartUp.password}" placeholder="P@ssw0rd"  required="true" requiredMessage="Password is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="password" />
@@ -96,9 +96,9 @@
                                 <p:outputLabel for="selIndustry" value="Industry: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="selIndustry" value="#{startupManagementManagedBean.newStartUp.industry}">
+                                <p:selectOneMenu id="selIndustry" value="#{startUpManagementManagedBean.newStartUp.industry}">
                                     <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="true" />
-                                    <f:selectItems value="#{startupManagementManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                                    <f:selectItems value="#{startUpManagementManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
@@ -111,9 +111,9 @@
                                 <p:outputLabel for="selStartupLocation" value="StartUp Location: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="selStartupLocation" value="#{startupManagementManagedBean.newStartUp.startupLocation}">
+                                <p:selectOneMenu id="selStartupLocation" value="#{startUpManagementManagedBean.newStartUp.startupLocation}">
                                     <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="true" />
-                                    <f:selectItems value="#{startupManagementManagedBean.startUpLocations}" var="startUpLocation" itemValue="#{startUpLocation}" itemLabel="#{startUpLocation}" />
+                                    <f:selectItems value="#{startUpManagementManagedBean.startUpLocations}" var="startUpLocation" itemValue="#{startUpLocation}" itemLabel="#{startUpLocation}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
@@ -123,7 +123,7 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Register New StartUp" update="@form" actionListener="#{startupManagementManagedBean.createNewStartUp}" oncomplete="PF('dialogCreateNewStartUp').show();" />
+                                <p:commandButton  value="Register New StartUp" update="@form" actionListener="#{startUpManagementManagedBean.createNewStartUp}" oncomplete="PF('dialogCreateNewStartUp').show();" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>

@@ -31,7 +31,7 @@ public class ProfilePictureManagedBean {
      */
     public ProfilePictureManagedBean() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartup");
+                .getExternalContext().getSessionMap().get("currentStartUp");
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -42,7 +42,7 @@ public class ProfilePictureManagedBean {
                     + fileExtension;
 
             StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSessionMap().get("currentStartup");
+                    .getExternalContext().getSessionMap().get("currentStartUp");
 
             String profilePicturePath = FacesContext
                     .getCurrentInstance()

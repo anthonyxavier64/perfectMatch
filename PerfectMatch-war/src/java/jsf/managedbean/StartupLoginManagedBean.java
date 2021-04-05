@@ -21,7 +21,7 @@ import javax.inject.Inject;
 public class StartupLoginManagedBean {
 
     @EJB
-    private StartUpSessionBeanLocal startupSessionBean;
+    private StartUpSessionBeanLocal startUpSessionBean;
 
     @Inject
     private StartupManagementManagedBean startupManagementManagedBean;
@@ -34,13 +34,13 @@ public class StartupLoginManagedBean {
 
     public void login(ActionEvent event) throws IOException {
         try {
-            StartUp currentStartup = startupSessionBean.loginStartUp(email, password);
+            StartUp currentStartUp = startUpSessionBean.loginStartUp(email, password);
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                     .put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("currentStartup", currentStartup);
+                    .put("currentStartUp", currentStartUp);
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
 
