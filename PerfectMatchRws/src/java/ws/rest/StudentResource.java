@@ -94,26 +94,26 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-            
+
             String[] availablePeriod = new String[2];
-            
+
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             availablePeriod[0] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[0]);
             availablePeriod[1] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[1]);
-                        
-             StudentWrapper studentWrapper = new StudentWrapper(
+
+            StudentWrapper studentWrapper = new StudentWrapper(
                     student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
                     student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
                     student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
                     student.getRelevantSkills(), availablePeriod);
-             
+
             return Response.status(Status.OK).entity(studentWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("retrieveStudentById")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -127,7 +127,7 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("getStudentOffers")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -192,6 +192,41 @@ public class StudentResource {
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("editStudentDetails")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editStudentDetails(StudentWrapper student) {
+        try {
+            Date[] availableDates = new Date[2];
+            availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
+            availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
+            Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
+
+            Student newStudent = new Student(student.getName(), student.getEducationalInstitute(),
+                    student.getBiography(), student.getEmail(), student.getPassword(),
+                    student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
+                    student.getRelevantSkills(), availableDates);
+
+            newStudent = studentSessionBeanLocal.registerStudentAccount(newStudent);
+
+            String[] availablePeriod = new String[2];
+
+            availablePeriod[0] = newStudent.getAvailabiltiyPeriod()[0].toString();
+            availablePeriod[1] = newStudent.getAvailabiltiyPeriod()[1].toString();
+
+            StudentWrapper newStudentWrapper = new StudentWrapper(
+                    newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
+                    newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
+                    newStudent.getYearOfStudy(), newStudent.getProjectedGraduationYear().toString(),
+                    newStudent.getRelevantSkills(), availablePeriod);
+
+            return Response.status(Status.OK).entity(newStudentWrapper).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 

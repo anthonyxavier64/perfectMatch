@@ -31,7 +31,11 @@ import entity.Offer;
 import entity.Project;
 import entity.Student;
 import enumeration.OfferStatus;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.exception.CreateNewOfferException;
 import util.exception.CreateNewPostingException;
 import util.exception.CreateNewStudentException;
@@ -133,26 +137,60 @@ public class DataInitSessionBean {
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
 
-            projectSessionBean.createNewProject(
-                    new Project("Project 1", "Project 1", 2000.00, Industry.FINANCE, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 2", "Project 2", 2000.00, Industry.FINANCE, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 3", "Project 3", 2000.00, Industry.FINANCE, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 4", "Project 4", 2000.00, Industry.EDUCATION, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 5", "Project 5", 2000.00, Industry.EDUCATION, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 6", "Project 6", 2000.00, Industry.EDUCATION, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 7", "Project 7", 2000.00, Industry.ENGINEERING, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 8", "Project 8", 2000.00, Industry.ENGINEERING, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 9", "Project 9", 2000.00, Industry.ENGINEERING, false), 1l);
-            projectSessionBean.createNewProject(
-                    new Project("Project 10", "Project 10", 2000.00, Industry.ENGINEERING, false), 1l);
+            String[] requiredSkillsOne = new String[]{"Java", "Javascript", "SQL", "Web services"};
+            String[] requiredSkillsTwo = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+
+            try {
+                projectSessionBean.createNewProject(new Project("Project 1", "This is project 1", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 2", "This is project 2", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-06-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-06-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 3", "This is project 3", 3000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 4", "This is project 4", 3000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.MARKETING, requiredSkillsTwo, "Marketing", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 5", "This is project 5", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.MARKETING, requiredSkillsOne, "Marketing", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 6", "This is project 6", 4000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.MARKETING, requiredSkillsOne, "Marketing", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 7", "This is project 7", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.ENGINEERING, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 8", "This is project 8", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.ENGINEERING, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 9", "This is project 9", 5000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.ENGINEERING, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                projectSessionBean.createNewProject(new Project("Project 10", "This is project 10", 5000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.ENGINEERING, requiredSkillsOne, "Software Development", false), 1l);
+            } catch (ParseException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             System.out.println("**************** DataInitSessionBean.initProjects");
 
             jobSessionBean.createNewJob(
