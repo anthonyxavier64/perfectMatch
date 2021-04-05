@@ -206,22 +206,22 @@ public class StudentResource {
             availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
             Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
 
-            Student newStudent = new Student(student.getName(), student.getEducationalInstitute(),
+            Student newStudent = new Student(student.getStudentId(), student.getName(), student.getEducationalInstitute(),
                     student.getBiography(), student.getEmail(), student.getPassword(),
                     student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
                     student.getRelevantSkills(), availableDates);
 
-            newStudent = studentSessionBeanLocal.registerStudentAccount(newStudent);
+            newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
 
             String[] availablePeriod = new String[2];
 
-            availablePeriod[0] = newStudent.getAvailabiltiyPeriod()[0].toString();
-            availablePeriod[1] = newStudent.getAvailabiltiyPeriod()[1].toString();
+            availablePeriod[0] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[0]);
+            availablePeriod[1] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[1]);
 
             StudentWrapper newStudentWrapper = new StudentWrapper(
                     newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
                     newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
-                    newStudent.getYearOfStudy(), newStudent.getProjectedGraduationYear().toString(),
+                    newStudent.getYearOfStudy(), new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getProjectedGraduationYear()),
                     newStudent.getRelevantSkills(), availablePeriod);
 
             return Response.status(Status.OK).entity(newStudentWrapper).build();
