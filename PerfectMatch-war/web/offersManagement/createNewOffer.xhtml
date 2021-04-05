@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template=".././template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <div>
+            <h3>Create New Offer</h3>
+
+            <h:form id="formCreateNew" >
+
+
+                    <p:messages id="messagesCreateNewOffer" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="offerMessage" value="Offer Message: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="offerMessage" value="#{offersManagementManagedBean.newOffer.offerMessage}" placeholder="Your Message" required="true" requiredMessage="Offer Message is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="offerMessage" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="postingId" value="Associated Posting ID: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="postingId" value="#{offersManagementManagedBean.postingId}" placeholder="Posting ID" required="true" requiredMessage="Posting ID is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="postingId" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="studentOffered" value="Offered Student ID: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="studentOffered" value="#{offersManagementManagedBean.studentId}" placeholder="Offered Student ID" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="studentOffered" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="offerStatus" value="Offer Status (Default: PENDING): " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="offerStatus" value="#{offersManagementManagedBean.newOffer.offerStatus}" placeholder="PENDING" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="offerStatus" />
+                            </p:column>
+                        </p:row>
+
+                       
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear" />&nbsp;
+                                <p:commandButton  value="Create New Offer" update="@form" actionListener="#{offersManagementManagedBean.createNewOffer}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

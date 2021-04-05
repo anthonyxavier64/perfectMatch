@@ -57,7 +57,6 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerStudentAccount(StudentWrapper student) {
         try {
-            System.out.println("here");
             Date[] availableDates = new Date[2];
             availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
             availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
@@ -94,14 +93,27 @@ public class StudentResource {
     public Response studentLogin(@QueryParam("email") String email,
             @QueryParam("password") String password) {
         try {
-            System.out.println("comes here**************");
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-            return Response.status(Status.OK).entity(student).build();
+
+            String[] availablePeriod = new String[2];
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            availablePeriod[0] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[0]);
+            availablePeriod[1] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[1]);
+
+            StudentWrapper studentWrapper = new StudentWrapper(
+                    student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
+                    student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
+                    student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
+                    student.getRelevantSkills(), availablePeriod);
+
+            return Response.status(Status.OK).entity(studentWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("retrieveStudentById")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -115,7 +127,7 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("getStudentOffers")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -172,7 +184,7 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllStudents() {
         try {
-            List<Student> students = studentSessionBeanLocal.retrieveAllStudents();
+            List<Student> students = studentSessionBeanLocal.getAllStudents();
 
             GenericEntity<List<Student>> genericEntity = new GenericEntity<List<Student>>(students) {
             };
@@ -180,6 +192,41 @@ public class StudentResource {
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("editStudentDetails")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editStudentDetails(StudentWrapper student) {
+        try {
+            Date[] availableDates = new Date[2];
+            availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
+            availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
+            Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
+
+            Student newStudent = new Student(student.getStudentId(), student.getName(), student.getEducationalInstitute(),
+                    student.getBiography(), student.getEmail(), student.getPassword(),
+                    student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
+                    student.getRelevantSkills(), availableDates);
+
+            newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
+
+            String[] availablePeriod = new String[2];
+
+            availablePeriod[0] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[0]);
+            availablePeriod[1] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[1]);
+
+            StudentWrapper newStudentWrapper = new StudentWrapper(
+                    newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
+                    newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
+                    newStudent.getYearOfStudy(), new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getProjectedGraduationYear()),
+                    newStudent.getRelevantSkills(), availablePeriod);
+
+            return Response.status(Status.OK).entity(newStudentWrapper).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 

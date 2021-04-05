@@ -13,3 +13,4 @@ nbproject/project.properties
 PerfectMatch-ejb/setup/glassfish-resources.xml
 PerfectMatch-war/web/resources/images/startUpProfilePictures
 PerfectMatch-war/web/resources/images/1_ProfilePicture.jpg
+/PerfectMatchRws/dist/

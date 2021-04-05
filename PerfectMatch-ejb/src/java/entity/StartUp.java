@@ -8,6 +8,7 @@ package entity;
 import enumeration.Industry;
 import enumeration.StartUpLocation;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,7 +58,13 @@ public class StartUp implements Serializable {
     private List<Posting> postings;
     
     @OneToMany(mappedBy = "startup")
-    private List<Payment> payments;
+    private List<Project> projects = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "startup")
+    private List<Job> jobs = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "startup")
+    private List<Payment> payments = new ArrayList<>();
 
     public StartUp() {
     }
@@ -81,9 +88,6 @@ public class StartUp implements Serializable {
         this.startupLocation = startupLocation;
     }
     
-    
-   
-
     public Long getStartupId() {
         return startupId;
     }
@@ -189,4 +193,22 @@ public class StartUp implements Serializable {
         this.payments = payments;
     }
 
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
 }
+

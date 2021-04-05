@@ -22,6 +22,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.CreateNewStudentException;
+import util.exception.InputDataValidationException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -41,7 +43,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
@@ -49,6 +51,23 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         em.persist(student);
         em.flush();
         return student;
+    }
+    
+    @Override
+    public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException {
+        Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
+
+        if (!constraintViolations.isEmpty()) {
+            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+
+        if (student != null) {
+            em.persist(student);
+            em.flush();
+            return student;
+        } else {
+            throw new CreateNewStudentException("Studednt information not provided");
+        }
     }
 
     @Override
@@ -73,14 +92,12 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
         return student;
     }
-    
+
     @Override
-    public List<Student> getAllStudents() 
-    {
-        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");        
+    public List<Student> getAllStudents() {
+        Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");
         List<Student> studentEntities = query.getResultList();
-        
-        
+
         return studentEntities;
     }
 
@@ -111,23 +128,28 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
+   
     @Override
-    public List<Student> retrieveAllStudents() {
-        Query query = em.createQuery("SELECT s FROM Student s");
-        List<Student> students = query.getResultList();
+    public Student editStudentDetails(Student student) {
+        try {
+            em.merge(student);
+            em.flush();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
-        return students;
+        return student;
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>>constraintViolations)
-    {
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
         String msg = "Input data validation error!:";
-            
-        for(ConstraintViolation constraintViolation:constraintViolations)
-        {
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
         }
-        
+
         return msg;
     }
+
 }

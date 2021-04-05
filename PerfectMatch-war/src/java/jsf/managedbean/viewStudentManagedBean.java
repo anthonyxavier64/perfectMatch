@@ -6,9 +6,12 @@
 package jsf.managedbean;
 
 import entity.Student;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -18,7 +21,7 @@ import javax.faces.view.ViewScoped;
 @Named(value = "viewStudentManagedBean")
 @ViewScoped
 public class viewStudentManagedBean implements Serializable {
-    
+
     private Student studentEntityToView;
 
     /**
@@ -27,11 +30,10 @@ public class viewStudentManagedBean implements Serializable {
     public viewStudentManagedBean() {
         studentEntityToView = new Student();
     }
-    
+
     @PostConstruct
-    public void postConstruct()
-    {
-        
+    public void postConstruct() {
+
     }
 
     public Student getStudentEntityToView() {
@@ -41,7 +43,7 @@ public class viewStudentManagedBean implements Serializable {
     public void setStudentEntityToView(Student studentEntityToView) {
         this.studentEntityToView = studentEntityToView;
     }
-    
-    
-    
+
+
+
 }
