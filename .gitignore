@@ -5,4 +5,12 @@
 /PerfectMatch-ejb/dist/
 /build/
 /dist/
+PerfectMatch-ejb/nbproject/private/private.xml
+PerfectMatch-ejb/nbproject/private/private.properties
+nbproject/private/private.properties
+PerfectMatch-ejb/nbproject/project.properties
+nbproject/project.properties
+PerfectMatch-ejb/setup/glassfish-resources.xml
+PerfectMatch-war/web/resources/images/startUpProfilePictures
+PerfectMatch-war/web/resources/images/1_ProfilePicture.jpg
 /PerfectMatchRws/dist/

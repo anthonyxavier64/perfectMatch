@@ -21,7 +21,7 @@ import javax.inject.Inject;
 public class StartupLoginManagedBean {
 
     @EJB
-    private StartUpSessionBeanLocal startupSessionBean;
+    private StartUpSessionBeanLocal startUpSessionBean;
 
     @Inject
     private StartupManagementManagedBean startupManagementManagedBean;
@@ -34,50 +34,17 @@ public class StartupLoginManagedBean {
 
     public void login(ActionEvent event) throws IOException {
         try {
-            StartUp currentStartup = startupSessionBean.loginStartUp(email, password);
+            StartUp currentStartUp = startUpSessionBean.loginStartUp(email, password);
             FacesContext.getCurrentInstance().getExternalContext()
                     .getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                     .put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("currentStartup", currentStartup);
+                    .put("currentStartUp", currentStartUp);
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
 
-            startupManagementManagedBean.DynamicImageController();
-            // Check if CompanyProfilePic exists
-//            String profilePicturePath = FacesContext
-//                    .getCurrentInstance()
-//                    .getExternalContext()
-//                    .getInitParameter("alternatedocroot_1")
-//                    + System.getProperty("file.separator")
-//                    + currentStartup.getStartupId()
-//                    + "_ProfilePicture";
-//            boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
-//
-//            boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
-//
-//            boolean hasProfilePicturePng = ((new File(profilePicturePath + ".png")).exists());
-//
-//            if (hasProfilePictureJpg) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpg");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpg");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            } else if (hasProfilePictureJpeg) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePictureJpeg");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".jpeg");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            } else if (hasProfilePicturePng) {
-//                System.out.println("********** StartupLoginManagedBean.hasProfilePicturePng");
-//
-//                File currentStartupProfilePicture = new File(profilePicturePath + ".png");
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-//                        .put("currentStartupProfilePicture", currentStartupProfilePicture);
-//            }
+            startupManagementManagedBean.setProfilePic();
         } catch (NonUniqueResultException | NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential: " + ex.getMessage(), null));
         }
