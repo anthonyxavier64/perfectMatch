@@ -8,7 +8,6 @@ package entity;
 import enumeration.Industry;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Timer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
@@ -34,7 +33,7 @@ public class Job extends Posting implements Serializable {
     private Double monthlySalary;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date earlietStartDate;
+    private Date earliestStartDate;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date latestStartDate;
@@ -52,7 +51,7 @@ public class Job extends Posting implements Serializable {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.monthlySalary = monthlySalary;
-        this.earlietStartDate = earlietStartDate;
+        this.earliestStartDate = earlietStartDate;
         this.latestStartDate = latestStartDate;
         this.industry = industry;
         this.requiredSkills = requiredSkills;
@@ -82,12 +81,12 @@ public class Job extends Posting implements Serializable {
         this.monthlySalary = monthlySalary;
     }
 
-    public Date getEarlietStartDate() {
-        return earlietStartDate;
+    public Date getEarliestStartDate() {
+        return earliestStartDate;
     }
 
-    public void setEarlietStartDate(Date earlietStartDate) {
-        this.earlietStartDate = earlietStartDate;
+    public void setEarliestStartDate(Date earliestStartDate) {
+        this.earliestStartDate = earliestStartDate;
     }
 
     public Date getLatestStartDate() {

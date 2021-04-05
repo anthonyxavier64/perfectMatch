@@ -9,6 +9,7 @@ import entity.Job;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPostingException;
+import util.exception.PostingNotFoundException;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface JobSessionBeanLocal {
     public long createNewJob(Job job, Long startupId) throws CreateNewPostingException;
     
     public List<Job> retrieveAllJobs();
+
+    public Job retrieveJobById(Long jobId) throws PostingNotFoundException;
 }
