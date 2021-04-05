@@ -6,15 +6,16 @@
 package ejb.session.stateless;
 
 import entity.Job;
-import static entity.Posting_.startup;
-import entity.Project;
 import entity.StartUp;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CreateNewPostingException;
+import util.exception.PostingNotFoundException;
 
 /**
  *
@@ -50,6 +51,18 @@ public class JobSessionBean implements JobSessionBeanLocal {
             throw new CreateNewPostingException("Could not create new posting!");
         }
         return job.getPostingId();
+    }
+    
+    @Override
+    public Job retrieveJobById(Long jobId) throws PostingNotFoundException {
+        try {
+            Query query = em.createQuery("SELECT j FROM Job j WHERE j.postingId = :jobId");
+            query.setParameter("jobId", jobId);
+            
+            return (Job) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new PostingNotFoundException("Unable to retrieve job!");
+        }
     }
 
 }

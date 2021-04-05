@@ -11,9 +11,12 @@ import entity.StartUp;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CreateNewPostingException;
+import util.exception.PostingNotFoundException;
 
 /**
  *
@@ -51,4 +54,15 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         return project.getPostingId();
     }
 
+    @Override
+    public Project retrieveProjectById(Long projectId) throws PostingNotFoundException {
+        try {
+            Query query = em.createQuery("SELECT p FROM Project p WHERE p.postingId = :projectId");
+            query.setParameter("projectId", projectId);
+            
+            return (Project) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new PostingNotFoundException("Unable to retrieve project!");
+        }
+    }
 }
