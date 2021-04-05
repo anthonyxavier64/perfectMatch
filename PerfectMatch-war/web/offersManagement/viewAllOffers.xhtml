@@ -34,8 +34,9 @@
                                 <f:setPropertyActionListener value="#{offer}" target="#{offersManagementManagedBean.viewOfferManagedBean.offerEntityToView}" />
                             </p:commandButton>
 
-                            <p:commandButton  update="ccUpdateOffer:formUpdateOffer" oncomplete="PF('dialogUpdateOffer').show()" icon="ui-icon-pencil" title="Update">
+                            <p:commandButton actionListener="#{offersManagementManagedBean.doUpdateOffer}" update="ccUpdateOffer:formUpdateOffer" oncomplete="PF('dialogUpdateOffer').show()" icon="ui-icon-pencil" title="Update">
                                 <f:attribute name="selectedOfferToUpdate" value="#{offer}" />
+                                <f:attribute name="studentToUpdate" value="#{offer.student.studentId}" />
                             </p:commandButton>
 
                             <p:commandButton icon="ui-icon-trash" actionListener="#{offersManagementManagedBean.deleteOffer}" update="formViewAllOffers:dataTableViewAllOffers formViewAllOffers:messages">
