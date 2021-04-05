@@ -104,9 +104,12 @@ public class offersManagementManagedBean implements Serializable {
     
     public void doUpdateOffer(ActionEvent event) throws StudentNotFoundException 
     {
-        setSelectedOfferToUpdate((Offer)event.getComponent().getAttributes().get("offerToUpdate"));
         
+        selectedOfferToUpdate = (Offer)event.getComponent().getAttributes().get("selectedOfferToUpdate");
+        System.out.println(getSelectedOfferToUpdate().getOfferId());
+                
         Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
+        
         
         getSelectedOfferToUpdate().setStudent(toUpdate);
     }

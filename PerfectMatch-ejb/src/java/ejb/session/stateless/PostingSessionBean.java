@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
@@ -175,6 +176,29 @@ public class PostingSessionBean implements PostingSessionBeanLocal {
     @Override
     public void updatePosting(Posting posting) {
         em.merge(posting);
+    }
+    
+    @Override
+    public void deletePosting(Long postingId) throws PostingNotFoundException
+    {
+        try {
+            Posting postingToRemove = retrievePostingByPostingId(postingId);
+
+            List<Offer> offersAssociated = postingToRemove.getOffers();
+
+            if (offersAssociated != null) {
+                for (int i = 0; i < offersAssociated.size(); i++) {
+                    offersAssociated.get(i).getStudent().getOffers().remove(offersAssociated.get(i));
+                }
+            }
+
+            em.remove(postingToRemove);
+        }
+        catch(NoResultException ex)
+        {
+            throw new PostingNotFoundException("Posting ID" + postingId + "does not exist!");
+        }
+        
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Posting>> constraintViolations) {
