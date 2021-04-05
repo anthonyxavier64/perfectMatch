@@ -14,7 +14,7 @@
     <cc:implementation>
         <h:form id="formViewStartUpProfile">
 
-            <p:dialog id="dialogViewStartUpProfile" widgetVar="dialogViewStartUpProfile" header="View Profile" closable="true">
+            <p:dialog id="dialogViewStartUpProfile" widgetVar="dialogViewStartUpProfile" header="View Profile" closable="true" width="500px">
 
                 <p:panelGrid>
 
@@ -84,10 +84,16 @@
                             <h:outputText value="#{viewStartUpProfileManagedBean.currentStartUp.startupLocation}" />
                         </p:column>
                     </p:row>
+
                 </p:panelGrid>
 
+                <p:linkButton outcome="/accountManagement/startUpProfile.xhtml"
+                              value="Profile Page"
+                              style="vertical-align: middle"/>
+                
             </p:dialog>
 
         </h:form>
+
     </cc:implementation>
 </html>
