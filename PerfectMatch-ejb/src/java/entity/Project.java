@@ -65,6 +65,20 @@ public class Project extends Posting implements Serializable {
         this.isComplete = isComplete;
     }
 
+    public Project(String projectTitle, String projectDescription, Double compensation, Date earliestStartDate, Date latestStartDate, Industry industry, String[] requiredSkills, String projectSpecialisation, boolean isComplete) {
+        this.projectTitle = projectTitle;
+        this.projectDescription = projectDescription;
+        this.compensation = compensation;
+        this.earliestStartDate = earliestStartDate;
+        this.latestStartDate = latestStartDate;
+        this.industry = industry;
+        this.requiredSkills = requiredSkills;
+        this.projectSpecialisation = projectSpecialisation;
+        this.isComplete = isComplete;
+    }
+    
+    
+
     public String getProjectTitle() {
         return projectTitle;
     }
