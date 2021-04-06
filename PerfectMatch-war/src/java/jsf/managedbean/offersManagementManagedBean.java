@@ -33,8 +33,6 @@ import util.exception.StudentNotFoundException;
 @ViewScoped
 public class offersManagementManagedBean implements Serializable {
 
-
-
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
 
@@ -45,7 +43,7 @@ public class offersManagementManagedBean implements Serializable {
     @Inject
     private viewOfferManagedBean viewOfferManagedBean;
    
-    private List<Offer> listOfOffers;
+    private List<Offer> offers;
     private List<Offer> filteredOffers;
    
     private Offer newOffer;
@@ -66,7 +64,7 @@ public class offersManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct()
     {
-        setListOfOffers(offerSessionBean.retrieveAllOffers());
+        offers = offerSessionBean.retrieveAllOffers();
     }
     
     public void viewOfferDetails(ActionEvent event) throws IOException
@@ -76,22 +74,22 @@ public class offersManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("offersManagement.xhtml");
     }
     
-    public void createNewOffer(ActionEvent event) throws CreateNewOfferException
+    public void createNewProduct(ActionEvent event) throws CreateNewOfferException
     {                     
         
         try
         {
-            Offer offer = offerSessionBean.createNewOffer(getNewOffer(), getStudentId(), getPostingId());
-            getListOfOffers().add(offer);
+            Offer offer = offerSessionBean.createNewOffer(newOffer, studentId, postingId);
+            offers.add(offer);
             
-            if(getFilteredOffers() != null)
+            if(filteredOffers != null)
             {
-                getFilteredOffers().add(offer);
+                filteredOffers.add(offer);
             }
             
-            setNewOffer(new Offer());
-            setStudentId(null);
-            setPostingId(null);
+            newOffer = new Offer();
+            studentId = null;
+            postingId = null;
             
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New offer created successfully (Offer ID: " + offer.getOfferId() + ")", null));
@@ -104,21 +102,21 @@ public class offersManagementManagedBean implements Serializable {
     
     public void doUpdateOffer(ActionEvent event) throws StudentNotFoundException 
     {
-        setSelectedOfferToUpdate((Offer)event.getComponent().getAttributes().get("offerToUpdate"));
+        selectedOfferToUpdate = (Offer)event.getComponent().getAttributes().get("offerToUpdate");
         
-        Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
+        Student toUpdate = studentSessionBean.retrieveStudentByStudentId(studentIdUpdate);
         
-        getSelectedOfferToUpdate().setStudent(toUpdate);
+        selectedOfferToUpdate.setStudent(toUpdate);
     }
     
     public void updateOffer(ActionEvent event)
     {
          try
         {
-            Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
-            getSelectedOfferToUpdate().setStudent(toUpdate);
+            Student toUpdate = studentSessionBean.retrieveStudentByStudentId(studentIdUpdate);
+            selectedOfferToUpdate.setStudent(toUpdate);
 
-            offerSessionBean.updateOffer(getSelectedOfferToUpdate());
+            offerSessionBean.updateOffer(selectedOfferToUpdate);
                         
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Offer updated successfully", null));
@@ -136,11 +134,11 @@ public class offersManagementManagedBean implements Serializable {
             Offer offerToDelete = (Offer)event.getComponent().getAttributes().get("offerToDelete");
             offerSessionBean.deleteOffer(offerToDelete.getOfferId());
             
-            getListOfOffers().remove(offerToDelete);
+            offers.remove(offerToDelete);
             
-            if(getFilteredOffers() != null)
+            if(filteredOffers != null)
             {
-                getFilteredOffers().remove(offerToDelete);
+                filteredOffers.remove(offerToDelete);
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Offer deleted successfully", null));
@@ -153,77 +151,5 @@ public class offersManagementManagedBean implements Serializable {
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
-    }
-
-    public List<Offer> getListOfOffers() {
-        return listOfOffers;
-    }
-
-    public void setListOfOffers(List<Offer> listOfOffers) {
-        this.listOfOffers = listOfOffers;
-    }
-
-    public List<Offer> getFilteredOffers() {
-        return filteredOffers;
-    }
-
-    public void setFilteredOffers(List<Offer> filteredOffers) {
-        this.filteredOffers = filteredOffers;
-    }
-
-    public Offer getNewOffer() {
-        return newOffer;
-    }
-
-    public void setNewOffer(Offer newOffer) {
-        this.newOffer = newOffer;
-    }
-
-    public Long getPostingId() {
-        return postingId;
-    }
-
-    public void setPostingId(Long postingId) {
-        this.postingId = postingId;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public List<Student> getListOfStudents() {
-        return listOfStudents;
-    }
-
-    public void setListOfStudents(List<Student> listOfStudents) {
-        this.listOfStudents = listOfStudents;
-    }
-
-    public Offer getSelectedOfferToUpdate() {
-        return selectedOfferToUpdate;
-    }
-
-    public void setSelectedOfferToUpdate(Offer selectedOfferToUpdate) {
-        this.selectedOfferToUpdate = selectedOfferToUpdate;
-    }
-
-    public Long getStudentIdUpdate() {
-        return studentIdUpdate;
-    }
-
-    public void setStudentIdUpdate(Long studentIdUpdate) {
-        this.studentIdUpdate = studentIdUpdate;
-    }
-    
-    public viewOfferManagedBean getViewOfferManagedBean() {
-        return viewOfferManagedBean;
-    }
-
-    public void setViewOfferManagedBean(viewOfferManagedBean viewOfferManagedBean) {
-        this.viewOfferManagedBean = viewOfferManagedBean;
     }
 }
