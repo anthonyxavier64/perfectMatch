@@ -38,18 +38,19 @@
                                 <f:attribute name="selectedOfferToUpdate" value="#{offer}" />
                                 <f:attribute name="studentToUpdate" value="#{offer.student.studentId}" />
                             </p:commandButton>
+                            
+                            <p:commandButton actionListener="#{offersManagementManagedBean.deleteOffer}" update="ccDeleteOffer:formDeleteOffer" oncomplete="PF('dialogDeleteOffer').show()" icon="ui-icon-trash" title="Delete">
+                                <f:attribute name="selectedOfferToDelete" value="#{offer}" />
+                            </p:commandButton>
 
-                            <p:commandButton icon="ui-icon-trash" actionListener="#{offersManagementManagedBean.deleteOffer}" update="formViewAllOffers:dataTableViewAllOffers formViewAllOffers:messages">
-                                <f:attribute name="offerToDelete" value="#{offer}" />
-                                <p:confirm header="Confirmation" message="Are you sure you want to delete #{offer.offerId}?" icon="ui-icon-alert" />
-                            </p:commandButton>                            
-                           
+
                         </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
             <ez:ViewOffer id="ccViewOffer" />
             <ez:UpdateOffer id="ccUpdateOffer" />
+            <ez:DeleteOffer id="ccDeleteOffer" />
         </div>
 
 

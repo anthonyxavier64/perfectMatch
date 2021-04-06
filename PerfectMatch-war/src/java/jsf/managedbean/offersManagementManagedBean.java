@@ -56,6 +56,8 @@ public class offersManagementManagedBean implements Serializable {
     private Offer selectedOfferToUpdate;
     private Long studentIdUpdate;
     
+    private Offer selectedOfferToDelete;
+    
     /**
      * Creates a new instance of offersManagementManagedBean
      */
@@ -116,29 +118,31 @@ public class offersManagementManagedBean implements Serializable {
         getSelectedOfferToUpdate().setStudent(toUpdate);
     }
     
-    public void updateOffer(ActionEvent event)
-    {
-         try
-        {
-            Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
-            getSelectedOfferToUpdate().setStudent(toUpdate);
-
-            offerSessionBean.updateOffer(getSelectedOfferToUpdate());
-                        
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Offer updated successfully", null));
-        }
-        catch(Exception ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-        }
-    }
+//    public void updateOffer(ActionEvent event)
+//    {
+//         try
+//        {
+//            Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
+//            getSelectedOfferToUpdate().setStudent(toUpdate);
+//
+//            offerSessionBean.updateOffer(getSelectedOfferToUpdate());
+//                        
+//
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Offer updated successfully", null));
+//        }
+//        catch(Exception ex)
+//        {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+//        }
+//    }
     
     public void deleteOffer(ActionEvent event) 
     {
         try
         {
-            Offer offerToDelete = (Offer)event.getComponent().getAttributes().get("offerToDelete");
+            Offer offerToDelete = (Offer)event.getComponent().getAttributes().get("selectedOfferToDelete");
+            
+            System.out.println(offerToDelete.getOfferId());
             offerSessionBean.deleteOffer(offerToDelete.getOfferId());
             
             getListOfOffers().remove(offerToDelete);
@@ -148,7 +152,7 @@ public class offersManagementManagedBean implements Serializable {
                 getFilteredOffers().remove(offerToDelete);
             }
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Offer deleted successfully", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirm Delete?", null));
         }
         catch(OfferNotFoundException ex)
         {
@@ -230,5 +234,13 @@ public class offersManagementManagedBean implements Serializable {
 
     public void setViewOfferManagedBean(viewOfferManagedBean viewOfferManagedBean) {
         this.viewOfferManagedBean = viewOfferManagedBean;
+    }
+
+    public Offer getSelectedOfferToDelete() {
+        return selectedOfferToDelete;
+    }
+
+    public void setSelectedOfferToDelete(Offer selectedOfferToDelete) {
+        this.selectedOfferToDelete = selectedOfferToDelete;
     }
 }
