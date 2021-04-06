@@ -10,7 +10,7 @@ package ws.datamodel;
  * @author Antho
  */
 public class StudentWrapper {
-    private long studentId;
+    private Long studentId;
     private String name;
     private String biography;
     private String email;
@@ -25,7 +25,7 @@ public class StudentWrapper {
     public StudentWrapper() {
     }
 
-    public StudentWrapper(long studentId, String name, String biography, String email, String password, String educationalInstitute, String courseOfStudy, int yearOfStudy, String projectedGraduationYear, String[] relevantSkills, String[] availabilityPeriod) {
+    public StudentWrapper(Long studentId, String name, String biography, String email, String password, String educationalInstitute, String courseOfStudy, int yearOfStudy, String projectedGraduationYear, String[] relevantSkills, String[] availabilityPeriod) {
         this.studentId = studentId;
         this.name = name;
         this.biography = biography;
