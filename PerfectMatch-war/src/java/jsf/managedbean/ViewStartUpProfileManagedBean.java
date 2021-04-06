@@ -26,7 +26,7 @@ public class ViewStartUpProfileManagedBean implements Serializable {
      */
     public ViewStartUpProfileManagedBean() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartup");
+                .getExternalContext().getSessionMap().get("currentStartup");;
     }
 
     public StartUp getCurrentStartUp() {

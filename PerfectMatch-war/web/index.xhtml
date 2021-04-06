@@ -42,9 +42,9 @@
                             <p:column headerText="StartUp Email" >
                                 <h:outputText value="#{startup.email}" />
                             </p:column> 
-
                             <p:column headerText="View Details">
-                                <p:commandButton process="@form" update="@form" value="View StartUp Details" />
+                                <p:commandButton process="@form" update="ccViewStartUpProfile" oncomplete="PF('dialogViewStartUpProfile').show()" value="View StartUp Details" onclick="ccViewStartUpProfile"/>
+                                <ez:ViewStartUpProfile id="ccViewStartUpProfile"/>
                             </p:column>
 
                         </p:dataTable>
