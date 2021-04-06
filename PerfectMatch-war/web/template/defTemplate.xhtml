@@ -14,42 +14,60 @@
     </h:head>
 
     <h:body>
-
+        
         <p:layout fullPage="true">
-
-            <p:layoutUnit position="north" size="200">       
-
+            
+            <p:layoutUnit position="north" size="150">       
+                
                 <h1>Welcome to Perfect Match StartUp Portal</h1>
 
-                <ui:insert name="top">  
+                <ui:insert name="top">
                     <ui:include src="/header.xhtml" />
                 </ui:insert>
-
+                
             </p:layoutUnit>
-
+            
             <p:layoutUnit size="240" position="west">
-
+                
                 <ui:insert name="left">
                     <ui:include src="/mainmenu.xhtml" />
                 </ui:insert>        
-
+                
             </p:layoutUnit>
-
+            
             <p:layoutUnit position="center" >
-
+                
                 <ui:insert name="content">Content</ui:insert>
-
+                
             </p:layoutUnit>                        
-
+            
             <p:layoutUnit position="south" size="70" >
-
+                
                 <ui:insert name="bottom">
                     <ui:include src="/footer.xhtml" />
                 </ui:insert>
-
+                
             </p:layoutUnit>                
-
+            
         </p:layout>
+        
+        
+        
+
+<!--        <div id="top">
+            <ui:insert name="top">Top</ui:insert>
+        </div>
+        <div>
+            <div id="left">
+                <ui:insert name="left">Left</ui:insert>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>-->
 
     </h:body>
 

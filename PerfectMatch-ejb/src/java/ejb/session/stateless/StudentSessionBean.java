@@ -141,7 +141,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return student;
     }
 
-
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
         String msg = "Input data validation error!:";
 

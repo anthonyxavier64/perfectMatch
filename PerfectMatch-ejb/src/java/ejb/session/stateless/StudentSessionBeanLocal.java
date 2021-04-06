@@ -37,8 +37,9 @@ public interface StudentSessionBeanLocal {
     public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
 
     public List<Student> getAllStudents();
-
+    
     public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException; 
 
     Student editStudentDetails(Student student);
+
 }
