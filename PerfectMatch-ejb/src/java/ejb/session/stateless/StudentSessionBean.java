@@ -119,8 +119,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return students;
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
-
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>>constraintViolations)
+    {
         String msg = "Input data validation error!:";
             
         for(ConstraintViolation constraintViolation:constraintViolations)
