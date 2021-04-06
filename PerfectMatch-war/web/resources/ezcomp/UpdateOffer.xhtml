@@ -43,7 +43,10 @@
                     
                     <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Update Offer" update="@form formViewAllOffers:dataTableViewAllOffers" actionListener="#{offersManagementManagedBean.doUpdateOffer}"  />
+                                <p:commandButton value="Update Offer" process="@form formViewAllOffers:dataTableViewAllOffers" update="@form formViewAllOffers:dataTableViewAllOffers" actionListener="#{offersManagementManagedBean.doUpdateOffer}">
+                                    <f:attribute name="selectedOfferToUpdate" value="#{offersManagementManagedBean.selectedOfferToUpdate}" />
+                                    <f:attribute name="studentToUpdate" value="#{offersManagementManagedBean.studentIdUpdate}" />
+                                </p:commandButton>
                             </p:column>
                     </p:row>
 

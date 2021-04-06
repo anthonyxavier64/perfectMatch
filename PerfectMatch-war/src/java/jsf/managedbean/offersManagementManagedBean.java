@@ -106,8 +106,10 @@ public class offersManagementManagedBean implements Serializable {
     {
         
         selectedOfferToUpdate = (Offer)event.getComponent().getAttributes().get("selectedOfferToUpdate");
-        System.out.println(getSelectedOfferToUpdate().getOfferId());
-                
+        
+        System.out.println((long)event.getComponent().getAttributes().get("studentToUpdate"));
+        setStudentIdUpdate((long)event.getComponent().getAttributes().get("studentToUpdate"));
+
         Student toUpdate = studentSessionBean.retrieveStudentByStudentId(getStudentIdUpdate());
         
         
