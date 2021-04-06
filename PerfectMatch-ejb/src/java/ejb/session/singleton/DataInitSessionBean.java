@@ -232,7 +232,7 @@ public class DataInitSessionBean {
                                     "password",
                                     "testCourse",
                                     2,
-                                    new Date(2023, 5, 10),
+                                    new Date(2023),
                                     new String[]{"Eat", "Study", "Code"},
                                     new Date[]{new Date(), new Date()}));
             studentSessionBean
@@ -245,7 +245,7 @@ public class DataInitSessionBean {
                                     "password",
                                     "testCourse",
                                     2,
-                                    new Date(2023, 5, 10),
+                                    new Date(2023),
                                     new String[]{"Eat", "Study", "Code"},
                                     new Date[]{new Date(), new Date()}));
             studentSessionBean
@@ -258,7 +258,7 @@ public class DataInitSessionBean {
                                     "password",
                                     "testCourse",
                                     2,
-                                    new Date(2023, 5, 10),
+                                    new Date(2023),
                                     new String[]{"Eat", "Study", "Code"},
                                     new Date[]{new Date(), new Date()}));
             studentSessionBean
@@ -271,7 +271,7 @@ public class DataInitSessionBean {
                                     "password",
                                     "testCourse",
                                     2,
-                                    new Date(2023, 5, 10),
+                                    new Date(2023),
                                     new String[]{"Eat", "Study", "Code"},
                                     new Date[]{new Date(), new Date()}));
             System.out.println("**************** DataInitSessionBean.initStudents");
