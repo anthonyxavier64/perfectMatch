@@ -82,12 +82,14 @@ public class DataInitSessionBean {
             postingSessionBean.retrievePostingByPostingId(1l);
             offerSessionBean.retrieveOfferByOfferId(1l);
 
-        } catch (StartUpNotFoundException | StudentNotFoundException | OfferNotFoundException | PostingNotFoundException ex) {
+        } catch (StartUpNotFoundException ex) {
             initStartUps();
+        } catch (StudentNotFoundException ex) {
             initStudents();
-//            initJobs();
-//            initProjects();
+        } catch (OfferNotFoundException ex) {
             initOffers();
+        } catch (PostingNotFoundException ex) {
+//            initProjects();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
         }
