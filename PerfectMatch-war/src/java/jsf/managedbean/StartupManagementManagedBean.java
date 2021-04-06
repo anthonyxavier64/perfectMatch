@@ -13,13 +13,14 @@ import enumeration.Industry;
 import enumeration.StartUpLocation;
 import java.io.File;
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import util.exception.CreateNewStartUpException;
 import util.exception.InputDataValidationException;
 
@@ -27,7 +28,7 @@ import util.exception.InputDataValidationException;
  *
  * @author Phire
  */
-@Named(value = "startUpManagementManagedBean")
+@Named(value = "startupManagementManagedBean")
 @ViewScoped
 public class StartupManagementManagedBean implements Serializable {
 
@@ -38,16 +39,12 @@ public class StartupManagementManagedBean implements Serializable {
     @EJB
     private StartUpSessionBeanLocal startUpSessionBean;
 
-    // Used to register a new StartUp
     private StartUp newStartUp;
     private StartUpLocation[] startUpLocations;
     private Industry[] industries;
 
-    // Used to update StartUp
-    private StartUp currentStartUp;
-    private Industry updateIndustry;
-    private StartUpLocation updateLocation;
-    
+    private StreamedContent startUpProfilePicture;
+
     /**
      * Creates a new instance of StartupManagementManagedBean
      */
@@ -56,21 +53,10 @@ public class StartupManagementManagedBean implements Serializable {
         startUpLocations = StartUpLocation.values();
         industries = Industry.values();
     }
-    
-    @PostConstruct
-    public void postConstruct() {
-        currentStartUp = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartUp");
-        updateIndustry = currentStartUp.getIndustry();
-        updateLocation = currentStartUp.getStartupLocation();
-    }
 
-    public void retrieveCurrentStartUpFromContext() {
-    }
-    
-    public void setProfilePic() {
+    public void DynamicImageController() {
         StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartUp");
+                .getExternalContext().getSessionMap().get("currentStartup");
 
         String profilePicturePath = FacesContext
                 .getCurrentInstance()
@@ -88,21 +74,24 @@ public class StartupManagementManagedBean implements Serializable {
         if (hasProfilePictureJpg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpg");
 
-            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpg";
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("startUpProfilePicture", startUpProfilePicture);
+            startUpProfilePicture = DefaultStreamedContent.builder()
+                    .contentType("image/jpg")
+                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpg"))
+                    .build();
         } else if (hasProfilePictureJpeg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpeg");
-            
-            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpeg";
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("startUpProfilePicture", startUpProfilePicture);
+
+            startUpProfilePicture = DefaultStreamedContent.builder()
+                    .contentType("image/jpeg")
+                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpeg"))
+                    .build();
         } else if (hasProfilePicturePng) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePicturePng");
-            
-            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.png";
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("startUpProfilePicture", startUpProfilePicture);
+
+            startUpProfilePicture = DefaultStreamedContent.builder()
+                    .contentType("image/png")
+                    .stream(() -> this.getClass().getResourceAsStream("/" + profilePicturePath + ".png"))
+                    .build();
         }
     }
 
@@ -113,47 +102,20 @@ public class StartupManagementManagedBean implements Serializable {
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "New StartUp registered (StartUp ID: " + startup.getStartupId() + ")",
                             null));
-            newStartUp = new StartUp();
         } catch (InputDataValidationException | CreateNewStartUpException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while registering the new StartUp: " + ex.getMessage(), null));
         }
     }
 
-    public void updateStartUp(ActionEvent event) {
-        currentStartUp.setIndustry(updateIndustry);
-        currentStartUp.setStartupLocation(updateLocation);
-        startUpSessionBean.updateStartUp(currentStartUp);
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-                    .put("currentStartUp", currentStartUp);
+    public StreamedContent getStartUpProfilePicture() {
+        return startUpProfilePicture;
     }
 
-    public Industry getUpdateIndustry() {
-        return updateIndustry;
+    public void setStartUpProfilePicture(StreamedContent startUpProfilePicture) {
+        this.startUpProfilePicture = startUpProfilePicture;
     }
 
-    public void setUpdateIndustry(Industry updateIndustry) {
-        this.updateIndustry = updateIndustry;
-    }
-
-    public StartUpLocation getUpdateLocation() {
-        return updateLocation;
-    }
-
-    public void setUpdateLocation(StartUpLocation updateLocation) {
-        this.updateLocation = updateLocation;
-    }
     
-    
-    
-    public StartUp getCurrentStartUp() {
-        return currentStartUp;
-    }
-
-    public void setCurrentStartUp(StartUp currentStartUp) {
-        this.currentStartUp = currentStartUp;
-    }
-
     
     public StartUp getNewStartUp() {
         return newStartUp;

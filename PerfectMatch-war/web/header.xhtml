@@ -41,14 +41,8 @@
             <h:form id="logoutForm">
                 <h:outputText value="You are login as #{sessionScope.currentStartup.companyName}" />&nbsp;
                 <p:commandButton value="Logout" actionListener="#{startupLoginManagedBean.logout}" icon="pi pi-sign-out" />
-                <p:link outcome="/accountManagement/startUpProfile.xhtml">
-                    <p:graphicImage library="images" name="#{sessionScope.startUpProfilePicture}" alt="profilePicture"
-                                    style="max-height:50px;
-                                    padding-right: 20px;
-                                    float: right; "  />
-                </p:link>&nbsp;
-            </h:form>
-
+            </h:form>&nbsp;
+            <p:graphicImage alt="StartUp Profile Picture" value="#{startupManagementManagedBean.startUpProfilePicture}" height="20" />
         </h:panelGroup>
 
     </header>
