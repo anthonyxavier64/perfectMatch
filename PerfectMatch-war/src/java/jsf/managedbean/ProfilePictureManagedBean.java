@@ -40,11 +40,39 @@ public class ProfilePictureManagedBean {
             String outputFileName = currentStartUp.getStartupId()
                     + "_ProfilePicture"
                     + fileExtension;
-            String newFilePath
-                    = FacesContext
-                            .getCurrentInstance()
-                            .getExternalContext()
-                            .getInitParameter("alternatedocroot_1")
+
+            StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap().get("currentStartup");
+
+            String profilePicturePath = FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .getInitParameter("alternatedocroot_1")
+                    + System.getProperty("file.separator")
+                    + currentStartup.getStartupId()
+                    + "_ProfilePicture";
+            boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
+
+            boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
+
+            boolean hasProfilePicturePng = ((new File(profilePicturePath + ".png")).exists());
+
+            if (hasProfilePictureJpg) {
+                File oldPic = new File(profilePicturePath + ".jpg");
+                oldPic.delete();
+            } else if (hasProfilePictureJpeg) {
+                File oldPic = new File(profilePicturePath + ".jpeg");
+                oldPic.delete();
+            }
+            if (hasProfilePicturePng) {
+                File oldPic = new File(profilePicturePath + ".png");
+                oldPic.delete();
+            }
+
+            String newFilePath = FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator")
                     + outputFileName;
 

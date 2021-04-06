@@ -43,7 +43,6 @@ public class StartupManagementManagedBean implements Serializable {
     private StartUpLocation[] startUpLocations;
     private Industry[] industries;
 
-    private StreamedContent startUpProfilePicture;
 
     /**
      * Creates a new instance of StartupManagementManagedBean
@@ -54,7 +53,7 @@ public class StartupManagementManagedBean implements Serializable {
         industries = Industry.values();
     }
 
-    public void DynamicImageController() {
+    public void setProfilePic() {
         StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartup");
 
@@ -107,16 +106,6 @@ public class StartupManagementManagedBean implements Serializable {
         }
     }
 
-    public StreamedContent getStartUpProfilePicture() {
-        return startUpProfilePicture;
-    }
-
-    public void setStartUpProfilePicture(StreamedContent startUpProfilePicture) {
-        this.startUpProfilePicture = startUpProfilePicture;
-    }
-
-    
-    
     public StartUp getNewStartUp() {
         return newStartUp;
     }
