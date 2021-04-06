@@ -59,13 +59,6 @@ public class studentManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("studentManagement.xhtml");
     }
-    
-//        public void viewStudentDetails(ActionEvent event) throws IOException {
-//        Long studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
-//        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
-//        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("backMode", "viewStudent");
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("viewStudentDetails.xhtml");
-//    }
 
     public StudentSessionBeanLocal getStudentSessionBean() {
         return studentSessionBean;
