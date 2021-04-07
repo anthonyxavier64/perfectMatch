@@ -97,10 +97,11 @@ public class PostingsManagedBean implements Serializable {
     {
         setListOfPostings(postingSessionBean.retrieveAllPostings());
         setListOfProjects(projectSessionBean.retrieveAllProjects());
-        System.out.println("Num Projects: " + listOfProjects.size());
         setListOfJobs(jobSessionBean.retrieveAllJobs());
-        System.out.println("Num Jobs: " + listOfJobs.size());
-        getIndustries().addAll(Arrays.asList(Industry.values()));
+//        for (Industry industry: Industry.values()) {
+//            System.out.println(industry.toString());
+//            industries.add(industry);
+//        }
     }
     
     public void viewPostingDetails(ActionEvent event) throws IOException

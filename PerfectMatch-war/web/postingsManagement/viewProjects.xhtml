@@ -14,8 +14,17 @@
             <h3> View All Students </h3>
             <h:form id="formViewAllProjects" >
                 <p:panel header="View All Projects">
-                    <p:dataTable id="dataTableViewAllProjects" widgetVar="dataTableViewAllProjects" value="#{PostingsManagedBean.listOfProjects}" var="project">
+                    <p:dataTable id="dataTableViewAllProjects" widgetVar="dataTableViewAllProjects" value="#{postingsManagedBean.listOfProjects}" var="project" rowKey="#{project.postingId}" rowIndexVar="row"
+                                 filteredValue="#{postingsManagedBean.filteredPostings}"
+                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
+ 
+                       <f:facet name="header">
+                            <p:outputPanel style="text-align: right;">
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewAllProjects').filter()" style="width:300px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
+                        </f:facet>
                         <p:column headerText="Project ID" sortBy="#{project.postingId}" filterBy="#{project.postingId}" filterMatchMode="contains">
                             <h:outputText value="#{project.postingId}" />
                         </p:column> 
@@ -29,15 +38,21 @@
                         </p:column> 
 
                         <p:column headerText="Earliest Start Date" sortBy="#{project.earliestStartDate}" filterBy="#{project.earliestStartDate}" filterMatchMode="contains">
-                            <h:outputText value="#{project.earliestStartDate}" />
+                            <h:outputText value="#{project.earliestStartDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
                         </p:column> 
 
                         <p:column headerText="Latest Start Date" sortBy="#{project.latestStartDate}" filterBy="#{project.latestStartDate}" filterMatchMode="contains">
-                            <h:outputText value="#{project.latestStartDate}" />
+                            <h:outputText value="#{project.latestStartDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
                         </p:column> 
 
                         <p:column headerText="Required Skills" sortBy="#{project.requiredSkills}" filterBy="#{project.requiredSkills}" filterMatchMode="contains">
-                            <h:outputText value="#{project.requiredSkills}" />
+                            <p:dataList value="#{project.requiredSkills}" var="skills" type="unordered">
+                                #{skills}
+                            </p:dataList>
                         </p:column> 
 
                         <p:column headerText="Industry" sortBy="#{project.industry}" filterBy="#{project.industry}" filterMatchMode="contains">
