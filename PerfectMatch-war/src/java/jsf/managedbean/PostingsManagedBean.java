@@ -19,6 +19,8 @@ import enumeration.Industry;
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -95,11 +97,14 @@ public class PostingsManagedBean implements Serializable {
     public void postConstruct()
     {
         setListOfPostings(postingSessionBean.retrieveAllPostings());
-        setListOfProjects(postingSessionBean.retrieveAllProjects());
-        setListOfJobs(postingSessionBean.retrieveAllJobs());
+        setListOfProjects(projectSessionBean.retrieveAllProjects());
+        setListOfJobs(jobSessionBean.retrieveAllJobs());
+        List<Industry> listOfIndustries = new ArrayList<Industry>();
         for (Industry industry: Industry.values()) {
-            getIndustries().add(industry);
+            listOfIndustries.add(industry);
         }
+        setIndustries(listOfIndustries);
+        System.out.println(industries);
     }
     
     public void viewPostingDetails(ActionEvent event) throws IOException

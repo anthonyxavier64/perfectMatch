@@ -23,7 +23,7 @@
                                 <p:outputLabel for="jobTitle" value="Job Title: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="jobTitle" value="#{PostingsManagedBean.newJob.jobTitle}" placeholder="Cool Job" required="true" requiredMessage="Job Title is required" />
+                                <p:inputText id="jobTitle" value="#{postingsManagedBean.newJob.jobTitle}" placeholder="Cool Job" required="true" requiredMessage="Job Title is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="jobTitle" />
@@ -35,7 +35,7 @@
                                 <p:outputLabel for="jobDescription" value="Job Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="jobDescription" value="#{PostingsManagedBean.newJob.jobDescription}" placeholder="This is a cool job" required="true" requiredMessage="Job Description is required" />
+                                <p:inputText id="jobDescription" value="#{postingsManagedBean.newJob.jobDescription}" placeholder="This is a cool job" required="true" requiredMessage="Job Description is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="jobDescription" />
@@ -47,7 +47,7 @@
                                 <p:outputLabel for="monthlySalary" value="Monthly Salary: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="monthlySalary" value="#{PostingsManagedBean.newJob.monthlySalary}" placeholder="1000.00" required="true" requiredMessage="Monthly Salary is required"/>
+                                <p:inputText id="monthlySalary" value="#{postingsManagedBean.newJob.monthlySalary}" placeholder="1000.00" required="true" requiredMessage="Monthly Salary is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="monthlySalary" />
@@ -59,7 +59,7 @@
                                 <p:outputLabel for="earliestStartDate" value="Earliest Start Date: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="earliestStartDate" value="#{PostingsManagedBean.newJob.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Earliest Start Date is required"/>
+                                <p:inputText id="earliestStartDate" value="#{postingsManagedBean.newJob.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Earliest Start Date is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="earliestStartDate" />
@@ -71,7 +71,7 @@
                                 <p:outputLabel for="latestStartDate" value="Latest Start Date: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="latestStartDate" value="#{PostingsManagedBean.newJob.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>
+                                <p:inputText id="latestStartDate" value="#{postingsManagedBean.newJob.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="latestStartDate" />
@@ -83,8 +83,8 @@
                                 <p:outputLabel for="industry" value="Job Industry: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="industry" value="#{PostingsManagedBean.newJob.industry}" >
-                                    <f:selectItems value="#{PostingManagedBean.newJob.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                                <p:selectOneMenu id="industry" value="#{postingsManagedBean.newJob.industry}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
@@ -94,15 +94,15 @@
                         
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="skills" value="Required Skills: " style="font-weight: bold;" />
+                                <p:outputLabel for="skill" value="Required Skills: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <ui:repeat value="#{PostingsManagedBean.newJob.requiredSkills}" var="skill" varStatus="loop">
-                                    <h:inputText value="#{PostingsManagedBean.newJob.requiredSkills[loop.index]}" />
+                                <ui:repeat id="skill" value="#{postingsManagedBean.newJob.requiredSkills}" var="skill" varStatus="loop">
+                                    <h:inputText value="#{postingsManagedBean.newJob.requiredSkills[loop.index]}" />
                                 </ui:repeat>
                             </p:column>
                             <p:column>
-                                <p:message for="skills" />
+                                <p:message for="skill" />
                             </p:column>
                         </p:row>
                         
