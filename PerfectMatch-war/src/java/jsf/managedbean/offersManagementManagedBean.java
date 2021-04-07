@@ -140,16 +140,16 @@ public class offersManagementManagedBean implements Serializable {
     {
         try
         {
-            Offer offerToDelete = (Offer)event.getComponent().getAttributes().get("selectedOfferToDelete");
+            selectedOfferToDelete = (Offer)event.getComponent().getAttributes().get("selectedOfferToDelete");
             
-            System.out.println(offerToDelete.getOfferId());
-            offerSessionBean.deleteOffer(offerToDelete.getOfferId());
+            System.out.println(selectedOfferToDelete.getOfferId());
+            offerSessionBean.deleteOffer(selectedOfferToDelete.getOfferId());
             
-            getListOfOffers().remove(offerToDelete);
+            getListOfOffers().remove(selectedOfferToDelete);
             
             if(getFilteredOffers() != null)
             {
-                getFilteredOffers().remove(offerToDelete);
+                getFilteredOffers().remove(selectedOfferToDelete);
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirm Delete?", null));
