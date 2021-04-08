@@ -85,7 +85,9 @@
                             <h:outputLabel value="Projected Graduation Year: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.projectedGraduationYear}" />
+                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.projectedGraduationYear}">
+                                <f:convertDateTime pattern="yyyy" />
+                            </h:outputText>                 
                         </p:column>
                     </p:row>
 
@@ -94,7 +96,9 @@
                             <h:outputLabel value="Relevant Skills: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.relevantSkills}" />
+                            <p:dataList value="#{viewStudentManagedBean.studentEntityToView.relevantSkills}" var ="skill">
+                                 <h:outputText value="#{skill}" />
+                            </p:dataList> 
                         </p:column>
                     </p:row>
                     
@@ -103,7 +107,9 @@
                             <h:outputLabel value="Availability Start Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[0]}" />
+                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[0]}" >
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
                         </p:column>
                     </p:row>
                     
@@ -112,7 +118,9 @@
                             <h:outputLabel value="Availability End Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[1]}" />
+                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[1]}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
                         </p:column>
                     </p:row>
 

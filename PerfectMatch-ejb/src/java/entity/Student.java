@@ -67,7 +67,7 @@ public class Student implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date projectedGraduationYear;
 
-    private String[] relevantSkills;
+    private List<String> relevantSkills;
 
     private Date[] availabilityPeriod;
 
@@ -90,7 +90,7 @@ public class Student implements Serializable {
     }
 
     public Student(String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
-            Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+            Date projectedGraduationYear, List<String> relevantSkills, Date[] availabiltiyPeriod) {
         this.name = name;
         this.educationalInstitute = educationalInstitute;
         this.biography = biography;
@@ -108,7 +108,7 @@ public class Student implements Serializable {
     }
 
     public Student(long studentId, String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
-            Date projectedGraduationYear, String[] relevantSkills, Date[] availabiltiyPeriod) {
+            Date projectedGraduationYear, List<String> relevantSkills, Date[] availabiltiyPeriod) {
         this.studentId = studentId;
         this.name = name;
         this.educationalInstitute = educationalInstitute;
@@ -215,11 +215,11 @@ public class Student implements Serializable {
         this.projectedGraduationYear = projectedGraduationYear;
     }
 
-    public String[] getRelevantSkills() {
+    public List<String> getRelevantSkills() {
         return relevantSkills;
     }
 
-    public void setRelevantSkills(String[] relevantSkills) {
+    public void setRelevantSkills(List<String> relevantSkills) {
         this.relevantSkills = relevantSkills;
     }
 

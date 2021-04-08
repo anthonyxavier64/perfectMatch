@@ -48,4 +48,5 @@ public interface PostingSessionBeanLocal {
 
     public StartUp retrieveStartupFromPostingId(Long postingId) throws PostingNotFoundException;
     
+    public void deletePosting(Long postingId) throws PostingNotFoundException;
 }
