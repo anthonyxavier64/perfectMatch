@@ -15,6 +15,7 @@ import entity.Job;
 import entity.Offer;
 import entity.Posting;
 import entity.Project;
+import entity.StartUp;
 import enumeration.Industry;
 import java.io.IOException;
 import javax.inject.Named;
@@ -35,6 +36,7 @@ import util.exception.JobNotFoundException;
 import util.exception.OfferNotFoundException;
 import util.exception.PostingNotFoundException;
 import util.exception.ProjectNotFoundException;
+import util.exception.StartUpNotFoundException;
 
 /**
  *
@@ -64,6 +66,9 @@ public class PostingsManagedBean implements Serializable {
 
     @Inject
     private viewPostingManagedBean viewPostingManagedBean;
+    
+    @Inject
+    private StartupLoginManagedBean startUpLoginManagedBean;
     
     private List<Posting> listOfPostings;
     private List<Posting> filteredPostings;
@@ -130,6 +135,10 @@ public class PostingsManagedBean implements Serializable {
     
     public void createNewProject(ActionEvent event) throws CreateNewPostingException, ProjectNotFoundException
     {                     
+        StartUp currentStartUp = (StartUp)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentStartup");
+        System.out.println(currentStartUp.getEmail());
+        
+        setStartUpId(currentStartUp.getStartupId());  
         
         long projectId = projectSessionBean.createNewProject(getNewProject(), getStartUpId());
         Project project = postingSessionBean.retrieveProjectByProjectId(projectId);
@@ -144,8 +153,13 @@ public class PostingsManagedBean implements Serializable {
     }
     
     
-    public void createNewJob(ActionEvent event) throws CreateNewPostingException, JobNotFoundException
-    {                     
+    public void createNewJob(ActionEvent event) throws CreateNewPostingException, JobNotFoundException, StartUpNotFoundException
+    {   
+        
+        StartUp currentStartUp = (StartUp)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentStartup");
+        System.out.println(currentStartUp.getEmail());
+        
+        setStartUpId(currentStartUp.getStartupId());            
         
         long jobId = jobSessionBean.createNewJob(getNewJob(), getStartUpId());
         Job job = postingSessionBean.retrieveJobByJobId(jobId);
@@ -156,7 +170,7 @@ public class PostingsManagedBean implements Serializable {
         }
         setNewJob(new Job());
         setStartUpId(null);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Project created successfully (Project ID: " + jobId + ")", null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Job created successfully (Project ID: " + jobId + ")", null));
     }
     
     public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException 
@@ -344,6 +358,14 @@ public class PostingsManagedBean implements Serializable {
 
     public void setListOfSkillSets(List<List<String>> listOfSkillSets) {
         this.listOfSkillSets = listOfSkillSets;
+    }
+
+    public StartupLoginManagedBean getStartUpLoginManagedBean() {
+        return startUpLoginManagedBean;
+    }
+
+    public void setStartUpLoginManagedBean(StartupLoginManagedBean startUpLoginManagedBean) {
+        this.startUpLoginManagedBean = startUpLoginManagedBean;
     }
     
 }
