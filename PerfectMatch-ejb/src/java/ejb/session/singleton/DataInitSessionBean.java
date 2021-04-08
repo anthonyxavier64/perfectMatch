@@ -74,15 +74,14 @@ public class DataInitSessionBean {
 
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
-    
-                String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
-            List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
-            
-            String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
-            List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
-            
-            
-            List<String> skills = Arrays.asList(new String[]{"Eat", "Study", "Code"});
+
+    String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
+    List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
+
+    String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+    List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
+
+    List<String> skills = Arrays.asList(new String[]{"Eat", "Study", "Code"});
 
     @PostConstruct
     public void postConstruct() {
@@ -148,10 +147,6 @@ public class DataInitSessionBean {
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
 
-
-
-
-
             try {
                 projectSessionBean.createNewProject(new Project("Project 1", "This is project 1", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development", false), 1l);
             } catch (ParseException ex) {
@@ -204,7 +199,6 @@ public class DataInitSessionBean {
             }
 
             System.out.println("**************** DataInitSessionBean.initProjects");
-            
 
             jobSessionBean.createNewJob(
                     new Job("Job 1", "Job 1", 2000.00, new Date(), new Date(), Industry.FINANCE, skills), 1l);
@@ -248,7 +242,7 @@ public class DataInitSessionBean {
                                     2,
                                     new SimpleDateFormat("yyyy").parse("2023"),
                                     skills,
-                                    new Date[]{ new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"),  new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));           
+                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
             studentSessionBean
                     .createNewStudent(
                             new Student(
@@ -261,7 +255,7 @@ public class DataInitSessionBean {
                                     2,
                                     new SimpleDateFormat("yyyy").parse("2023"),
                                     skills,
-                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"),  new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
+                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
             studentSessionBean
                     .createNewStudent(
                             new Student(
@@ -274,7 +268,7 @@ public class DataInitSessionBean {
                                     2,
                                     new SimpleDateFormat("yyyy").parse("2023"),
                                     skills,
-                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"),  new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
+                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
             studentSessionBean
                     .createNewStudent(
                             new Student(
@@ -287,7 +281,7 @@ public class DataInitSessionBean {
                                     2,
                                     new SimpleDateFormat("yyyy").parse("2023"),
                                     skills,
-                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"),  new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
+                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
             System.out.println("**************** DataInitSessionBean.initStudents");
         } catch (ParseException | CreateNewStudentException | InputDataValidationException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
