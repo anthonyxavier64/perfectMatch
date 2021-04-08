@@ -97,9 +97,10 @@
                                 <p:outputLabel for="skills" value="Required Skills: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <ui:repeat id = "skills" value="#{postingsManagedBean.newProject.requiredSkills}" var="skill" varStatus="loop">
-                                    <h:inputText value="#{postingsManagedBean.newProject.requiredSkills[loop.index]}" />
-                                </ui:repeat>
+                                
+                                <p:selectManyMenu id="skills" value="#{postingsManagedBean.newProject.requiredSkills}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                </p:selectManyMenu>
                             </p:column>
                             <p:column>
                                 <p:message for="skills" />

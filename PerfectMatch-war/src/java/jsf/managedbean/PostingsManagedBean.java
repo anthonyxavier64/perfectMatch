@@ -83,6 +83,7 @@ public class PostingsManagedBean implements Serializable {
     
     private Posting selectedPostingToUpdate;
     private List<Offer> updatedOffers;
+    private List<List<String>> listOfSkillSets;
     
     /**
      * Creates a new instance of PostingsManagedBean
@@ -105,6 +106,19 @@ public class PostingsManagedBean implements Serializable {
         }
         setIndustries(listOfIndustries);
         System.out.println(industries);
+
+        String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
+        List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
+
+        String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+        List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
+
+        List<List<String>> listToInit = new ArrayList<>();
+        listToInit.add(requiredSkillsOne);
+        listToInit.add(requiredSkillsTwo);
+
+        setListOfSkillSets(listToInit);
+        System.out.println(listOfSkillSets.get(0));
     }
     
     public void viewPostingDetails(ActionEvent event) throws IOException
@@ -322,6 +336,14 @@ public class PostingsManagedBean implements Serializable {
 
     public long getJobPostingId() {
         return jobPostingId;
+    }
+
+    public List<List<String>> getListOfSkillSets() {
+        return listOfSkillSets;
+    }
+
+    public void setListOfSkillSets(List<List<String>> listOfSkillSets) {
+        this.listOfSkillSets = listOfSkillSets;
     }
     
 }

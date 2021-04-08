@@ -59,7 +59,7 @@
                                 <p:outputLabel for="earliestStartDate" value="Earliest Start Date: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="earliestStartDate" value="#{postingsManagedBean.newJob.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Earliest Start Date is required"/>
+                                <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.newJob.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>                              
                             </p:column>
                             <p:column>
                                 <p:message for="earliestStartDate" />
@@ -71,7 +71,7 @@
                                 <p:outputLabel for="latestStartDate" value="Latest Start Date: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="latestStartDate" value="#{postingsManagedBean.newJob.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>
+                                <p:datePicker id="latestStartDate" value="#{postingsManagedBean.newJob.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>                              
                             </p:column>
                             <p:column>
                                 <p:message for="latestStartDate" />
@@ -94,15 +94,15 @@
                         
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="skill" value="Required Skills: " style="font-weight: bold;" />
+                                <p:outputLabel for="skills" value="Required Skills: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <ui:repeat id="skill" value="#{postingsManagedBean.newJob.requiredSkills}" var="skill" varStatus="loop">
-                                    <h:inputText value="#{postingsManagedBean.newJob.requiredSkills[loop.index]}" />
-                                </ui:repeat>
+                                <p:selectManyMenu id="skills" value="#{postingsManagedBean.newJob.requiredSkills}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                </p:selectManyMenu>
                             </p:column>
                             <p:column>
-                                <p:message for="skill" />
+                                <p:message for="skills" />
                             </p:column>
                         </p:row>
                         
@@ -112,7 +112,7 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Create New Job" update="@form" actionListener="#{PostingsManagedBean.createNewJob}" />
+                                <p:commandButton  value="Create New Job" update="@form" actionListener="#{postingsManagedBean.createNewJob}" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
