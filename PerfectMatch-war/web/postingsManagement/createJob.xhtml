@@ -83,9 +83,9 @@
                                 <p:outputLabel for="industry" value="Job Industry: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="industry" value="#{postingsManagedBean.newJob.industry}" required="true" >
-                                    <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
-                                </p:selectOneMenu>
+                                <p:selectManyMenu id="skills" value="#{postingsManagedBean.newJob.requiredSkills}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                </p:selectManyMenu>
                             </p:column>
                             <p:column>
                                 <p:message for="industry" />
