@@ -7,11 +7,11 @@ package entity;
 
 import enumeration.Industry;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
@@ -44,17 +44,19 @@ public class Project extends Posting implements Serializable {
     @Column(nullable = false)
     private Industry industry;
 
-    private String[] requiredSkills;
+    private List<String> requiredSkills;
 
     private String projectSpecialisation;
+    
+    private List<String> milestones;
 
     @NotNull
     @Column(nullable = false)
     private boolean isComplete;
-    
-    
 
     public Project() {
+        milestones = new ArrayList<>();
+        requiredSkills = new ArrayList<>();
     }
 
     public Project(String projectTitle, String projectDescription, Double compensation, Industry industry, boolean isComplete) {
@@ -65,7 +67,7 @@ public class Project extends Posting implements Serializable {
         this.isComplete = isComplete;
     }
 
-    public Project(String projectTitle, String projectDescription, Double compensation, Date earliestStartDate, Date latestStartDate, Industry industry, String[] requiredSkills, String projectSpecialisation, boolean isComplete) {
+    public Project(String projectTitle, String projectDescription, Double compensation, Date earliestStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills, String projectSpecialisation, boolean isComplete) {
         this.projectTitle = projectTitle;
         this.projectDescription = projectDescription;
         this.compensation = compensation;
@@ -127,11 +129,11 @@ public class Project extends Posting implements Serializable {
         this.industry = industry;
     }
 
-    public String[] getRequiredSkills() {
+    public List<String> getRequiredSkills() {
         return requiredSkills;
     }
 
-    public void setRequiredSkills(String[] requiredSkills) {
+    public void setRequiredSkills(List<String> requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
 
@@ -150,4 +152,13 @@ public class Project extends Posting implements Serializable {
     public void setIsComplete(boolean isComplete) {
         this.isComplete = isComplete;
     }
+
+    public List<String> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(List<String> milestones) {
+        this.milestones = milestones;
+    }
+    
 }

@@ -33,7 +33,9 @@ import entity.Student;
 import enumeration.OfferStatus;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.exception.CreateNewOfferException;
@@ -137,8 +139,11 @@ public class DataInitSessionBean {
                                     StartUpLocation.FOR_TESTING_ONLY));
             System.out.println("**************** DataInitSessionBean.initStartUps");
 
-            String[] requiredSkillsOne = new String[]{"Java", "Javascript", "SQL", "Web services"};
-            String[] requiredSkillsTwo = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+            String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
+            List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
+            
+            String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+            List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
 
             try {
                 projectSessionBean.createNewProject(new Project("Project 1", "This is project 1", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development", false), 1l);
@@ -192,27 +197,29 @@ public class DataInitSessionBean {
             }
 
             System.out.println("**************** DataInitSessionBean.initProjects");
+            
+            List<String> skills = Arrays.asList(new String[]{"Eat", "Study", "Code"});
 
             jobSessionBean.createNewJob(
-                    new Job("Job 1", "Job 1", 2000.00, new Date(), new Date(), Industry.FINANCE, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 1", "Job 1", 2000.00, new Date(), new Date(), Industry.FINANCE, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 2", "Job 2", 2000.00, new Date(), new Date(), Industry.FINANCE, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 2", "Job 2", 2000.00, new Date(), new Date(), Industry.FINANCE, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 3", "Job 3", 2000.00, new Date(), new Date(), Industry.FINANCE, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 3", "Job 3", 2000.00, new Date(), new Date(), Industry.FINANCE, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 4", "Job 4", 2000.00, new Date(), new Date(), Industry.EDUCATION, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 4", "Job 4", 2000.00, new Date(), new Date(), Industry.EDUCATION, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 5", "Job 5", 2000.00, new Date(), new Date(), Industry.EDUCATION, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 5", "Job 5", 2000.00, new Date(), new Date(), Industry.EDUCATION, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 6", "Job 6", 2000.00, new Date(), new Date(), Industry.EDUCATION, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 6", "Job 6", 2000.00, new Date(), new Date(), Industry.EDUCATION, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 7", "Job 7", 2000.00, new Date(), new Date(), Industry.ENGINEERING, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 7", "Job 7", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 8", "Job 8", 2000.00, new Date(), new Date(), Industry.ENGINEERING, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 8", "Job 8", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 9", "Job 9", 2000.00, new Date(), new Date(), Industry.ENGINEERING, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 9", "Job 9", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 10", "Job 10", 2000.00, new Date(), new Date(), Industry.ENGINEERING, new String[]{"Eat", "Study", "Code"}), 1l);
+                    new Job("Job 10", "Job 10", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
             System.out.println("**************** DataInitSessionBean.initJobs");
         } catch (CreateNewStartUpException | InputDataValidationException | CreateNewPostingException ex) {
             System.out.println("There was an error in initialising the StartUps: "

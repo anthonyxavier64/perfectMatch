@@ -71,8 +71,8 @@ public class StudentResource {
 
             String[] availablePeriod = new String[2];
 
-            availablePeriod[0] = newStudent.getAvailabiltiyPeriod()[0].toString();
-            availablePeriod[1] = newStudent.getAvailabiltiyPeriod()[1].toString();
+            availablePeriod[0] = newStudent.getAvailabilityPeriod()[0].toString();
+            availablePeriod[1] = newStudent.getAvailabilityPeriod()[1].toString();
 
             StudentWrapper newStudentWrapper = new StudentWrapper(
                     newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
@@ -99,8 +99,8 @@ public class StudentResource {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            availablePeriod[0] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[0]);
-            availablePeriod[1] = simpleDateFormat.format(student.getAvailabiltiyPeriod()[1]);
+            availablePeriod[0] = simpleDateFormat.format(student.getAvailabilityPeriod()[0]);
+            availablePeriod[1] = simpleDateFormat.format(student.getAvailabilityPeriod()[1]);
 
             StudentWrapper studentWrapper = new StudentWrapper(
                     student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
@@ -215,8 +215,8 @@ public class StudentResource {
 
             String[] availablePeriod = new String[2];
 
-            availablePeriod[0] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[0]);
-            availablePeriod[1] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabiltiyPeriod()[1]);
+            availablePeriod[0] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabilityPeriod()[0]);
+            availablePeriod[1] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabilityPeriod()[1]);
 
             StudentWrapper newStudentWrapper = new StudentWrapper(
                     newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),

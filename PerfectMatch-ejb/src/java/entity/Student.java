@@ -6,11 +6,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,7 +69,7 @@ public class Student implements Serializable {
 
     private String[] relevantSkills;
 
-    private Date[] availabiltiyPeriod;
+    private Date[] availabilityPeriod;
 
     @OneToMany(mappedBy = "student")
     private List<Application> applications;
@@ -76,6 +79,12 @@ public class Student implements Serializable {
 
     @OneToMany(mappedBy = "student")
     private List<Offer> offers;
+
+    @Column(nullable = false, length = 4)
+    private String rating;
+
+    @OneToMany(mappedBy = "studentBeingRated", fetch = FetchType.LAZY)
+    private List<ReviewOfStudent> reviews;
 
     public Student() {
     }
@@ -91,10 +100,11 @@ public class Student implements Serializable {
         this.yearOfStudy = yearOfStudy;
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
-        this.availabiltiyPeriod = availabiltiyPeriod;
+        this.availabilityPeriod = availabiltiyPeriod;
         this.applications = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.offers = new ArrayList<>();
+        this.rating = "0.00";
     }
 
     public Student(long studentId, String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
@@ -109,10 +119,11 @@ public class Student implements Serializable {
         this.yearOfStudy = yearOfStudy;
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
-        this.availabiltiyPeriod = availabiltiyPeriod;
+        this.availabilityPeriod = availabiltiyPeriod;
         this.applications = new ArrayList<>();
         this.payments = new ArrayList<>();
         this.offers = new ArrayList<>();
+        this.rating = "0.00";
     }
 
     public Long getStudentId() {
@@ -212,12 +223,12 @@ public class Student implements Serializable {
         this.relevantSkills = relevantSkills;
     }
 
-    public Date[] getAvailabiltiyPeriod() {
-        return availabiltiyPeriod;
+    public Date[] getAvailabilityPeriod() {
+        return availabilityPeriod;
     }
 
-    public void setAvailabiltiyPeriod(Date[] availabiltiyPeriod) {
-        this.availabiltiyPeriod = availabiltiyPeriod;
+    public void setAvailabilityPeriod(Date[] availabilityPeriod) {
+        this.availabilityPeriod = availabilityPeriod;
     }
 
     public List<Application> getApplications() {
@@ -250,6 +261,30 @@ public class Student implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRating() {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (ReviewOfStudent r : reviews) {
+            sum.add(BigDecimal.valueOf(r.getRating()));
+        }
+        BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
+        Double aveRating = ave.doubleValue();
+        rating = String.valueOf(aveRating);
+        
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public List<ReviewOfStudent> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewOfStudent> reviews) {
+        this.reviews = reviews;
     }
 
 }

@@ -8,10 +8,13 @@ package entity;
 import enumeration.Industry;
 import enumeration.StartUpLocation;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,6 +68,12 @@ public class StartUp implements Serializable {
     
     @OneToMany(mappedBy = "startup")
     private List<Payment> payments = new ArrayList<>();
+    
+    @Column(nullable = false, length = 4)
+    private String rating;
+
+    @OneToMany(mappedBy = "startUpBeingRated", fetch = FetchType.LAZY)
+    private List<ReviewOfStartUp> reviews;
 
     public StartUp() {
     }
@@ -76,6 +85,7 @@ public class StartUp implements Serializable {
         this.password = password;
         this.industry = industry;
         this.startupLocation = startupLocation;
+        this.rating = "0.00";
     }
 
     public StartUp(String startupRegistrationNum, String companyName, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
@@ -86,6 +96,7 @@ public class StartUp implements Serializable {
         this.password = password;
         this.industry = industry;
         this.startupLocation = startupLocation;
+        this.rating = "0.00";
     }
     
     public Long getStartupId() {
@@ -208,6 +219,30 @@ public class StartUp implements Serializable {
 
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
+    }
+    
+    public String getRating() {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (ReviewOfStartUp r : reviews) {
+            sum.add(BigDecimal.valueOf(r.getRating()));
+        }
+        BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
+        Double aveRating = ave.doubleValue();
+        rating = String.valueOf(aveRating);
+        
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public List<ReviewOfStartUp> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewOfStartUp> reviews) {
+        this.reviews = reviews;
     }
 
 }
