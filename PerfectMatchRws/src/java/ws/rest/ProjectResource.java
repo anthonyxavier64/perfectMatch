@@ -72,7 +72,9 @@ public class ProjectResource {
                 }
 
                 newProjectWrapper.setIndustry(projects.get(i).getIndustry());
-                newProjectWrapper.setRequiredSkills(projects.get(i).getRequiredSkills());
+
+                String[] skillsArray = projects.get(i).getRequiredSkills().toArray(new String[0]);
+                newProjectWrapper.setRequiredSkills(skillsArray);
                 newProjectWrapper.setProjectSpecialisation(projects.get(i).getProjectSpecialisation());
                 newProjectWrapper.setIsComplete(projects.get(i).isIsComplete());
                 projectWrappers.add(newProjectWrapper);
@@ -113,10 +115,12 @@ public class ProjectResource {
             }
 
             newProjectWrapper.setIndustry(project.getIndustry());
-            newProjectWrapper.setRequiredSkills(project.getRequiredSkills());
+
+            String[] skillsArray = project.getRequiredSkills().toArray(new String[0]);
+            newProjectWrapper.setRequiredSkills(skillsArray);
             newProjectWrapper.setProjectSpecialisation(project.getProjectSpecialisation());
             newProjectWrapper.setIsComplete(project.isIsComplete());
-            
+
             return Response.status(Response.Status.OK).entity(newProjectWrapper).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();

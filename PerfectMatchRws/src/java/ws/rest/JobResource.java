@@ -73,7 +73,9 @@ public class JobResource {
                 }
 
                 newJobWrapper.setIndustry(jobs.get(i).getIndustry());
-                newJobWrapper.setRequiredSkills(jobs.get(i).getRequiredSkills());
+                
+                String[] skillsArray = jobs.get(i).getRequiredSkills().toArray(new String[0]);
+                newJobWrapper.setRequiredSkills(skillsArray);
                 jobWrappers.add(newJobWrapper);
             }
 
@@ -112,7 +114,9 @@ public class JobResource {
             }
 
             newJobWrapper.setIndustry(job.getIndustry());
-            newJobWrapper.setRequiredSkills(job.getRequiredSkills());
+            
+            String[] skillsArray = job.getRequiredSkills().toArray(new String[0]);
+            newJobWrapper.setRequiredSkills(skillsArray);
             
             return Response.status(Response.Status.OK).entity(newJobWrapper).build();
         } catch (Exception ex) {

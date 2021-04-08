@@ -83,7 +83,7 @@ public class PostingsManagedBean implements Serializable {
     
     private Posting selectedPostingToUpdate;
     private List<Offer> updatedOffers;
-    private List<String[]> listOfSkillSets;
+    private List<List<String>> listOfSkillSets;
     
     /**
      * Creates a new instance of PostingsManagedBean
@@ -106,14 +106,17 @@ public class PostingsManagedBean implements Serializable {
         }
         setIndustries(listOfIndustries);
         System.out.println(industries);
-        
-        String[] requiredSkillsOne = new String[]{"Java", "Javascript", "SQL", "Web services"};
-        String[] requiredSkillsTwo = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
-        
-        List<String[]> listToInit = new ArrayList<>();
+
+        String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
+        List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
+
+        String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
+        List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
+
+        List<List<String>> listToInit = new ArrayList<>();
         listToInit.add(requiredSkillsOne);
         listToInit.add(requiredSkillsTwo);
-        
+
         setListOfSkillSets(listToInit);
         System.out.println(listOfSkillSets.get(0));
     }
@@ -335,11 +338,11 @@ public class PostingsManagedBean implements Serializable {
         return jobPostingId;
     }
 
-    public List<String[]> getListOfSkillSets() {
+    public List<List<String>> getListOfSkillSets() {
         return listOfSkillSets;
     }
 
-    public void setListOfSkillSets(List<String[]> listOfSkillSets) {
+    public void setListOfSkillSets(List<List<String>> listOfSkillSets) {
         this.listOfSkillSets = listOfSkillSets;
     }
     
