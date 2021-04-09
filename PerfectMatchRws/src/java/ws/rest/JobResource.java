@@ -59,10 +59,10 @@ public class JobResource {
 
             for (int i = 0; i < jobs.size(); i++) {
                 JobWrapper newJobWrapper = new JobWrapper();
-                newJobWrapper.setJobId(jobs.get(i).getPostingId());
-                newJobWrapper.setJobTitle(jobs.get(i).getJobTitle());
-                newJobWrapper.setJobDescription(jobs.get(i).getJobDescription());
-                newJobWrapper.setMonthlySalary(jobs.get(i).getMonthlySalary());
+                newJobWrapper.setPostingId(jobs.get(i).getPostingId());
+                newJobWrapper.setTitle(jobs.get(i).getTitle());
+                newJobWrapper.setDescription(jobs.get(i).getDescription());
+                newJobWrapper.setPay(jobs.get(i).getPay());
 
                 if (jobs.get(i).getEarliestStartDate() != null) {
                     newJobWrapper.setEarliestStartDate(simpleDateFormat.format(jobs.get(i).getEarliestStartDate()));
@@ -88,22 +88,22 @@ public class JobResource {
         }
     }
 
-    @Path("retrieveJobById/{jobId}")
+    @Path("retrieveJobById/{postingId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveJobById(@PathParam("jobId") Long jobId) {
+    public Response retrieveJobById(@PathParam("postingId") Long postingId) {
         System.out.println("here");
         try {
-            Job job = jobSessionBeanLocal.retrieveJobById(jobId);
+            Job job = jobSessionBeanLocal.retrieveJobById(postingId);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             JobWrapper newJobWrapper = new JobWrapper();
-            newJobWrapper.setJobId(job.getPostingId());
-            newJobWrapper.setJobTitle(job.getJobTitle());
-            newJobWrapper.setJobDescription(job.getJobDescription());
-            newJobWrapper.setMonthlySalary(job.getMonthlySalary());
+            newJobWrapper.setPostingId(job.getPostingId());
+            newJobWrapper.setTitle(job.getTitle());
+            newJobWrapper.setDescription(job.getDescription());
+            newJobWrapper.setPay(job.getPay());
 
             if (job.getEarliestStartDate() != null) {
                 newJobWrapper.setEarliestStartDate(simpleDateFormat.format(job.getEarliestStartDate()));
