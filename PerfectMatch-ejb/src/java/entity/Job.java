@@ -7,7 +7,9 @@ package entity;
 
 import enumeration.Industry;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
@@ -42,12 +44,13 @@ public class Job extends Posting implements Serializable {
     @Column(nullable = false)
     private Industry industry;
     
-    private String[] requiredSkills;
+    private List<String> requiredSkills;
 
     public Job() {
+        requiredSkills = new ArrayList<>();
     }
 
-    public Job(String jobTitle, String jobDescription, Double monthlySalary, Date earlietStartDate, Date latestStartDate, Industry industry, String[] requiredSkills) {
+    public Job(String jobTitle, String jobDescription, Double monthlySalary, Date earlietStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills) {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.monthlySalary = monthlySalary;
@@ -105,11 +108,11 @@ public class Job extends Posting implements Serializable {
         this.industry = industry;
     }
 
-    public String[] getRequiredSkills() {
+    public List<String> getRequiredSkills() {
         return requiredSkills;
     }
 
-    public void setRequiredSkills(String[] requiredSkills) {
+    public void setRequiredSkills(List<String> requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
 

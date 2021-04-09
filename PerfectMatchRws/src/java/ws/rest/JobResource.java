@@ -59,7 +59,7 @@ public class JobResource {
 
             for (int i = 0; i < jobs.size(); i++) {
                 JobWrapper newJobWrapper = new JobWrapper();
-                newJobWrapper.setJobId(jobs.get(i).getPostingId());
+                newJobWrapper.setPostingId(jobs.get(i).getPostingId());
                 newJobWrapper.setJobTitle(jobs.get(i).getJobTitle());
                 newJobWrapper.setJobDescription(jobs.get(i).getJobDescription());
                 newJobWrapper.setMonthlySalary(jobs.get(i).getMonthlySalary());
@@ -73,7 +73,9 @@ public class JobResource {
                 }
 
                 newJobWrapper.setIndustry(jobs.get(i).getIndustry());
-                newJobWrapper.setRequiredSkills(jobs.get(i).getRequiredSkills());
+                
+                String[] skillsArray = jobs.get(i).getRequiredSkills().toArray(new String[0]);
+                newJobWrapper.setRequiredSkills(skillsArray);
                 jobWrappers.add(newJobWrapper);
             }
 
@@ -86,19 +88,19 @@ public class JobResource {
         }
     }
 
-    @Path("retrieveJobById/{jobId}")
+    @Path("retrieveJobById/{postingId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveJobById(@PathParam("jobId") Long jobId) {
+    public Response retrieveJobById(@PathParam("postingId") Long postingId) {
         System.out.println("here");
         try {
-            Job job = jobSessionBeanLocal.retrieveJobById(jobId);
+            Job job = jobSessionBeanLocal.retrieveJobById(postingId);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             JobWrapper newJobWrapper = new JobWrapper();
-            newJobWrapper.setJobId(job.getPostingId());
+            newJobWrapper.setPostingId(job.getPostingId());
             newJobWrapper.setJobTitle(job.getJobTitle());
             newJobWrapper.setJobDescription(job.getJobDescription());
             newJobWrapper.setMonthlySalary(job.getMonthlySalary());
@@ -112,7 +114,9 @@ public class JobResource {
             }
 
             newJobWrapper.setIndustry(job.getIndustry());
-            newJobWrapper.setRequiredSkills(job.getRequiredSkills());
+            
+            String[] skillsArray = job.getRequiredSkills().toArray(new String[0]);
+            newJobWrapper.setRequiredSkills(skillsArray);
             
             return Response.status(Response.Status.OK).entity(newJobWrapper).build();
         } catch (Exception ex) {

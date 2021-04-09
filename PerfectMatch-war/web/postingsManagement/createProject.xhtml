@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template=".././template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <div>
+            <h3>Create New Project</h3>
+
+            <h:form id="formCreateNewProject" >
+
+
+                    <p:messages id="messagesCreateNewProject" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectTitle" value="Project Title: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="projectTitle" value="#{postingsManagedBean.newProject.projectTitle}" placeholder="Cool Project" required="true" requiredMessage="Project Title is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectTitle" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="projectDescription" value="#{postingsManagedBean.newProject.projectDescription}" placeholder="This is a cool project" required="true" requiredMessage="Project Description is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectDescription" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="compensation" value="Compensation: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="compensation" value="#{postingsManagedBean.newProject.compensation}" placeholder="1000.00" required="true" requiredMessage="Compensation is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="compensation" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="earliestStartDate" value="Earliest Start Date: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.newProject.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Earliest Start Date is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="earliestStartDate" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="latestStartDate" value="Latest Start Date: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:datePicker id="latestStartDate" value="#{postingsManagedBean.newProject.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>                              
+                            </p:column>
+                            <p:column>
+                                <p:message for="latestStartDate" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="industry" value="Job Industry: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="industry" value="#{postingsManagedBean.newProject.industry}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:message for="industry" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="skills" value="Required Skills: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                
+                                <p:selectManyMenu id="skills" value="#{postingsManagedBean.newProject.requiredSkills}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                </p:selectManyMenu>
+                            </p:column>
+                            <p:column>
+                                <p:message for="skills" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectSpecialisation" value="Project Specialisation: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="projectSpecialisation" value="#{postingsManagedBean.newProject.projectSpecialisation}" placeholder="Specialisation" required="true" requiredMessage="Project Specialisation is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectSpecialisation" />
+                            </p:column>
+                        </p:row>
+
+                       
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear" />&nbsp;
+                                <p:commandButton  value="Create New Project" update="@form" actionListener="#{postingsManagedBean.createNewProject}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

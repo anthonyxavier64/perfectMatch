@@ -12,7 +12,7 @@ import enumeration.Industry;
  * @author Antho
  */
 public class ProjectWrapper {
-    private Long projectId;
+    private Long postingId;
     private String projectTitle;
     private String projectDescription;
     private Double compensation;
@@ -26,8 +26,8 @@ public class ProjectWrapper {
     public ProjectWrapper() {
     }
 
-    public ProjectWrapper(long projectId, String projectTitle, String projectDescription, double compensation, String earliestStartDate, String latestEndDate, Industry industry, String[] requiredSkills, String projectSpecialisation, boolean isComplete) {
-        this.projectId = projectId;
+    public ProjectWrapper(long postingId, String projectTitle, String projectDescription, double compensation, String earliestStartDate, String latestEndDate, Industry industry, String[] requiredSkills, String projectSpecialisation, boolean isComplete) {
+        this.postingId = postingId;
         this.projectTitle = projectTitle;
         this.projectDescription = projectDescription;
         this.compensation = compensation;
@@ -39,12 +39,12 @@ public class ProjectWrapper {
         this.isComplete = isComplete;
     }
 
-    public long getProjectId() {
-        return projectId;
+    public long getPostingId() {
+        return postingId;
     }
 
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
+    public void setPostingId(long postingId) {
+        this.postingId = postingId;
     }
 
     public String getProjectTitle() {

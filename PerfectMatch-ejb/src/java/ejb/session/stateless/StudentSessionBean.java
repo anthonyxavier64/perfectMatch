@@ -52,7 +52,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         em.flush();
         return student;
     }
-    
+
     @Override
     public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException {
         Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
@@ -90,6 +90,10 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         if (student == null) {
             throw new StudentNotFoundException("Student ID " + studentId + " does not exist");
         }
+        student.getApplications().size();
+        student.getPayments().size();
+        student.getOffers().size();
+        student.getReviews().size();
         return student;
     }
 
@@ -97,7 +101,12 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public List<Student> getAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s ORDER BY s.name ASC");
         List<Student> studentEntities = query.getResultList();
-
+        for (Student student : studentEntities) {
+            student.getApplications().size();
+            student.getPayments().size();
+            student.getOffers().size();
+            student.getReviews().size();
+        }
         return studentEntities;
     }
 
@@ -128,7 +137,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return payments;
     }
 
-   
     @Override
     public Student editStudentDetails(Student student) {
         try {
