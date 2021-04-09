@@ -31,16 +31,16 @@
                             <h:outputText value="#{job.postingId}" />
                         </p:column> 
 
-                        <p:column headerText="Job Title" sortBy="#{job.jobTitle}" filterBy="#{job.jobTitle}" filterMatchMode="contains">
-                            <h:outputText value="#{job.jobTitle}" />
+                        <p:column headerText="Job Title" sortBy="#{job.title}" filterBy="#{job.title}" filterMatchMode="contains">
+                            <h:outputText value="#{job.title}" />
                         </p:column>
                         
-                        <p:column headerText="Job Description" sortBy="#{job.jobDescription}" filterBy="#{job.jobDescription}" filterMatchMode="contains">
-                            <h:outputText value="#{job.jobDescription}" />
+                        <p:column headerText="Job Description" sortBy="#{job.description}" filterBy="#{job.description}" filterMatchMode="contains">
+                            <h:outputText value="#{job.description}" />
                         </p:column> 
 
-                        <p:column headerText="Monthly Salary" sortBy="#{job.monthlySalary}" filterBy="#{job.monthlySalary}" filterMatchMode="contains">
-                            <h:outputText value="#{job.monthlySalary}" />
+                        <p:column headerText="Monthly Salary" sortBy="#{job.pay}" filterBy="#{job.pay}" filterMatchMode="contains">
+                            <h:outputText value="#{job.pay}" />
                         </p:column> 
 
                         <p:column headerText="Earliest Start Date" sortBy="#{job.earliestStartDate}" filterBy="#{job.earliestStartDate}" filterMatchMode="contains">
