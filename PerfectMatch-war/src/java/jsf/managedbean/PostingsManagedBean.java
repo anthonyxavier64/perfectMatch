@@ -88,9 +88,13 @@ public class PostingsManagedBean implements Serializable {
     
     private Posting selectedPostingToUpdate;
     private Project selectedProjectToUpdate;
+    private Industry selectedProjectToUpdateIndustry;
+    private List<String> selectedProjectToUpdateRequiredSkills;
+    
     private Job selectedJobToUpdate;
     private Industry selectedJobToUpdateIndustry;
     private List<String> selectedJobToUpdateRequiredSkills;
+    
     private Posting selectedPostingtoDelete;
     private List<Offer> updatedOffers;
     private List<List<String>> listOfSkillSets;
@@ -181,13 +185,17 @@ public class PostingsManagedBean implements Serializable {
     public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException 
     {
         
-        selectedProjectToUpdate = (Project)event.getComponent().getAttributes().get("selectedProjectToUpdate");
-                
-        Offer toAdd = offerSessionBean.retrieveOfferByOfferId(getOfferId());
-        setUpdatedOffers(selectedPostingToUpdate.getOffers());
-        getUpdatedOffers().add(toAdd);
+        setSelectedProjectToUpdate((Project)event.getComponent().getAttributes().get("selectedProjectToUpdate"));
         
-        selectedPostingToUpdate.setOffers(getOffers());
+        System.out.println(getSelectedProjectToUpdate().getPostingId());
+        setSelectedProjectToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
+        setSelectedProjectToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
+        
+        System.out.println(getSelectedProjectToUpdateIndustry());
+
+        getSelectedProjectToUpdate().setIndustry(getSelectedProjectToUpdateIndustry());
+        getSelectedProjectToUpdate().setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
+        postingSessionBean.updatePosting(getSelectedProjectToUpdate());
     }
     
     public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
@@ -203,17 +211,8 @@ public class PostingsManagedBean implements Serializable {
 
         getSelectedJobToUpdate().setIndustry(getSelectedJobToUpdateIndustry());
         getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
-//        .setIndustry(getSelectedJobToUpdateIndustry())
         postingSessionBean.updatePosting(getSelectedJobToUpdate());
-        
-        
-        
-                
-//        Offer toAdd = offerSessionBean.retrieveOfferByOfferId(getOfferId());
-//        setUpdatedOffers(selectedPostingToUpdate.getOffers());
-//        getUpdatedOffers().add(toAdd);
-        
-//        selectedPostingToUpdate.setOffers(getOffers());
+
     }
     
     public void deletePosting(ActionEvent event) 
@@ -222,6 +221,7 @@ public class PostingsManagedBean implements Serializable {
         {
             Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
             setSelectedPostingtoDelete(postingToDelete);
+            System.out.println(getSelectedPostingtoDelete().getPostingId());
             postingSessionBean.deletePosting(getSelectedPostingtoDelete().getPostingId());
             
             getListOfPostings().remove(getSelectedPostingtoDelete());
@@ -231,7 +231,7 @@ public class PostingsManagedBean implements Serializable {
                 getFilteredPostings().remove(getSelectedPostingtoDelete());
             }
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Posting deleted successfully", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirm delete?", null));
         }
         catch(PostingNotFoundException ex)
         {
@@ -426,6 +426,22 @@ public class PostingsManagedBean implements Serializable {
 
     public void setSelectedJobToUpdateRequiredSkills(List<String> selectedJobToUpdateRequiredSkills) {
         this.selectedJobToUpdateRequiredSkills = selectedJobToUpdateRequiredSkills;
+    }
+
+    public Industry getSelectedProjectToUpdateIndustry() {
+        return selectedProjectToUpdateIndustry;
+    }
+
+    public void setSelectedProjectToUpdateIndustry(Industry selectedProjectToUpdateIndustry) {
+        this.selectedProjectToUpdateIndustry = selectedProjectToUpdateIndustry;
+    }
+
+    public List<String> getSelectedProjectToUpdateRequiredSkills() {
+        return selectedProjectToUpdateRequiredSkills;
+    }
+
+    public void setSelectedProjectToUpdateRequiredSkills(List<String> selectedProjectToUpdateRequiredSkills) {
+        this.selectedProjectToUpdateRequiredSkills = selectedProjectToUpdateRequiredSkills;
     }
     
 }

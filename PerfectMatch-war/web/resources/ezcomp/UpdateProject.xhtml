@@ -11,11 +11,11 @@
 
     <cc:implementation>
 
-        <h:form id="formUpdateJob">
+        <h:form id="formUpdateProject">
 
-            <p:dialog id="dialogUpdateJob" widgetVar="dialogUpdateJob" header="Update Job" closable="true">
+            <p:dialog id="dialogUpdateProject" widgetVar="dialogUpdateProject" header="Update Project" closable="true">
 
-                <p:messages id="messagesUpdateJob" redisplay="false" />
+                <p:messages id="messagesUpdateProject" redisplay="false" />
                 
                 <p:panelGrid>
 
@@ -24,7 +24,7 @@
                             <h:outputLabel value="Posting ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{postingsManagedBean.selectedJobToUpdate.postingId}" />
+                            <h:outputText value="#{postingsManagedBean.selectedProjectToUpdate.postingId}" />
                         </p:column>
                     </p:row>
 
@@ -32,28 +32,28 @@
 
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Job Title: " />
+                            <h:outputLabel value="Project Title: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="jobTitle" value="#{postingsManagedBean.selectedJobToUpdate.jobTitle}" required="false" placeholder="Cool Job" />
+                            <p:inputText id="projectTitle" value="#{postingsManagedBean.selectedProjectToUpdate.projectTitle}" required="false" placeholder="Cool Project" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Job Description: " />
+                            <h:outputLabel value="Project Description: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="jobDescription" value="#{postingsManagedBean.selectedJobToUpdate.jobDescription}" required="false" placeholder="Cool Job" />
+                            <p:inputText id="projectDescription" value="#{postingsManagedBean.selectedProjectToUpdate.projectDescription}" required="false" placeholder="Cool Project" />
                         </p:column>
                     </p:row>
 
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Monthly Salary: " />
+                            <h:outputLabel value="Compensation: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="monthlySalary" value="#{postingsManagedBean.selectedJobToUpdate.monthlySalary}" required="false" placeholder="1000.00" />
+                            <p:inputText id="compensation" value="#{postingsManagedBean.selectedProjectToUpdate.compensation}" required="false" placeholder="1000.00" />
                         </p:column>
                     </p:row>
                     
@@ -62,7 +62,7 @@
                             <p:outputLabel value="Earliest Start Date: "/>
                         </p:column>
                         <p:column>
-                            <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.selectedJobToUpdate.earliestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                            <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.earliestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
                         </p:column>
                     </p:row>
 
@@ -71,16 +71,16 @@
                             <p:outputLabel value="Latest Start Date: "/>
                         </p:column>
                         <p:column>
-                            <p:datePicker id="latestStartDate" value="#{postingsManagedBean.selectedJobToUpdate.latestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                            <p:datePicker id="latestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.latestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <p:outputLabel value="Job Industry: "/>
+                            <p:outputLabel value="Project Industry: "/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}" required="false" >
+                            <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}" required="false" >
                                 <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
                             </p:selectOneMenu>
                         </p:column>
@@ -91,18 +91,27 @@
                             <p:outputLabel value="Required Skills: "/>
                         </p:column>
                         <p:column>
-                            <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}" required="true" >
+                            <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}" required="true" >
                                 <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
                             </p:selectManyMenu>
                         </p:column>
                     </p:row>
                     
                     <p:row>
+                        <p:column>
+                            <h:outputLabel value="Specialisation: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="projectSpecialisation" value="#{postingsManagedBean.selectedProjectToUpdate.projectSpecialisation}" required="false" placeholder="Cool stuff" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Update Job" process="@form formViewAllJobs:dataTableViewAllJobs" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
-                                    <f:attribute name="selectedJobToUpdate" value="#{postingsManagedBean.selectedJobToUpdate}" />
-                                    <f:attribute name="selectedJobToUpdateIndustry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}"/>
-                                    <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}"/>
+                                <p:commandButton value="Update Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.doUpdateProject}">
+                                    <f:attribute name="selectedProjectToUpdate" value="#{postingsManagedBean.selectedProjectToUpdate}" />
+                                    <f:attribute name="selectedProjectToUpdateIndustry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"/>
+                                    <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}"/>
                                     
                                 </p:commandButton>
                             </p:column>

@@ -11,11 +11,11 @@
 
     <cc:implementation>
 
-        <h:form id="formDeleteJob">
+        <h:form id="formDeleteProject">
 
-            <p:dialog id="dialogDeleteJob" widgetVar="dialogDeleteJob" header="Delete Job" closable="true">
+            <p:dialog id="dialogDeleteProject" widgetVar="dialogDeleteProject" header="Delete Job" closable="true">
 
-                <p:messages id="messagesDeleteJob" redisplay="false" />
+                <p:messages id="messagesDeleteProject" redisplay="false" />
                 
                 <p:panelGrid>
 
@@ -33,9 +33,9 @@
                     
                     <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Delete Job" process="@form formViewAllJobs:dataTableViewAllJobs" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.deletePosting}">
+                                <p:commandButton value="Delete Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.deletePosting}">
                                     
-                                    <f:attribute name="postingToDelete" value="#{postingsManagedBean.selectedPostingtoDelete}" />
+                                    <f:attribute name="postingToDelete" value="#{offersManagementManagedBean.selectedPostingtoDelete}" />
                                 </p:commandButton>
                             </p:column>
                     </p:row>
