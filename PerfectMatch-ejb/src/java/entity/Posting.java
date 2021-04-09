@@ -5,6 +5,7 @@
  */
 package entity;
 
+import enumeration.Industry;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public abstract class Posting implements Serializable {
     @JoinColumn(nullable = false)
     private StartUp startup;
 
+    
     public Posting() {
         offers = new ArrayList<>();
         applications = new ArrayList<>();

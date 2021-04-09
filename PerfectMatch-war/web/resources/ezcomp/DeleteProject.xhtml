@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:form id="formDeleteProject">
+
+            <p:dialog id="dialogDeleteProject" widgetVar="dialogDeleteProject" header="Delete Job" closable="true">
+
+                <p:messages id="messagesDeleteProject" redisplay="false" />
+                
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Posting ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{postingsManagedBean.selectedPostingtoDelete.postingId}" />
+                        </p:column>
+                    </p:row>
+
+
+                  
+                    
+                    <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Delete Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.deletePosting}">
+                                    
+                                    <f:attribute name="postingToDelete" value="#{offersManagementManagedBean.selectedPostingtoDelete}" />
+                                </p:commandButton>
+                            </p:column>
+                    </p:row>
+
+
+
+                </p:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+    </cc:implementation>
+</html>
