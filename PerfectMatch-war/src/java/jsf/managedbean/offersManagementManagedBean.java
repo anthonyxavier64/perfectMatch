@@ -116,6 +116,7 @@ public class offersManagementManagedBean implements Serializable {
         
         
         getSelectedOfferToUpdate().setStudent(toUpdate);
+        offerSessionBean.updateOffer(getSelectedOfferToUpdate());
     }
     
 //    public void updateOffer(ActionEvent event)
