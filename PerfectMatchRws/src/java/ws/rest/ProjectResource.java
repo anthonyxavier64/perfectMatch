@@ -59,9 +59,9 @@ public class ProjectResource {
             for (int i = 0; i < projects.size(); i++) {
                 ProjectWrapper newProjectWrapper = new ProjectWrapper();
                 newProjectWrapper.setPostingId(projects.get(i).getPostingId());
-                newProjectWrapper.setProjectTitle(projects.get(i).getProjectTitle());
-                newProjectWrapper.setProjectDescription(projects.get(i).getProjectDescription());
-                newProjectWrapper.setCompensation(projects.get(i).getCompensation());
+                newProjectWrapper.setProjectTitle(projects.get(i).getTitle());
+                newProjectWrapper.setProjectDescription(projects.get(i).getDescription());
+                newProjectWrapper.setCompensation(projects.get(i).getPay());
 
                 if (projects.get(i).getEarliestStartDate() != null) {
                     newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(projects.get(i).getEarliestStartDate()));
@@ -102,9 +102,9 @@ public class ProjectResource {
 
             ProjectWrapper newProjectWrapper = new ProjectWrapper();
             newProjectWrapper.setPostingId(project.getPostingId());
-            newProjectWrapper.setProjectTitle(project.getProjectTitle());
-            newProjectWrapper.setProjectDescription(project.getProjectDescription());
-            newProjectWrapper.setCompensation(project.getCompensation());
+            newProjectWrapper.setProjectTitle(project.getTitle());
+            newProjectWrapper.setProjectDescription(project.getDescription());
+            newProjectWrapper.setCompensation(project.getPay());
 
             if (project.getEarliestStartDate() != null) {
                 newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(project.getEarliestStartDate()));

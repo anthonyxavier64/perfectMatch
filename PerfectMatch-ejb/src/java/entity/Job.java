@@ -21,99 +21,11 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 public class Job extends Posting implements Serializable {
-    
-    @NotNull
-    @Column(nullable = false)
-    private String jobTitle;
-    
-    @NotNull
-    @Column(nullable = false)
-    private String jobDescription;
-    
-    @NotNull
-    @Column(nullable = false)
-    private Double monthlySalary;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date earliestStartDate;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date latestStartDate;
-    
-    @NotNull
-    @Column(nullable = false)
-    private Industry industry;
-    
-    private List<String> requiredSkills;
-
     public Job() {
-        requiredSkills = new ArrayList<>();
+        super();
     }
 
-    public Job(String jobTitle, String jobDescription, Double monthlySalary, Date earlietStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills) {
-        this.jobTitle = jobTitle;
-        this.jobDescription = jobDescription;
-        this.monthlySalary = monthlySalary;
-        this.earliestStartDate = earlietStartDate;
-        this.latestStartDate = latestStartDate;
-        this.industry = industry;
-        this.requiredSkills = requiredSkills;
+    public Job(String title, String description, Double pay, Date earliestStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills) {
+        super(title, description, pay, industry, requiredSkills, earliestStartDate, latestStartDate);
     }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getJobDescription() {
-        return jobDescription;
-    }
-
-    public void setJobDescription(String jobDescription) {
-        this.jobDescription = jobDescription;
-    }
-
-    public Double getMonthlySalary() {
-        return monthlySalary;
-    }
-
-    public void setMonthlySalary(Double monthlySalary) {
-        this.monthlySalary = monthlySalary;
-    }
-
-    public Date getEarliestStartDate() {
-        return earliestStartDate;
-    }
-
-    public void setEarliestStartDate(Date earliestStartDate) {
-        this.earliestStartDate = earliestStartDate;
-    }
-
-    public Date getLatestStartDate() {
-        return latestStartDate;
-    }
-
-    public void setLatestStartDate(Date latestStartDate) {
-        this.latestStartDate = latestStartDate;
-    }
-
-    public Industry getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
-    public List<String> getRequiredSkills() {
-        return requiredSkills;
-    }
-
-    public void setRequiredSkills(List<String> requiredSkills) {
-        this.requiredSkills = requiredSkills;
-    }
-
 }
