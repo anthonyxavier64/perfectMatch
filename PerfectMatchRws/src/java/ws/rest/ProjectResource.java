@@ -87,14 +87,14 @@ public class ProjectResource {
         }
     }
 
-    @Path("retrieveProjectById/{projectId}")
+    @Path("retrieveProjectById/{postingId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveProjectById(@PathParam("projectId") Long projectId) {
+    public Response retrieveProjectById(@PathParam("postingId") Long postingId) {
         System.out.println("here");
         try {
-            Project project = projectSessionBeanLocal.retrieveProjectById(projectId);
+            Project project = projectSessionBeanLocal.retrieveProjectById(postingId);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

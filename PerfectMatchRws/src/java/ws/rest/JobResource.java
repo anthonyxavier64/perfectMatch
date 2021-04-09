@@ -86,14 +86,14 @@ public class JobResource {
         }
     }
 
-    @Path("retrieveJobById/{jobId}")
+    @Path("retrieveJobById/{postingId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveJobById(@PathParam("jobId") Long jobId) {
+    public Response retrieveJobById(@PathParam("postingId") Long postingId) {
         System.out.println("here");
         try {
-            Job job = jobSessionBeanLocal.retrieveJobById(jobId);
+            Job job = jobSessionBeanLocal.retrieveJobById(postingId);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
