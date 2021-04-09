@@ -23,7 +23,7 @@
                                 <p:outputLabel for="jobTitle" value="Job Title: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="jobTitle" value="#{postingsManagedBean.newJob.jobTitle}" placeholder="Cool Job" required="true" requiredMessage="Job Title is required" />
+                                <p:inputText id="jobTitle" value="#{postingsManagedBean.newJob.title}" placeholder="Cool Job" required="true" requiredMessage="Job Title is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="jobTitle" />
@@ -35,7 +35,7 @@
                                 <p:outputLabel for="jobDescription" value="Job Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="jobDescription" value="#{postingsManagedBean.newJob.jobDescription}" placeholder="This is a cool job" required="true" requiredMessage="Job Description is required" />
+                                <p:inputText id="jobDescription" value="#{postingsManagedBean.newJob.description}" placeholder="This is a cool job" required="true" requiredMessage="Job Description is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="jobDescription" />
@@ -47,7 +47,7 @@
                                 <p:outputLabel for="monthlySalary" value="Monthly Salary: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="monthlySalary" value="#{postingsManagedBean.newJob.monthlySalary}" placeholder="1000.00" required="true" requiredMessage="Monthly Salary is required"/>
+                                <p:inputText id="monthlySalary" value="#{postingsManagedBean.newJob.pay}" placeholder="1000.00" required="true" requiredMessage="Monthly Salary is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="monthlySalary" />

@@ -144,8 +144,10 @@ public class PostingsManagedBean implements Serializable {
     
     public void createNewProject(ActionEvent event) throws CreateNewPostingException, ProjectNotFoundException
     {                     
-        StartUp currentStartUp = (StartUp)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentStartup");
-        System.out.println(currentStartUp.getEmail());
+        StartUp currentStartUp = (StartUp) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("currentStartUp");
+        
+        System.out.println(currentStartUp.getCompanyName());
         
         setStartUpId(currentStartUp.getStartupId());  
         
@@ -165,8 +167,10 @@ public class PostingsManagedBean implements Serializable {
     public void createNewJob(ActionEvent event) throws CreateNewPostingException, JobNotFoundException, StartUpNotFoundException
     {   
         
-        StartUp currentStartUp = (StartUp)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentStartup");
-        System.out.println(currentStartUp.getEmail());
+        StartUp currentStartUp = (StartUp) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("currentStartUp");
+        
+        System.out.println(currentStartUp.getCompanyName());
         
         setStartUpId(currentStartUp.getStartupId());            
         
