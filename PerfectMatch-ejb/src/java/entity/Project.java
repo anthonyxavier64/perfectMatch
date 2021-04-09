@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -21,31 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 public class Project extends Posting implements Serializable {
-
-    @NotNull
-    @Column(nullable = false)
-    private String projectTitle;
-
-    @NotNull
-    @Column(nullable = false)
-    private String projectDescription;
-
-    @NotNull
-    @Column(nullable = false)
-    private Double compensation;
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date earliestStartDate;
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date latestStartDate;
-
-    @NotNull
-    @Column(nullable = false)
-    private Industry industry;
-
-    private List<String> requiredSkills;
-
+    
     private String projectSpecialisation;
     
     private List<String> milestones;
@@ -55,86 +30,16 @@ public class Project extends Posting implements Serializable {
     private boolean isComplete;
 
     public Project() {
+        super();
         milestones = new ArrayList<>();
-        requiredSkills = new ArrayList<>();
+        isComplete = false;
     }
 
-    public Project(String projectTitle, String projectDescription, Double compensation, Industry industry, boolean isComplete) {
-        this.projectTitle = projectTitle;
-        this.projectDescription = projectDescription;
-        this.compensation = compensation;
-        this.industry = industry;
-        this.isComplete = isComplete;
-    }
-
-    public Project(String projectTitle, String projectDescription, Double compensation, Date earliestStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills, String projectSpecialisation, boolean isComplete) {
-        this.projectTitle = projectTitle;
-        this.projectDescription = projectDescription;
-        this.compensation = compensation;
-        this.earliestStartDate = earliestStartDate;
-        this.latestStartDate = latestStartDate;
-        this.industry = industry;
-        this.requiredSkills = requiredSkills;
+    public Project(String title, String description, Double pay, Date earliestStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills, String projectSpecialisation) {
+        super(title, description, pay, industry, requiredSkills, earliestStartDate, latestStartDate);
+        this.isComplete = false;
+        this.milestones = new ArrayList<>();
         this.projectSpecialisation = projectSpecialisation;
-        this.isComplete = isComplete;
-    }
-    
-    
-
-    public String getProjectTitle() {
-        return projectTitle;
-    }
-
-    public void setProjectTitle(String projectTitle) {
-        this.projectTitle = projectTitle;
-    }
-
-    public String getProjectDescription() {
-        return projectDescription;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public Double getCompensation() {
-        return compensation;
-    }
-
-    public void setCompensation(Double compensation) {
-        this.compensation = compensation;
-    }
-
-    public Date getEarliestStartDate() {
-        return earliestStartDate;
-    }
-
-    public void setEarliestStartDate(Date earliestStartDate) {
-        this.earliestStartDate = earliestStartDate;
-    }
-
-    public Date getLatestStartDate() {
-        return latestStartDate;
-    }
-
-    public void setLatestStartDate(Date latestStartDate) {
-        this.latestStartDate = latestStartDate;
-    }
-
-    public Industry getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
-    public List<String> getRequiredSkills() {
-        return requiredSkills;
-    }
-
-    public void setRequiredSkills(List<String> requiredSkills) {
-        this.requiredSkills = requiredSkills;
     }
 
     public String getProjectSpecialisation() {
@@ -145,14 +50,6 @@ public class Project extends Posting implements Serializable {
         this.projectSpecialisation = projectSpecialisation;
     }
 
-    public boolean isIsComplete() {
-        return isComplete;
-    }
-
-    public void setIsComplete(boolean isComplete) {
-        this.isComplete = isComplete;
-    }
-
     public List<String> getMilestones() {
         return milestones;
     }
@@ -160,5 +57,12 @@ public class Project extends Posting implements Serializable {
     public void setMilestones(List<String> milestones) {
         this.milestones = milestones;
     }
-    
+
+    public boolean isIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(boolean isComplete) {
+        this.isComplete = isComplete;
+    }
 }
