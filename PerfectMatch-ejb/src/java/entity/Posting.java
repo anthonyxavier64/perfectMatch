@@ -71,6 +71,7 @@ public abstract class Posting implements Serializable {
     @JoinColumn(nullable = false)
     private StartUp startup;
 
+    
     public Posting() {
         offers = new ArrayList<>();
         applications = new ArrayList<>();

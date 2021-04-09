@@ -13,7 +13,7 @@
         <div>
             <h3> View All Jobs </h3>
             <h:form id="formViewAllJobs" >
-                
+                <p:messages id="messages" redisplay="false" closable="true" />
                 <p:panel header="View All Jobs">
                     <p:dataTable id="dataTableViewAllJobs" widgetVar="dataTableViewAllJobs" value="#{postingsManagedBean.listOfJobs}" var="job" rowKey="#{job.postingId}" rowIndexVar="row"
                                  filteredValue="#{postingsManagedBean.filteredPostings}"
@@ -31,12 +31,16 @@
                             <h:outputText value="#{job.postingId}" />
                         </p:column> 
 
-                        <p:column headerText="Job Title" sortBy="#{job.jobTitle}" filterBy="#{job.jobTitle}" filterMatchMode="contains">
-                            <h:outputText value="#{job.jobTitle}" />
+                        <p:column headerText="Job Title" sortBy="#{job.title}" filterBy="#{job.title}" filterMatchMode="contains">
+                            <h:outputText value="#{job.title}" />
+                        </p:column>
+                        
+                        <p:column headerText="Job Description" sortBy="#{job.description}" filterBy="#{job.description}" filterMatchMode="contains">
+                            <h:outputText value="#{job.description}" />
                         </p:column> 
 
-                        <p:column headerText="Monthly Salary" sortBy="#{job.monthlySalary}" filterBy="#{job.monthlySalary}" filterMatchMode="contains">
-                            <h:outputText value="#{job.monthlySalary}" />
+                        <p:column headerText="Monthly Salary" sortBy="#{job.pay}" filterBy="#{job.pay}" filterMatchMode="contains">
+                            <h:outputText value="#{job.pay}" />
                         </p:column> 
 
                         <p:column headerText="Earliest Start Date" sortBy="#{job.earliestStartDate}" filterBy="#{job.earliestStartDate}" filterMatchMode="contains">
@@ -60,11 +64,27 @@
                         <p:column headerText="Industry" sortBy="#{job.industry}" filterBy="#{job.industry}" filterMatchMode="contains">
                             <h:outputText value="#{job.industry}" />
                         </p:column> 
+                        
+                        <p:column headerText="Action">
+
+                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateJob}" update="ccUpdateJob:formUpdateJob" oncomplete="PF('dialogUpdateJob').show()" icon="ui-icon-pencil" title="Update">
+                                <f:attribute name="selectedJobToUpdate" value="#{job}" />
+                                <f:attribute name="selectedJobToUpdateIndustry" value="#{job.industry}"/>
+                                <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{job.requiredSkills}"/>
+                            </p:commandButton>
+
+                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="ccDeleteJob:formDeleteJob" oncomplete="PF('dialogDeleteJob').show()" icon="ui-icon-trash" title="Delete">
+                                <f:attribute name="postingToDelete" value="#{job}" />
+                            </p:commandButton>
+                        </p:column>
 
                     </p:dataTable>
                 </p:panel>
+                
+    
             </h:form>
-            
+            <ez:UpdateJob id="ccUpdateJob"/>
+            <ez:DeleteJob id="ccDeleteJob"/>
         </div>
 
 
