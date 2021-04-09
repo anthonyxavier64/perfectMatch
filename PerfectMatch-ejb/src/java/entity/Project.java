@@ -55,13 +55,11 @@ public class Project extends Posting implements Serializable {
     private boolean isComplete;
 
     public Project() {
-        super();
         milestones = new ArrayList<>();
         requiredSkills = new ArrayList<>();
     }
 
     public Project(String projectTitle, String projectDescription, Double compensation, Industry industry, boolean isComplete) {
-        super();
         this.projectTitle = projectTitle;
         this.projectDescription = projectDescription;
         this.compensation = compensation;

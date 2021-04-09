@@ -47,12 +47,10 @@ public class Job extends Posting implements Serializable {
     private List<String> requiredSkills;
 
     public Job() {
-        super();
         requiredSkills = new ArrayList<>();
     }
 
     public Job(String jobTitle, String jobDescription, Double monthlySalary, Date earlietStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills) {
-        super();
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.monthlySalary = monthlySalary;
