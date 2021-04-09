@@ -24,73 +24,33 @@
                             <h:outputLabel value="Offer ID: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="offerId" value="#{viewOfferManagedBean.offerEntityToView.offerId}" placeholder="0000" />
+                            <h:outputText value="#{offersManagementManagedBean.selectedOfferToUpdate.offerId}" />
                         </p:column>
                     </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Offer Message: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="offerMessage" value="#{viewOfferManagedBean.offerEntityToView.offerMessage}" placeholder="Offer Message" />
-                        </p:column>
-                    </p:row>
+
 
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Offered Student ID: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="offeredStudentId" value="#{viewOfferManagedBean.offerEntityToView.student.studentId}" placeholder="0000" />
+                            <p:inputText id="offeredStudentId" value="#{offersManagementManagedBean.studentIdUpdate}" required="false" placeholder="0000" />
                         </p:column>
                     </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Offered Student Name: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="offeredStudentName" value="#{viewOfferManagedBean.offerEntityToView.student.name}" placeholder="Name" />
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Associated Posting: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="associatedPosting" value="#{viewOfferManagedBean.offerEntityToView.posting.postingId}" placeholder="0000" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Offer Status: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="offerStatus" value="#{viewOfferManagedBean.offerEntityToView.offerStatus}" placeholder="PENDING/ACCEPTED/REJECTED" />
-                        </p:column>
-                    </p:row>
+                  
                     
                     <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Update Offer" update="@form formViewAllOffers:dataTableViewAllOffers" actionListener="#{offersManagementManagedBean.doUpdateOffer}" oncomplete="PF('dialogUpdateOffer').show();" />
+                                <p:commandButton value="Update Offer" process="@form formViewAllOffers:dataTableViewAllOffers" update="@form formViewAllOffers:dataTableViewAllOffers" actionListener="#{offersManagementManagedBean.doUpdateOffer}">
+                                    <f:attribute name="selectedOfferToUpdate" value="#{offersManagementManagedBean.selectedOfferToUpdate}" />
+                                    <f:attribute name="studentToUpdate" value="#{offersManagementManagedBean.studentIdUpdate}" />
+                                </p:commandButton>
                             </p:column>
                     </p:row>
 
 
-
-<!--                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Tag(s): " />
-                        </p:column>
-                        <p:column>
-                            <p:dataList value="#{viewProductManagedBean.productEntityToView.tagEntities}" var="tag" type="unordered">
-                                #{tag.name}
-                            </p:dataList>
-                        </p:column>
-                    </p:row>-->
 
                 </p:panelGrid>
 

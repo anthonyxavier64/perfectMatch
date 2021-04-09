@@ -12,7 +12,7 @@ import enumeration.Industry;
  * @author yappeizhen
  */
 public class JobWrapper {
-    private Long jobId;
+    private Long postingId;
     private String jobTitle;
     private String jobDescription;
     private Double monthlySalary;
@@ -80,12 +80,12 @@ public class JobWrapper {
         this.requiredSkills = requiredSkills;
     }
 
-    public Long getJobId() {
-        return jobId;
+    public Long getPostingId() {
+        return postingId;
     }
 
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
+    public void setPostingId(Long postingId) {
+        this.postingId = postingId;
     }
     
 }

@@ -36,14 +36,6 @@
                             <h:outputText value="#{student.email}" />
                         </p:column> 
 
-                        <p:column headerText="Relevant Skills" sortBy="#{student.relevantSkills}" filterBy="#{student.relevantSkills}" filterMatchMode="contains">
-                            <h:outputText value="#{student.relevantSkills}" />
-                        </p:column> 
-
-                        <p:column headerText="Availability Period" sortBy="#{student.availabiltiyPeriod}" filterBy="#{student.availabiltiyPeriod}" filterMatchMode="contains">
-                            <h:outputText value="#{student.availabiltiyPeriod}" />
-                        </p:column> 
-
 
                         <p:column headerText="View Details">
                             <p:commandButton update="ccViewStudent:formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View">
