@@ -87,6 +87,11 @@ public class PostingsManagedBean implements Serializable {
     private Long studentId;
     
     private Posting selectedPostingToUpdate;
+    private Project selectedProjectToUpdate;
+    private Job selectedJobToUpdate;
+    private Industry selectedJobToUpdateIndustry;
+    private List<String> selectedJobToUpdateRequiredSkills;
+    private Posting selectedPostingtoDelete;
     private List<Offer> updatedOffers;
     private List<List<String>> listOfSkillSets;
     
@@ -176,7 +181,7 @@ public class PostingsManagedBean implements Serializable {
     public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException 
     {
         
-        selectedPostingToUpdate = (Project)event.getComponent().getAttributes().get("selectedProjectToUpdate");
+        selectedProjectToUpdate = (Project)event.getComponent().getAttributes().get("selectedProjectToUpdate");
                 
         Offer toAdd = offerSessionBean.retrieveOfferByOfferId(getOfferId());
         setUpdatedOffers(selectedPostingToUpdate.getOffers());
@@ -188,13 +193,27 @@ public class PostingsManagedBean implements Serializable {
     public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
     {
         
-        selectedPostingToUpdate = (Job)event.getComponent().getAttributes().get("selectedJobToUpdate");
-                
-        Offer toAdd = offerSessionBean.retrieveOfferByOfferId(getOfferId());
-        setUpdatedOffers(selectedPostingToUpdate.getOffers());
-        getUpdatedOffers().add(toAdd);
+        setSelectedJobToUpdate((Job)event.getComponent().getAttributes().get("selectedJobToUpdate"));
         
-        selectedPostingToUpdate.setOffers(getOffers());
+        System.out.println(getSelectedJobToUpdate().getPostingId());
+        setSelectedJobToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedJobToUpdateIndustry"));
+        setSelectedJobToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
+        
+        System.out.println(getSelectedJobToUpdateIndustry());
+
+        getSelectedJobToUpdate().setIndustry(getSelectedJobToUpdateIndustry());
+        getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
+//        .setIndustry(getSelectedJobToUpdateIndustry())
+        postingSessionBean.updatePosting(getSelectedJobToUpdate());
+        
+        
+        
+                
+//        Offer toAdd = offerSessionBean.retrieveOfferByOfferId(getOfferId());
+//        setUpdatedOffers(selectedPostingToUpdate.getOffers());
+//        getUpdatedOffers().add(toAdd);
+        
+//        selectedPostingToUpdate.setOffers(getOffers());
     }
     
     public void deletePosting(ActionEvent event) 
@@ -202,13 +221,14 @@ public class PostingsManagedBean implements Serializable {
         try
         {
             Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
-            postingSessionBean.deletePosting(postingToDelete.getPostingId());
+            setSelectedPostingtoDelete(postingToDelete);
+            postingSessionBean.deletePosting(getSelectedPostingtoDelete().getPostingId());
             
-            getListOfPostings().remove(postingToDelete);
+            getListOfPostings().remove(getSelectedPostingtoDelete());
             
             if(getFilteredPostings() != null)
             {
-                getFilteredPostings().remove(postingToDelete);
+                getFilteredPostings().remove(getSelectedPostingtoDelete());
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Posting deleted successfully", null));
@@ -366,6 +386,46 @@ public class PostingsManagedBean implements Serializable {
 
     public void setStartUpLoginManagedBean(StartupLoginManagedBean startUpLoginManagedBean) {
         this.startUpLoginManagedBean = startUpLoginManagedBean;
+    }
+
+    public Posting getSelectedPostingtoDelete() {
+        return selectedPostingtoDelete;
+    }
+
+    public void setSelectedPostingtoDelete(Posting selectedPostingtoDelete) {
+        this.selectedPostingtoDelete = selectedPostingtoDelete;
+    }
+
+    public Industry getSelectedJobToUpdateIndustry() {
+        return selectedJobToUpdateIndustry;
+    }
+
+    public void setSelectedJobToUpdateIndustry(Industry selectedJobToUpdateIndustry) {
+        this.selectedJobToUpdateIndustry = selectedJobToUpdateIndustry;
+    }
+
+    public Project getSelectedProjectToUpdate() {
+        return selectedProjectToUpdate;
+    }
+
+    public void setSelectedProjectToUpdate(Project selectedProjectToUpdate) {
+        this.selectedProjectToUpdate = selectedProjectToUpdate;
+    }
+
+    public Job getSelectedJobToUpdate() {
+        return selectedJobToUpdate;
+    }
+
+    public void setSelectedJobToUpdate(Job selectedJobToUpdate) {
+        this.selectedJobToUpdate = selectedJobToUpdate;
+    }
+
+    public List<String> getSelectedJobToUpdateRequiredSkills() {
+        return selectedJobToUpdateRequiredSkills;
+    }
+
+    public void setSelectedJobToUpdateRequiredSkills(List<String> selectedJobToUpdateRequiredSkills) {
+        this.selectedJobToUpdateRequiredSkills = selectedJobToUpdateRequiredSkills;
     }
     
 }
