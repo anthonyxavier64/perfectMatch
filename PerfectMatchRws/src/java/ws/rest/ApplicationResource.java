@@ -23,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import util.exception.RepeatedApplicationException;
 import ws.datamodel.ApplicationWrapper;
 
 /**
@@ -68,6 +69,8 @@ public class ApplicationResource {
             Application createdApp = applicationSessionBean.createNewApplication(newApp, app.getStudentId(), app.getPostingId());
             app.setApplicationId(createdApp.getApplicationId());
 
+            return Response.status(Status.OK).entity(app).build();
+        } catch (RepeatedApplicationException ex) {
             return Response.status(Status.OK).entity(app).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
