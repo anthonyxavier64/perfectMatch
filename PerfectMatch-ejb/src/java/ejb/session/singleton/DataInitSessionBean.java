@@ -7,6 +7,7 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.JobSessionBeanLocal;
 import ejb.session.stateless.OfferSessionBeanLocal;
+import ejb.session.stateless.PaymentSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 
@@ -28,6 +29,7 @@ import ejb.session.stateless.StartUpSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Job;
 import entity.Offer;
+import entity.Payment;
 import entity.Project;
 import entity.Student;
 import enumeration.OfferStatus;
@@ -39,9 +41,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.exception.CreateNewOfferException;
+import util.exception.CreateNewPaymentException;
 import util.exception.CreateNewPostingException;
 import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
+import util.exception.PaymentNotFoundException;
 import util.exception.PostingNotFoundException;
 import util.exception.StudentNotFoundException;
 
@@ -53,6 +57,9 @@ import util.exception.StudentNotFoundException;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private PaymentSessionBeanLocal paymentSessionBean;
 
     @EJB
     private JobSessionBeanLocal jobSessionBean;
@@ -91,6 +98,7 @@ public class DataInitSessionBean {
             studentSessionBean.retrieveStudentByStudentId(1l);
             postingSessionBean.retrievePostingByPostingId(1l);
             offerSessionBean.retrieveOfferByOfferId(1l);
+            paymentSessionBean.retrievePaymentByPaymentId(1l);
 
         } catch (StartUpNotFoundException ex) {
             initStartUps();
@@ -100,6 +108,8 @@ public class DataInitSessionBean {
             initOffers();
         } catch (PostingNotFoundException ex) {
 //            initProjects();
+        } catch (PaymentNotFoundException ex) {
+            initPayments();
         } finally {
             System.out.println("**************** DataInitSessionBean.postConstruct");
         }
@@ -325,6 +335,25 @@ public class DataInitSessionBean {
         }
     }
 
+    private void initPayments() {
+        try {
+        Payment payment1 = new Payment(1000D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-02"));
+        Payment payment2 = new Payment(1200D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-12-15"));
+        Payment payment3 = new Payment(2100D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-11-28"));
+        Payment payment4 = new Payment(3600D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-03-03"));
+        
+        paymentSessionBean.createNewPayment(payment1, 1l, 1l, 1l);
+        paymentSessionBean.createNewPayment(payment2, 1l, 1l, 2l);
+        paymentSessionBean.createNewPayment(payment3, 1l, 1l, 3l);
+        paymentSessionBean.createNewPayment(payment4, 1l, 1l, 4l);
+        } catch (ParseException |
+                InputDataValidationException |
+                CreateNewPaymentException ex) {
+            System.out.println("There was an error in initialising the Payments: "
+                    + ex.getMessage());
+        }
+    }
+    
 //    private void initProjects() {
 //        try {
 //            postingSessionBean.
