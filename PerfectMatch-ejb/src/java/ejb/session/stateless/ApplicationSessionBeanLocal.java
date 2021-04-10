@@ -13,6 +13,7 @@ import javax.ejb.Local;
 import util.exception.ApplicationNotFoundException;
 import util.exception.CreateNewApplicationException;
 import util.exception.InputDataValidationException;
+import util.exception.RepeatedApplicationException;
 
 /**
  *
@@ -21,7 +22,7 @@ import util.exception.InputDataValidationException;
 @Local
 public interface ApplicationSessionBeanLocal {
 
-    public Application createNewApplication(Application app, Long studentId, Long postingId) throws InputDataValidationException, CreateNewApplicationException;
+    public Application createNewApplication(Application app, Long studentId, Long postingId) throws RepeatedApplicationException, InputDataValidationException, CreateNewApplicationException;
 
     public List<Application> retrieveAllApplication();
 

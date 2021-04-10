@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:form id="formUpdateProject">
+
+            <p:dialog id="dialogUpdateProject" widgetVar="dialogUpdateProject" header="Update Project" closable="true">
+
+                <p:messages id="messagesUpdateProject" redisplay="false" />
+                
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Posting ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{postingsManagedBean.selectedProjectToUpdate.postingId}" />
+                        </p:column>
+                    </p:row>
+
+
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Title: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="title" value="#{postingsManagedBean.selectedProjectToUpdate.title}" required="false" placeholder="Cool Project" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="description" value="#{postingsManagedBean.selectedProjectToUpdate.description}" required="false" placeholder="Cool Project" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Compensation: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="pay" value="#{postingsManagedBean.selectedProjectToUpdate.pay}" required="false" placeholder="1000.00" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Earliest Start Date: "/>
+                        </p:column>
+                        <p:column>
+                            <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.earliestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Latest Start Date: "/>
+                        </p:column>
+                        <p:column>
+                            <p:datePicker id="latestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.latestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Project Industry: "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}" required="false" >
+                                <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Required Skills: "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}" required="true" >
+                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                            </p:selectManyMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Specialisation: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="projectSpecialisation" value="#{postingsManagedBean.selectedProjectToUpdate.projectSpecialisation}" required="false" placeholder="Cool stuff" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Update Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.doUpdateProject}">
+                                    <f:attribute name="selectedProjectToUpdate" value="#{postingsManagedBean.selectedProjectToUpdate}" />
+                                    <f:attribute name="selectedProjectToUpdateIndustry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"/>
+                                    <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}"/>
+                                    
+                                </p:commandButton>
+                            </p:column>
+                    </p:row>
+
+
+
+                </p:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+    </cc:implementation>
+</html>

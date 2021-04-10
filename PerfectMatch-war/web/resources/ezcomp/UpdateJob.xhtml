@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:form id="formUpdateJob">
+
+            <p:dialog id="dialogUpdateJob" widgetVar="dialogUpdateJob" header="Update Job" closable="true">
+
+                <p:messages id="messagesUpdateJob" redisplay="false" />
+                
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Posting ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{postingsManagedBean.selectedJobToUpdate.postingId}" />
+                        </p:column>
+                    </p:row>
+
+
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Job Title: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="title" value="#{postingsManagedBean.selectedJobToUpdate.title}" required="false" placeholder="Cool Job" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Job Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="description" value="#{postingsManagedBean.selectedJobToUpdate.description}" required="false" placeholder="Cool Job" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Monthly Salary: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="pay" value="#{postingsManagedBean.selectedJobToUpdate.pay}" required="false" placeholder="1000.00" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Earliest Start Date: "/>
+                        </p:column>
+                        <p:column>
+                            <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.selectedJobToUpdate.earliestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Latest Start Date: "/>
+                        </p:column>
+                        <p:column>
+                            <p:datePicker id="latestStartDate" value="#{postingsManagedBean.selectedJobToUpdate.latestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Job Industry: "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}" required="false" >
+                                <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Required Skills: "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}" required="true" >
+                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                            </p:selectManyMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Update Job" process="@form formViewAllJobs:dataTableViewAllJobs" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
+                                    <f:attribute name="selectedJobToUpdate" value="#{postingsManagedBean.selectedJobToUpdate}" />
+                                    <f:attribute name="selectedJobToUpdateIndustry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}"/>
+                                    <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}"/>
+                                    
+                                </p:commandButton>
+                            </p:column>
+                    </p:row>
+
+
+
+                </p:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+    </cc:implementation>
+</html>

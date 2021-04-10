@@ -60,9 +60,9 @@ public class JobResource {
             for (int i = 0; i < jobs.size(); i++) {
                 JobWrapper newJobWrapper = new JobWrapper();
                 newJobWrapper.setPostingId(jobs.get(i).getPostingId());
-                newJobWrapper.setJobTitle(jobs.get(i).getJobTitle());
-                newJobWrapper.setJobDescription(jobs.get(i).getJobDescription());
-                newJobWrapper.setMonthlySalary(jobs.get(i).getMonthlySalary());
+                newJobWrapper.setTitle(jobs.get(i).getTitle());
+                newJobWrapper.setDescription(jobs.get(i).getDescription());
+                newJobWrapper.setPay(jobs.get(i).getPay());
 
                 if (jobs.get(i).getEarliestStartDate() != null) {
                     newJobWrapper.setEarliestStartDate(simpleDateFormat.format(jobs.get(i).getEarliestStartDate()));
@@ -101,9 +101,9 @@ public class JobResource {
 
             JobWrapper newJobWrapper = new JobWrapper();
             newJobWrapper.setPostingId(job.getPostingId());
-            newJobWrapper.setJobTitle(job.getJobTitle());
-            newJobWrapper.setJobDescription(job.getJobDescription());
-            newJobWrapper.setMonthlySalary(job.getMonthlySalary());
+            newJobWrapper.setTitle(job.getTitle());
+            newJobWrapper.setDescription(job.getDescription());
+            newJobWrapper.setPay(job.getPay());
 
             if (job.getEarliestStartDate() != null) {
                 newJobWrapper.setEarliestStartDate(simpleDateFormat.format(job.getEarliestStartDate()));

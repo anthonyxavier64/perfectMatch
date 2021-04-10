@@ -23,7 +23,7 @@
                                 <p:outputLabel for="projectTitle" value="Project Title: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="projectTitle" value="#{postingsManagedBean.newProject.projectTitle}" placeholder="Cool Project" required="true" requiredMessage="Project Title is required" />
+                                <p:inputText id="projectTitle" value="#{postingsManagedBean.newProject.title}" placeholder="Cool Project" required="true" requiredMessage="Project Title is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="projectTitle" />
@@ -35,7 +35,7 @@
                                 <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="projectDescription" value="#{postingsManagedBean.newProject.projectDescription}" placeholder="This is a cool project" required="true" requiredMessage="Project Description is required" />
+                                <p:inputText id="projectDescription" value="#{postingsManagedBean.newProject.description}" placeholder="This is a cool project" required="true" requiredMessage="Project Description is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="projectDescription" />
@@ -47,7 +47,7 @@
                                 <p:outputLabel for="compensation" value="Compensation: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="compensation" value="#{postingsManagedBean.newProject.compensation}" placeholder="1000.00" required="true" requiredMessage="Compensation is required"/>
+                                <p:inputText id="compensation" value="#{postingsManagedBean.newProject.pay}" placeholder="1000.00" required="true" requiredMessage="Compensation is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="compensation" />
