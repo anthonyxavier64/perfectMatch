@@ -21,6 +21,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import util.exception.CreateNewStartUpException;
+import util.exception.IncorrectStartUpPasswordException;
 import util.exception.InputDataValidationException;
 
 /**
@@ -46,6 +47,8 @@ public class StartupManagementManagedBean implements Serializable {
     private StartUp currentStartUp;
     private Industry updateIndustry;
     private StartUpLocation updateLocation;
+    private String passwordToVerify;
+    private String newPassword;
 
     /**
      * Creates a new instance of StartupManagementManagedBean
@@ -71,14 +74,14 @@ public class StartupManagementManagedBean implements Serializable {
         String profilePicturePath = FacesContext
                 .getCurrentInstance()
                 .getExternalContext()
-                .getRealPath("")
-                + System.getProperty("file.separator")
-                + "resources"
-                + System.getProperty("file.separator")
-                + "images"
+                .getInitParameter("alternatedocroot_1")
                 + System.getProperty("file.separator")
                 + currentStartup.getStartupId()
                 + "_ProfilePicture";
+
+        System.out.println("********** StartupManagementManagedBean.setProfilePic Profile Pic Path: "
+                + profilePicturePath);
+
         boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
 
         boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
@@ -122,13 +125,53 @@ public class StartupManagementManagedBean implements Serializable {
         }
     }
 
+    public void verifyPassword(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.verifyPassword");
+        try {
+            if (!passwordToVerify.equals(currentStartUp.getPassword())) {
+                System.out.println("********** StartupManagementManagedBean.verifyPassword.incorrect password");
+                throw new IncorrectStartUpPasswordException("Incorrect Pasword!");
+            } else {
+                System.out.println("********** StartupManagementManagedBean.verifyPassword.password verified");
+                changePassword();
+            }
+        } catch (IncorrectStartUpPasswordException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), null));
+        }
+    }
+
+    private void changePassword() {
+        currentStartUp.setPassword(newPassword);
+        startUpSessionBean.updateStartUp(currentStartUp);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been changed successfully!", null));
+    }
+
     public void updateStartUp(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.updateStartUp");
+
         currentStartUp.setIndustry(updateIndustry);
         currentStartUp.setStartupLocation(updateLocation);
         startUpSessionBean.updateStartUp(currentStartUp);
 
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                 .put("currentStartUp", currentStartUp);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "StartUp has been updated successfully!", null));
+    }
+
+    public String getPasswordToVerify() {
+        return passwordToVerify;
+    }
+
+    public void setPasswordToVerify(String passwordToVerify) {
+        this.passwordToVerify = passwordToVerify;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public StartUp getCurrentStartUp() {
