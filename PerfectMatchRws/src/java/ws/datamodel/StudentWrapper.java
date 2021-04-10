@@ -5,11 +5,15 @@
  */
 package ws.datamodel;
 
+import entity.Student;
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Antho
  */
 public class StudentWrapper {
+
     private long studentId;
     private String name;
     private String biography;
@@ -38,7 +42,7 @@ public class StudentWrapper {
         this.relevantSkills = relevantSkills;
         this.availabilityPeriod = availabilityPeriod;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -126,6 +130,5 @@ public class StudentWrapper {
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
-    
-    
+
 }
