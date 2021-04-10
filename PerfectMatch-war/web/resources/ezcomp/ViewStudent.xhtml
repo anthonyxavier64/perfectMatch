@@ -107,7 +107,7 @@
                             <h:outputLabel value="Availability Start Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[0]}" >
+                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabilityPeriod[0]}" >
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column>
@@ -118,22 +118,11 @@
                             <h:outputLabel value="Availability End Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabiltiyPeriod[1]}">
+                            <h:outputText value="#{viewStudentManagedBean.studentEntityToView.availabilityPeriod[1]}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column>
                     </p:row>
-
-<!--                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Tag(s): " />
-                        </p:column>
-                        <p:column>
-                            <p:dataList value="#{viewProductManagedBean.productEntityToView.tagEntities}" var="tag" type="unordered">
-                                #{tag.name}
-                            </p:dataList>
-                        </p:column>
-                    </p:row>-->
 
                 </p:panelGrid>
 
