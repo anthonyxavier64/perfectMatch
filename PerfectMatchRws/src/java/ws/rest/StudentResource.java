@@ -132,13 +132,13 @@ public class StudentResource {
         }
     }
 
-    @Path("getStudentOffers")
+    @Path("getStudentOffers/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentOffers(@PathParam("studentId") Long id) {
+    public Response getStudentOffers(@PathParam("studentId") Long studentId) {
         try {
-            List<Offer> offers = studentSessionBeanLocal.getStudentOffers(id);
+            List<Offer> offers = studentSessionBeanLocal.getStudentOffers(studentId);
 
             GenericEntity<List<Offer>> genericEntity = new GenericEntity<List<Offer>>(offers) {
             };
