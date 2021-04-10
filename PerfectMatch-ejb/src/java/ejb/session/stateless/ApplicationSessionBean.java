@@ -23,6 +23,7 @@ import util.exception.ApplicationNotFoundException;
 import util.exception.CreateNewApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.PostingNotFoundException;
+import util.exception.RepeatedApplicationException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -50,7 +51,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public Application createNewApplication(Application app, Long studentId, Long postingId) throws InputDataValidationException, CreateNewApplicationException {
+    public Application createNewApplication(Application app, Long studentId, Long postingId) throws RepeatedApplicationException, InputDataValidationException, CreateNewApplicationException {
         
         Set<ConstraintViolation<Application>> constraintViolations = validator.validate(app);
 
@@ -61,6 +62,12 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
+            
+            for (Application a :student.getApplications()) {
+                if (a.getPosting().getPostingId() == postingId) {
+                    throw new RepeatedApplicationException("An application for this posting already exists");
+                }
+            }
             
             app.setStudent(student);
             app.setPosting(posting);
