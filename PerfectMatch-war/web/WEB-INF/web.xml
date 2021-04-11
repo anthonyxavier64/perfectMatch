@@ -21,4 +21,8 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+    <context-param>
+        <param-name>alternatedocroot_1</param-name>
+        <param-value>C:\Users\Phire\OneDrive\Documents\GitHub\perfectMatch\PerfectMatch-war\web\resources\images</param-value>
+    </context-param>
 </web-app>
