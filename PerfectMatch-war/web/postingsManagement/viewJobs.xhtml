@@ -73,7 +73,9 @@
                                 <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{job.requiredSkills}"/>
                             </p:commandButton>
 
-                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="ccDeleteJob:formDeleteJob" oncomplete="PF('dialogDeleteJob').show()" icon="ui-icon-trash" title="Delete">
+
+
+                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="@form formViewAllJobs:dataTableViewAllJobs formViewAllJobs:messages" icon="ui-icon-trash" title="Delete">
                                 <f:attribute name="postingToDelete" value="#{job}" />
                             </p:commandButton>
                         </p:column>

@@ -235,7 +235,7 @@ public class PostingsManagedBean implements Serializable {
                 getFilteredPostings().remove(getSelectedPostingtoDelete());
             }
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirm delete?", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Posting " + getSelectedPostingtoDelete().getPostingId() + " has been deleted.", null));
         }
         catch(PostingNotFoundException ex)
         {
