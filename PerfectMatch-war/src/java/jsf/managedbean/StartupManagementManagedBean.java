@@ -13,15 +13,15 @@ import enumeration.Industry;
 import enumeration.StartUpLocation;
 import java.io.File;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import util.exception.CreateNewStartUpException;
+import util.exception.IncorrectStartUpPasswordException;
 import util.exception.InputDataValidationException;
 
 /**
@@ -43,7 +43,12 @@ public class StartupManagementManagedBean implements Serializable {
     private StartUpLocation[] startUpLocations;
     private Industry[] industries;
 
-    private StreamedContent startUpProfilePicture;
+    // Used to update StartUp
+    private StartUp currentStartUp;
+    private Industry updateIndustry;
+    private StartUpLocation updateLocation;
+    private String passwordToVerify;
+    private String newPassword;
 
     /**
      * Creates a new instance of StartupManagementManagedBean
@@ -54,9 +59,17 @@ public class StartupManagementManagedBean implements Serializable {
         industries = Industry.values();
     }
 
-    public void DynamicImageController() {
+    @PostConstruct
+    public void postConstruct() {
+        currentStartUp = (StartUp) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("currentStartUp");
+        updateIndustry = currentStartUp.getIndustry();
+        updateLocation = currentStartUp.getStartupLocation();
+    }
+
+    public void setProfilePic() {
         StartUp currentStartup = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartup");
+                .getExternalContext().getSessionMap().get("currentStartUp");
 
         String profilePicturePath = FacesContext
                 .getCurrentInstance()
@@ -65,6 +78,10 @@ public class StartupManagementManagedBean implements Serializable {
                 + System.getProperty("file.separator")
                 + currentStartup.getStartupId()
                 + "_ProfilePicture";
+
+        System.out.println("********** StartupManagementManagedBean.setProfilePic Profile Pic Path: "
+                + profilePicturePath);
+
         boolean hasProfilePictureJpg = ((new File(profilePicturePath + ".jpg")).exists());
 
         boolean hasProfilePictureJpeg = ((new File(profilePicturePath + ".jpeg")).exists());
@@ -74,24 +91,24 @@ public class StartupManagementManagedBean implements Serializable {
         if (hasProfilePictureJpg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpg");
 
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/jpg")
-                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpg"))
-                    .build();
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpg";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
         } else if (hasProfilePictureJpeg) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePictureJpeg");
 
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/jpeg")
-                    .stream(() -> this.getClass().getResourceAsStream(profilePicturePath + ".jpeg"))
-                    .build();
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.jpeg";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
         } else if (hasProfilePicturePng) {
             System.out.println("********** StartupManagementManagedBean.hasProfilePicturePng");
 
-            startUpProfilePicture = DefaultStreamedContent.builder()
-                    .contentType("image/png")
-                    .stream(() -> this.getClass().getResourceAsStream("/" + profilePicturePath + ".png"))
-                    .build();
+            String startUpProfilePicture = currentStartup.getStartupId() + "_ProfilePicture.png";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", startUpProfilePicture);
+        } else {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", "person.png");
         }
     }
 
@@ -102,21 +119,85 @@ public class StartupManagementManagedBean implements Serializable {
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "New StartUp registered (StartUp ID: " + startup.getStartupId() + ")",
                             null));
+            newStartUp = new StartUp();
         } catch (InputDataValidationException | CreateNewStartUpException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while registering the new StartUp: " + ex.getMessage(), null));
         }
     }
 
-    public StreamedContent getStartUpProfilePicture() {
-        return startUpProfilePicture;
+    public void verifyPassword(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.verifyPassword");
+        try {
+            if (!passwordToVerify.equals(currentStartUp.getPassword())) {
+                System.out.println("********** StartupManagementManagedBean.verifyPassword.incorrect password");
+                throw new IncorrectStartUpPasswordException("Incorrect Pasword!");
+            } else {
+                System.out.println("********** StartupManagementManagedBean.verifyPassword.password verified");
+                changePassword();
+            }
+        } catch (IncorrectStartUpPasswordException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), null));
+        }
     }
 
-    public void setStartUpProfilePicture(StreamedContent startUpProfilePicture) {
-        this.startUpProfilePicture = startUpProfilePicture;
+    private void changePassword() {
+        currentStartUp.setPassword(newPassword);
+        startUpSessionBean.updateStartUp(currentStartUp);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been changed successfully!", null));
     }
 
-    
-    
+    public void updateStartUp(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.updateStartUp");
+
+        currentStartUp.setIndustry(updateIndustry);
+        currentStartUp.setStartupLocation(updateLocation);
+        startUpSessionBean.updateStartUp(currentStartUp);
+
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .put("currentStartUp", currentStartUp);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "StartUp has been updated successfully!", null));
+    }
+
+    public String getPasswordToVerify() {
+        return passwordToVerify;
+    }
+
+    public void setPasswordToVerify(String passwordToVerify) {
+        this.passwordToVerify = passwordToVerify;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public StartUp getCurrentStartUp() {
+        return currentStartUp;
+    }
+
+    public void setCurrentStartUp(StartUp currentStartUp) {
+        this.currentStartUp = currentStartUp;
+    }
+
+    public Industry getUpdateIndustry() {
+        return updateIndustry;
+    }
+
+    public void setUpdateIndustry(Industry updateIndustry) {
+        this.updateIndustry = updateIndustry;
+    }
+
+    public StartUpLocation getUpdateLocation() {
+        return updateLocation;
+    }
+
+    public void setUpdateLocation(StartUpLocation updateLocation) {
+        this.updateLocation = updateLocation;
+    }
+
     public StartUp getNewStartUp() {
         return newStartUp;
     }

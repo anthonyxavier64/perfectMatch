@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template=".././template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <div>
+            <h3>Create New Job</h3>
+
+            <h:form id="formCreateNewJob" >
+
+
+                    <p:messages id="messagesCreateNewJob" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="jobTitle" value="Job Title: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="jobTitle" value="#{postingsManagedBean.newJob.title}" placeholder="Cool Job" required="true" requiredMessage="Job Title is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="jobTitle" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="jobDescription" value="Job Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="jobDescription" value="#{postingsManagedBean.newJob.description}" placeholder="This is a cool job" required="true" requiredMessage="Job Description is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="jobDescription" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="monthlySalary" value="Monthly Salary: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="monthlySalary" value="#{postingsManagedBean.newJob.pay}" placeholder="1000.00" required="true" requiredMessage="Monthly Salary is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="monthlySalary" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="earliestStartDate" value="Earliest Start Date: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.newJob.earliestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Earliest Start Date is required"/>                              
+                            </p:column>
+                            <p:column>
+                                <p:message for="earliestStartDate" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="latestStartDate" value="Latest Start Date: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:datePicker id="latestStartDate" value="#{postingsManagedBean.newJob.latestStartDate}" placeholder="yyyy-mm-dd" required="true" requiredMessage="Latest Start Date is required"/>                              
+                            </p:column>
+                            <p:column>
+                                <p:message for="latestStartDate" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="industry" value="Job Industry: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="industry" value="#{postingsManagedBean.newJob.industry}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:message for="industry" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="skills" value="Required Skills: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:selectManyMenu id="skills" value="#{postingsManagedBean.newJob.requiredSkills}" required="true" >
+                                    <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                </p:selectManyMenu>
+                            </p:column>
+                            <p:column>
+                                <p:message for="skills" />
+                            </p:column>
+                        </p:row>
+                        
+                        
+
+                       
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear" />&nbsp;
+                                <p:commandButton  value="Create New Job" update="@form" actionListener="#{postingsManagedBean.createNewJob}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

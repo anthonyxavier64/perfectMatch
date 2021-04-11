@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="../template/defTemplate.xhtml">
+
+    <ui:define name="content">
+
+        <div>
+            <h3> View All Jobs </h3>
+            <h:form id="formViewAllJobs" >
+                <p:messages id="messages" redisplay="false" closable="true" />
+                <p:panel header="View All Jobs">
+                    <p:dataTable id="dataTableViewAllJobs" widgetVar="dataTableViewAllJobs" value="#{postingsManagedBean.listOfJobs}" var="job" rowKey="#{job.postingId}" rowIndexVar="row"
+                                 filteredValue="#{postingsManagedBean.filteredPostings}"
+                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+ 
+                       <f:facet name="header">
+                            <p:outputPanel style="text-align: right;">
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewAllJobs').filter()" style="width:300px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column headerText="Job ID" sortBy="#{job.postingId}" filterBy="#{job.postingId}" filterMatchMode="contains">
+                            <h:outputText value="#{job.postingId}" />
+                        </p:column> 
+
+                        <p:column headerText="Job Title" sortBy="#{job.title}" filterBy="#{job.title}" filterMatchMode="contains">
+                            <h:outputText value="#{job.title}" />
+                        </p:column>
+                        
+                        <p:column headerText="Job Description" sortBy="#{job.description}" filterBy="#{job.description}" filterMatchMode="contains">
+                            <h:outputText value="#{job.description}" />
+                        </p:column> 
+
+                        <p:column headerText="Monthly Salary" sortBy="#{job.pay}" filterBy="#{job.pay}" filterMatchMode="contains">
+                            <h:outputText value="#{job.pay}" />
+                        </p:column> 
+
+                        <p:column headerText="Earliest Start Date" sortBy="#{job.earliestStartDate}" filterBy="#{job.earliestStartDate}" filterMatchMode="contains">
+                            <h:outputText value="#{job.earliestStartDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column> 
+
+                        <p:column headerText="Latest Start Date" sortBy="#{job.latestStartDate}" filterBy="#{job.latestStartDate}" filterMatchMode="contains">
+                            <h:outputText value="#{job.latestStartDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column> 
+
+                        <p:column headerText="Required Skills" sortBy="#{job.requiredSkills}" filterBy="#{job.requiredSkills}" filterMatchMode="contains">
+                            <p:dataList value="#{job.requiredSkills}" var="skills" type="unordered">
+                                #{skills}
+                            </p:dataList>
+                        </p:column> 
+
+                        <p:column headerText="Industry" sortBy="#{job.industry}" filterBy="#{job.industry}" filterMatchMode="contains">
+                            <h:outputText value="#{job.industry}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Action">
+
+                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateJob}" update="ccUpdateJob:formUpdateJob" oncomplete="PF('dialogUpdateJob').show()" icon="ui-icon-pencil" title="Update">
+                                <f:attribute name="selectedJobToUpdate" value="#{job}" />
+                                <f:attribute name="selectedJobToUpdateIndustry" value="#{job.industry}"/>
+                                <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{job.requiredSkills}"/>
+                            </p:commandButton>
+
+                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="ccDeleteJob:formDeleteJob" oncomplete="PF('dialogDeleteJob').show()" icon="ui-icon-trash" title="Delete">
+                                <f:attribute name="postingToDelete" value="#{job}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+                
+    
+            </h:form>
+            <ez:UpdateJob id="ccUpdateJob"/>
+            <ez:DeleteJob id="ccDeleteJob"/>
+        </div>
+
+
+    </ui:define>
+
+</ui:composition>

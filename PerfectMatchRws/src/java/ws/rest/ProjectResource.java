@@ -58,10 +58,10 @@ public class ProjectResource {
 
             for (int i = 0; i < projects.size(); i++) {
                 ProjectWrapper newProjectWrapper = new ProjectWrapper();
-                newProjectWrapper.setProjectId(projects.get(i).getPostingId());
-                newProjectWrapper.setProjectTitle(projects.get(i).getProjectTitle());
-                newProjectWrapper.setProjectDescription(projects.get(i).getProjectDescription());
-                newProjectWrapper.setCompensation(projects.get(i).getCompensation());
+                newProjectWrapper.setPostingId(projects.get(i).getPostingId());
+                newProjectWrapper.setTitle(projects.get(i).getTitle());
+                newProjectWrapper.setDescription(projects.get(i).getDescription());
+                newProjectWrapper.setPay(projects.get(i).getPay());
 
                 if (projects.get(i).getEarliestStartDate() != null) {
                     newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(projects.get(i).getEarliestStartDate()));
@@ -72,9 +72,14 @@ public class ProjectResource {
                 }
 
                 newProjectWrapper.setIndustry(projects.get(i).getIndustry());
-                newProjectWrapper.setRequiredSkills(projects.get(i).getRequiredSkills());
+
+                String[] skillsArray = projects.get(i).getRequiredSkills().toArray(new String[0]);
+                String[] milestoneArray = projects.get(i).getMilestones().toArray(new String[0]);
+                
+                newProjectWrapper.setRequiredSkills(skillsArray);
                 newProjectWrapper.setProjectSpecialisation(projects.get(i).getProjectSpecialisation());
                 newProjectWrapper.setIsComplete(projects.get(i).isIsComplete());
+                newProjectWrapper.setMilestones(milestoneArray);
                 projectWrappers.add(newProjectWrapper);
             }
 
@@ -87,22 +92,22 @@ public class ProjectResource {
         }
     }
 
-    @Path("retrieveProjectById/{projectId}")
+    @Path("retrieveProjectById/{postingId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveProjectById(@PathParam("projectId") Long projectId) {
+    public Response retrieveProjectById(@PathParam("postingId") Long postingId) {
         System.out.println("here");
         try {
-            Project project = projectSessionBeanLocal.retrieveProjectById(projectId);
+            Project project = projectSessionBeanLocal.retrieveProjectById(postingId);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             ProjectWrapper newProjectWrapper = new ProjectWrapper();
-            newProjectWrapper.setProjectId(project.getPostingId());
-            newProjectWrapper.setProjectTitle(project.getProjectTitle());
-            newProjectWrapper.setProjectDescription(project.getProjectDescription());
-            newProjectWrapper.setCompensation(project.getCompensation());
+            newProjectWrapper.setPostingId(project.getPostingId());
+            newProjectWrapper.setTitle(project.getTitle());
+            newProjectWrapper.setDescription(project.getDescription());
+            newProjectWrapper.setPay(project.getPay());
 
             if (project.getEarliestStartDate() != null) {
                 newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(project.getEarliestStartDate()));
@@ -113,10 +118,15 @@ public class ProjectResource {
             }
 
             newProjectWrapper.setIndustry(project.getIndustry());
-            newProjectWrapper.setRequiredSkills(project.getRequiredSkills());
+
+            String[] skillsArray = project.getRequiredSkills().toArray(new String[0]);
+            String[] milestonesArray = project.getMilestones().toArray(new String[0]);
+            
+            newProjectWrapper.setRequiredSkills(skillsArray);
             newProjectWrapper.setProjectSpecialisation(project.getProjectSpecialisation());
             newProjectWrapper.setIsComplete(project.isIsComplete());
-            
+            newProjectWrapper.setMilestones(milestonesArray);
+
             return Response.status(Response.Status.OK).entity(newProjectWrapper).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();

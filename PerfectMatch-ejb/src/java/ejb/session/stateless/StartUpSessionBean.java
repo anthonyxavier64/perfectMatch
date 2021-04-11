@@ -80,6 +80,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
         for (StartUp s : results) {
             s.getPostings().size();
             s.getPayments().size();
+            s.getReviews().size();
         }
         return results;
     }
@@ -92,6 +93,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
         }
         startup.getPostings().size();
         startup.getPayments().size();
+        startup.getReviews().size();
         return startup;
     }
     
@@ -103,6 +105,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
         }
         startup.getPostings().size();
         startup.getPayments().size();
+        startup.getReviews().size();
         return startup;
     }
 

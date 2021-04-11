@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -24,6 +25,9 @@ import org.primefaces.event.FileUploadEvent;
 @RequestScoped
 public class ProfilePictureManagedBean {
 
+    @Inject
+    private StartupManagementManagedBean startupManagementManagedBean;
+
     private StartUp currentStartUp;
 
     /**
@@ -31,7 +35,7 @@ public class ProfilePictureManagedBean {
      */
     public ProfilePictureManagedBean() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("currentStartup");
+                .getExternalContext().getSessionMap().get("currentStartUp");
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -45,7 +49,6 @@ public class ProfilePictureManagedBean {
                             .getCurrentInstance()
                             .getExternalContext()
                             .getInitParameter("alternatedocroot_1")
-                    + System.getProperty("file.separator")
                     + outputFileName;
 
             System.out.println("********** profilePictureManagedBean.handleFileUpload() - Original File name: " + event.getFile().getFileName());
@@ -78,6 +81,8 @@ public class ProfilePictureManagedBean {
             FacesContext
                     .getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
+            startupManagementManagedBean.setProfilePic();
+
         } catch (IOException ex) {
             FacesContext
                     .getCurrentInstance()
