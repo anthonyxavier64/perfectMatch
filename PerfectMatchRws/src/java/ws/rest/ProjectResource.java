@@ -97,7 +97,6 @@ public class ProjectResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveProjectById(@PathParam("postingId") Long postingId) {
-        System.out.println("here");
         try {
             Project project = projectSessionBeanLocal.retrieveProjectById(postingId);
 
