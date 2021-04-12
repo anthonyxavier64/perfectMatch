@@ -25,6 +25,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import util.exception.RepeatedApplicationException;
 import ws.datamodel.ApplicationWrapper;
+import ws.datamodel.PostingWrapper;
+import ws.datamodel.StudentWrapper;
 
 /**
  * REST Web Service
@@ -56,22 +58,25 @@ public class ApplicationResource {
     public Response createNewApplication(ApplicationWrapper app) {
         try {
             Application newApp = new Application();
-            
+
             for (ApplicationStatus status : ApplicationStatus.values()) {
                 if (status.name().equals(app.getApplicationStatus())) {
                     newApp.setApplicationStatus(status);
                 }
             }
-            
+
 //            newApp.setApplicationStatus(app.getApplicationStatus());
             newApp.setOfferSent(app.getOfferSent());
 
-            Application createdApp = applicationSessionBean.createNewApplication(newApp, app.getStudent().getStudentId(), app.getPosting().getPostingId());
+            Application createdApp = applicationSessionBean.createNewApplication(newApp, app.getStudentId(), app.getPostingId());
             app.setApplicationId(createdApp.getApplicationId());
-
+            app.setStudent(StudentWrapper.convertStudentToStudentWrapper(createdApp.getStudent()));
+            app.setPosting(PostingWrapper.convertPostingToPostingWrapper(createdApp.getPosting()));
+            
             return Response.status(Status.OK).entity(app).build();
         } catch (RepeatedApplicationException ex) {
-            return Response.status(Status.OK).entity(app).build();
+            System.out.println(ex.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }

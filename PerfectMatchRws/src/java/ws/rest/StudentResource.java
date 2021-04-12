@@ -115,17 +115,18 @@ public class StudentResource {
     public Response getStudentOffers(@PathParam("studentId") Long studentId) {
         try {
             List<Offer> offers = studentSessionBeanLocal.getStudentOffers(studentId);
-            
+
             List<OfferWrapper> offerWrappers = new ArrayList<>();
             for (Offer o : offers) {
                 OfferWrapper offerWrapper = OfferWrapper.convertOfferToOfferWrapper(o);
-                
+
                 PostingWrapper postWrap;
                 if (o.getPosting() instanceof Project) {
                     postWrap = ProjectWrapper.convertProjectToProjectWrapper((Project) o.getPosting());
                 } else {
                     postWrap = JobWrapper.convertJobToJobWrapper((Job) o.getPosting());
                 }
+
                 offerWrapper.setPosting(postWrap);
 
                 StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(o.getStudent());
@@ -133,7 +134,7 @@ public class StudentResource {
                 
                 StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
                 offerWrapper.getPosting().setStartup(startWrap);
-                
+
                 offerWrappers.add(offerWrapper);
             }
 

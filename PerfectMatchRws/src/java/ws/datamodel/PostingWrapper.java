@@ -5,8 +5,9 @@
  */
 package ws.datamodel;
 
-import entity.Student;
+import entity.Posting;
 import enumeration.Industry;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -21,6 +22,7 @@ public class PostingWrapper {
     private String latestStartDate;
     private Industry industry;
     private String[] requiredSkills;
+    private boolean isProject;
     
     private StartUpWrapper startup;
     private StudentWrapper student;
@@ -37,6 +39,25 @@ public class PostingWrapper {
         this.latestStartDate = latestStartDate;
         this.industry = industry;
         this.requiredSkills = requiredSkills;
+    }
+    
+    public static PostingWrapper convertPostingToPostingWrapper(Posting posting) {
+        PostingWrapper postingWrapper = new PostingWrapper();
+        
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        postingWrapper.setPostingId(posting.getPostingId());
+        postingWrapper.setTitle(posting.getTitle());
+        postingWrapper.setDescription(posting.getDescription());
+        postingWrapper.setPay(posting.getPay());
+        
+        postingWrapper.setEarliestStartDate(simpleDateFormat.format(posting.getEarliestStartDate()));
+        postingWrapper.setLatestStartDate(simpleDateFormat.format(posting.getLatestStartDate()));
+        
+        postingWrapper.setIndustry(posting.getIndustry());
+        postingWrapper.setRequiredSkills((String[])posting.getRequiredSkills().toArray());
+        
+        return postingWrapper;
     }
 
     public Long getPostingId() {
@@ -117,6 +138,14 @@ public class PostingWrapper {
 
     public void setStudent(StudentWrapper student) {
         this.student = student;
+    }
+
+    public boolean isIsProject() {
+        return isProject;
+    }
+
+    public void setIsProject(boolean isProject) {
+        this.isProject = isProject;
     }
 
     
