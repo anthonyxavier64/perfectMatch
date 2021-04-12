@@ -82,6 +82,7 @@
                         <p:column>
                             <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}" required="false" >
                                 <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+          
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
@@ -92,7 +93,7 @@
                         </p:column>
                         <p:column>
                             <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}" required="true" >
-                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{skillSets}" itemLabel="#{skillSets}" />
                             </p:selectManyMenu>
                         </p:column>
                     </p:row>
