@@ -1,3 +1,5 @@
+/PerfectMatch-ejb/nbproject/private/
+/PerfectMatch-ejb/setup/glassfish-resources.xml
 /PerfectMatch-war/nbproject/private/
 /PerfectMatch-war/build/
 /PerfectMatch-war/dist/
@@ -5,5 +7,7 @@
 /PerfectMatch-ejb/dist/
 /build/
 /dist/
+/nbproject/private/
 /PerfectMatchRws/dist/
 /PerfectMatchRws/build/
+/PerfectMatchRws/nbproject/private/

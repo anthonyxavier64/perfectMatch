@@ -112,7 +112,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Offer> getStudentOffers(Long studentId) {
-        Query query = em.createQuery("SELECT o FROM Offer WHERE offer.studentId = :studentId");
+        Query query = em.createQuery("SELECT o FROM Offer o WHERE o.student.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Offer> offers = query.getResultList();
@@ -121,7 +121,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Application> getStudentApplications(Long studentId) {
-        Query query = em.createQuery("SELECT a FROM Application WHERE Application.studentId = :studentId");
+        Query query = em.createQuery("SELECT a FROM Application a WHERE a.student.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Application> applications = query.getResultList();
