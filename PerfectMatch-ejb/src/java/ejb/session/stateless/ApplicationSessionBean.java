@@ -35,7 +35,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
-    
+
     @EJB
     private PostingSessionBeanLocal postingSessionBeanLocal;
 
@@ -52,23 +52,23 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
     @Override
     public Application createNewApplication(Application app, Long studentId, Long postingId) throws RepeatedApplicationException, InputDataValidationException, CreateNewApplicationException {
-        
+
         Set<ConstraintViolation<Application>> constraintViolations = validator.validate(app);
 
         if (!constraintViolations.isEmpty()) {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
-        
+
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
-            
-            for (Application a :student.getApplications()) {
+
+            for (Application a : student.getApplications()) {
                 if (a.getPosting().getPostingId() == postingId) {
                     throw new RepeatedApplicationException("An application for this posting already exists");
                 }
             }
-            
+
             app.setStudent(student);
             app.setPosting(posting);
             em.persist(app);
@@ -78,18 +78,18 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             posting.getApplications().add(app);
 
             return app;
-            
-        } catch (StudentNotFoundException | PostingNotFoundException ex){
+
+        } catch (StudentNotFoundException | PostingNotFoundException ex) {
             throw new CreateNewApplicationException(ex.getMessage());
         }
     }
-    
+
     @Override
     public List<Application> retrieveAllApplication() {
         Query q = em.createQuery("SELECT a FROM Application a");
         return q.getResultList();
     }
-    
+
     @Override
     public Application retrieveApplicationByApplicationId(Long applicationId) throws ApplicationNotFoundException {
         Application app = em.find(Application.class, applicationId);
@@ -98,24 +98,24 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         }
         return app;
     }
-    
+
     @Override
     public void updateApplication(Application application) {
         em.merge(application);
     }
-    
+
     @Override
     public Student getStudentFromApplicationId(Long appId) throws ApplicationNotFoundException {
         Application app = retrieveApplicationByApplicationId(appId);
         return app.getStudent();
     }
-    
+
     @Override
     public Posting getPostingFromApplicationId(Long appId) throws ApplicationNotFoundException {
         Application app = retrieveApplicationByApplicationId(appId);
         return app.getPosting();
     }
-    
+
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Application>> constraintViolations) {
         String msg = "Input data validation error!:";
 
@@ -125,5 +125,5 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
         return msg;
     }
-    
+
 }
