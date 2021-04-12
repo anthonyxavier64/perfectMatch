@@ -140,6 +140,8 @@ public class StudentResource {
         try {
             List<Offer> offers = studentSessionBeanLocal.getStudentOffers(studentId);
 
+            
+            
             GenericEntity<List<Offer>> genericEntity = new GenericEntity<List<Offer>>(offers) {
             };
 
