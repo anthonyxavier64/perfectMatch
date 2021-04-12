@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.JobSessionBeanLocal;
 import ejb.session.stateless.OfferSessionBeanLocal;
 import ejb.session.stateless.PaymentSessionBeanLocal;
@@ -27,11 +28,13 @@ import util.exception.StartUpNotFoundException;
 import ejb.session.stateless.StartUpSessionBeanLocal;
 
 import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Application;
 import entity.Job;
 import entity.Offer;
 import entity.Payment;
 import entity.Project;
 import entity.Student;
+import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +43,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import util.exception.ApplicationNotFoundException;
+import util.exception.CreateNewApplicationException;
 import util.exception.CreateNewOfferException;
 import util.exception.CreateNewPaymentException;
 import util.exception.CreateNewPostingException;
@@ -47,6 +52,7 @@ import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.PostingNotFoundException;
+import util.exception.RepeatedApplicationException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -57,6 +63,9 @@ import util.exception.StudentNotFoundException;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private ApplicationSessionBeanLocal applicationSessionBean;
 
     @EJB
     private PaymentSessionBeanLocal paymentSessionBean;
@@ -93,26 +102,36 @@ public class DataInitSessionBean {
     @PostConstruct
     public void postConstruct() {
         try {
-
             startUpSessionBean.retrieveStartUpByStartUpId(1l);
-            studentSessionBean.retrieveStudentByStudentId(1l);
-            postingSessionBean.retrievePostingByPostingId(1l);
-            offerSessionBean.retrieveOfferByOfferId(1l);
-            paymentSessionBean.retrievePaymentByPaymentId(1l);
-
         } catch (StartUpNotFoundException ex) {
             initStartUps();
+        }
+
+        try {
+            studentSessionBean.retrieveStudentByStudentId(1l);
         } catch (StudentNotFoundException ex) {
             initStudents();
+        }
+
+        try {
+            offerSessionBean.retrieveOfferByOfferId(1l);
         } catch (OfferNotFoundException ex) {
             initOffers();
-        } catch (PostingNotFoundException ex) {
-//            initProjects();
+        }
+
+        try {
+            applicationSessionBean.retrieveApplicationByApplicationId(1l);
+        } catch (ApplicationNotFoundException ex) {
+            initApplications();
+        }
+
+        try {
+            paymentSessionBean.retrievePaymentByPaymentId(1l);
         } catch (PaymentNotFoundException ex) {
             initPayments();
-        } finally {
-            System.out.println("**************** DataInitSessionBean.postConstruct");
         }
+        
+        System.out.println("**************** DataInitSessionBean.postConstruct");
     }
 
     private void initStartUps() {
@@ -160,7 +179,9 @@ public class DataInitSessionBean {
             System.out.println("**************** DataInitSessionBean.initStartUps");
 
             try {
-                projectSessionBean.createNewProject(new Project("Project 1", "This is project 1", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development"), 1l);
+                Project project1 = new Project("Project 1", "This is project 1", 2000.00, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11"), Industry.SOFTWARE_DEV, requiredSkillsOne, "Software Development");
+                project1.setIsComplete(true);
+                projectSessionBean.createNewProject(project1, 1l);
             } catch (ParseException ex) {
                 Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -294,6 +315,19 @@ public class DataInitSessionBean {
                                     new SimpleDateFormat("yyyy").parse("2023"),
                                     skills,
                                     new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
+            studentSessionBean
+                    .createNewStudent(
+                            new Student(
+                                    "Roger",
+                                    "NUS",
+                                    "forTesting",
+                                    "roger@gmail.com",
+                                    "password",
+                                    "testCourse",
+                                    3,
+                                    new SimpleDateFormat("yyyy").parse("2023"),
+                                    skills,
+                                    new Date[]{new SimpleDateFormat("yyyy-MM-dd").parse("2021-04-07"), new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-11")}));
             System.out.println("**************** DataInitSessionBean.initStudents");
         } catch (ParseException | CreateNewStudentException | InputDataValidationException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,6 +344,7 @@ public class DataInitSessionBean {
                                     "TestOffer1",
                                     OfferStatus.ACCEPTED),
                             (long) 1, (long) 1);
+
             offerSessionBean
                     .createNewOffer(
                             new Offer(
@@ -337,127 +372,45 @@ public class DataInitSessionBean {
 
     private void initPayments() {
         try {
-        Payment payment1 = new Payment(1000D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-02"));
-        Payment payment2 = new Payment(1200D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-12-15"));
-        Payment payment3 = new Payment(2100D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-11-28"));
-        Payment payment4 = new Payment(3600D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-03-03"));
-        
-        paymentSessionBean.createNewPayment(payment1, 1l, 1l, 1l);
-        paymentSessionBean.createNewPayment(payment2, 1l, 1l, 2l);
-        paymentSessionBean.createNewPayment(payment3, 1l, 1l, 3l);
-        paymentSessionBean.createNewPayment(payment4, 1l, 1l, 4l);
-        } catch (ParseException |
-                InputDataValidationException |
-                CreateNewPaymentException ex) {
+            Payment payment1 = new Payment(1000D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-02"));
+            Payment payment2 = new Payment(1200D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-12-15"));
+            Payment payment3 = new Payment(2100D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-11-28"));
+            Payment payment4 = new Payment(3600D, "For_Testing", new SimpleDateFormat("yyyy-MM-dd").parse("2022-03-03"));
+
+            paymentSessionBean.createNewPayment(payment1, 1l, 1l, 1l);
+            paymentSessionBean.createNewPayment(payment2, 1l, 1l, 2l);
+            paymentSessionBean.createNewPayment(payment3, 1l, 1l, 3l);
+            paymentSessionBean.createNewPayment(payment4, 1l, 1l, 4l);
+        } catch (ParseException
+                | InputDataValidationException
+                | CreateNewPaymentException ex) {
             System.out.println("There was an error in initialising the Payments: "
                     + ex.getMessage());
         }
     }
-    
-//    private void initProjects() {
-//        try {
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Project(
-//                                    "Project1",
-//                                    "TestProject1",
-//                                    1000.00,
-//                                    Industry.EDUCATION,
-//                                    false
-//                            ), 
-//                            (long) 1);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Project(
-//                                    "Project2",
-//                                    "TestProject2",
-//                                    1500.00,
-//                                    Industry.FINANCE,
-//                                    false
-//                            ), 
-//                            (long) 2);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Project(
-//                                    "Project3",
-//                                    "TestProject3",
-//                                    800.00,
-//                                    Industry.ENGINEERING,
-//                                    false
-//                            ), 
-//                            (long) 3);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Project(
-//                                    "Project4",
-//                                    "TestProject4",
-//                                    1800.00,
-//                                    Industry.SOFTWARE_DEV,
-//                                    false
-//                            ), 
-//                            (long) 4);
-//            System.out.println("**************** DataInitSessionBean.initProjects");
-//        } catch (CreateNewPostingException | InputDataValidationException ex) {
-//            System.out.println("There was an error in initialising the Projects: "
-//                    + ex.getMessage());
-//        }
-//    }
-//    private void initJobs() {
-//        try {
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Job(
-//                                    "Job1",
-//                                    "TestJob1",
-//                                    1000.00,
-//                                    new Date(2021, 5, 10),
-//                                    new Date(2021, 7, 31),
-//                                    Industry.EDUCATION,
-//                                    new String[]{"Eat", "Study", "Code"}
-//                            ), 
-//                            (long) 1);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Job(
-//                                    "Job2",
-//                                    "TestJob2",
-//                                    1500.00,
-//                                    new Date(2021, 5, 10),
-//                                    new Date(2021, 7, 31),
-//                                    Industry.MARKETING,
-//                                    new String[]{"Eat", "Study", "Code"}
-//                            ), 
-//                            (long) 2);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Job(
-//                                    "Job3",
-//                                    "TestJob3",
-//                                    800.00,
-//                                    new Date(2021, 5, 10),
-//                                    new Date(2021, 7, 31),
-//                                    Industry.ENGINEERING,
-//                                    new String[]{"Eat", "Study", "Code"}
-//                            ), 
-//                            (long) 3);
-//            postingSessionBean.
-//                    createNewPosting(
-//                            new Job(
-//                                    "Job4",
-//                                    "TestJob4",
-//                                    2000.00,
-//                                    new Date(2021, 5, 10),
-//                                    new Date(2021, 7, 31),
-//                                    Industry.SOFTWARE_DEV,
-//                                    new String[]{"Eat", "Study", "Code"}
-//                            ), 
-//                            (long) 4);
-//            System.out.println("**************** DataInitSessionBean.initJobs");
-//        } catch (CreateNewPostingException | InputDataValidationException ex) {
-//            System.out.println("There was an error in initialising the Jobs: "
-//                    + ex.getMessage());
-//        }
-//    }
+
+    private void initApplications() {
+        try {
+            Application application1 = new Application(true, ApplicationStatus.ACCEPTED);
+            Application application2 = new Application(true, ApplicationStatus.PENDING);
+            Application application3 = new Application(true, ApplicationStatus.REJECTED);
+            Application application4 = new Application(true, ApplicationStatus.REJECTED);
+            Application application5 = new Application(false, ApplicationStatus.REJECTED);
+
+            applicationSessionBean.createNewApplication(application1, 1l, 1l);
+            applicationSessionBean.createNewApplication(application2, 2l, 1l);
+            applicationSessionBean.createNewApplication(application3, 3l, 1l);
+            applicationSessionBean.createNewApplication(application4, 4l, 1l);
+            applicationSessionBean.createNewApplication(application5, 5l, 1l);
+            System.out.println("**************** DataInitSessionBean.initApplications");
+        } catch (CreateNewApplicationException
+                | InputDataValidationException
+                | RepeatedApplicationException ex) {
+            System.out.println("There was an error in initialising the Application entities: "
+                    + ex.getMessage());
+        }
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     public void persist(Object object) {
