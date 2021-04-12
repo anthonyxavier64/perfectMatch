@@ -73,7 +73,7 @@ public class PostingsManagedBean implements Serializable {
     private List<Posting> listOfPostings;
     private List<Posting> filteredPostings;
     private List<Offer> offers;
-    private List<Industry> industries;
+    private Industry[] industries;
     
     private Posting newPosting;
     private Project newProject;
@@ -114,11 +114,8 @@ public class PostingsManagedBean implements Serializable {
         setListOfPostings(postingSessionBean.retrieveAllPostings());
         setListOfProjects(postingSessionBean.retrieveAllProjects());
         setListOfJobs(postingSessionBean.retrieveAllJobs());
-        List<Industry> listOfIndustries = new ArrayList<>();
-        for (Industry industry: Industry.values()) {
-            listOfIndustries.add(industry);
-        }
-        setIndustries(listOfIndustries);
+        industries = Industry.values();
+
         System.out.println(industries);
 
         String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
@@ -192,6 +189,8 @@ public class PostingsManagedBean implements Serializable {
         setSelectedProjectToUpdate((Project)event.getComponent().getAttributes().get("selectedProjectToUpdate"));
         
         System.out.println(getSelectedProjectToUpdate().getPostingId());
+        postingSessionBean.updatePosting(getSelectedProjectToUpdate());
+        
         setSelectedProjectToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
         setSelectedProjectToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
         
@@ -344,11 +343,11 @@ public class PostingsManagedBean implements Serializable {
         this.offers = offers;
     }
 
-    public List<Industry> getIndustries() {
+    public Industry[] getIndustries() {
         return industries;
     }
 
-    public void setIndustries(List<Industry> industries) {
+    public void setIndustries(Industry[] industries) {
         this.industries = industries;
     }
 

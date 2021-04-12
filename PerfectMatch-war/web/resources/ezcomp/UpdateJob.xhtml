@@ -81,7 +81,9 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}" required="false" >
+                                <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="false" />
                                 <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
+          
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
