@@ -34,6 +34,8 @@ import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
 import ws.datamodel.PostingWrapper;
 import ws.datamodel.ProjectWrapper;
+import ws.datamodel.StartUpWrapper;
+import ws.datamodel.StudentWrapper;
 
 /**
  * REST Web Service
@@ -86,22 +88,32 @@ public class OfferResource {
         }
     }
     
-    @Path("getOfferPosting/{offerId}")
+    @Path("retrieveOfferById/{offerId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOfferPosting(@PathParam("offerId") Long offerId) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Posting posting = offerSessionBeanLocal.getPostingByOfferId(offerId);
-            PostingWrapper pwrap;
-            if (posting instanceof Project) { 
-                pwrap = ProjectWrapper.convertProjectToProjectWrapper((Project) posting);
+            Offer o = offerSessionBeanLocal.retrieveOfferByOfferId(offerId);
+            
+            OfferWrapper offerWrapper = OfferWrapper.convertOfferToOfferWrapper(o);
+
+                PostingWrapper postWrap;
+                if (o.getPosting() instanceof Project) {
+                    postWrap = ProjectWrapper.convertProjectToProjectWrapper((Project) o.getPosting());
+                } else {
+                    postWrap = JobWrapper.convertJobToJobWrapper((Job) o.getPosting());
+                }
+
+                offerWrapper.setPosting(postWrap);
+
+                StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(o.getStudent());
+                offerWrapper.setStudent(stuWrap);
                 
-            } else {
-                pwrap = JobWrapper.convertJobToJobWrapper((Job) posting);
-            }
-            return Response.status(Status.OK).entity(pwrap).build();
+                StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
+                offerWrapper.getPosting().setStartup(startWrap);
+                
+                return Response.status(Status.OK).entity(offerWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }

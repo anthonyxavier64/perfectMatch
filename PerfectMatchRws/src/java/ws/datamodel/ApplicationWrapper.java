@@ -12,9 +12,12 @@ import enumeration.ApplicationStatus;
  * @author yappeizhen
  */
 public class ApplicationWrapper {
+
     private Long applicationId;
     private Boolean offerSent;
     private String applicationStatus;
+    private Long postingId;
+    private Long studentId;
     private PostingWrapper posting;
     private StudentWrapper student;
 
@@ -56,5 +59,21 @@ public class ApplicationWrapper {
 
     public void setStudent(StudentWrapper student) {
         this.student = student;
+    }
+
+    public Long getPostingId() {
+        return postingId;
+    }
+
+    public void setPostingId(Long postingId) {
+        this.postingId = postingId;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 }
