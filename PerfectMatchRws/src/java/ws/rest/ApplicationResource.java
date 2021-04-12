@@ -66,7 +66,7 @@ public class ApplicationResource {
 //            newApp.setApplicationStatus(app.getApplicationStatus());
             newApp.setOfferSent(app.getOfferSent());
 
-            Application createdApp = applicationSessionBean.createNewApplication(newApp, app.getStudentId(), app.getPostingId());
+            Application createdApp = applicationSessionBean.createNewApplication(newApp, app.getStudent().getStudentId(), app.getPosting().getPostingId());
             app.setApplicationId(createdApp.getApplicationId());
 
             return Response.status(Status.OK).entity(app).build();

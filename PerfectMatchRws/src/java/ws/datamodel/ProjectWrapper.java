@@ -48,7 +48,7 @@ public class ProjectWrapper extends PostingWrapper {
         newProjectWrapper.setProjectSpecialisation(project.getProjectSpecialisation());
         newProjectWrapper.setIsComplete(project.isIsComplete());
         newProjectWrapper.setMilestones(milestoneArray);
-        
+                
         return newProjectWrapper;
     }
 

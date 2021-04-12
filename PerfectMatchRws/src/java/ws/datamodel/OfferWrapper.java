@@ -37,18 +37,6 @@ public class OfferWrapper {
         offerWrapper.setOfferId(offer.getOfferId());
         offerWrapper.setOfferMessage(offer.getOfferMessage());
         offerWrapper.setOfferStatus(offer.getOfferStatus());
-        PostingWrapper postWrap = new PostingWrapper();
-        
-        if (offer.getPosting() instanceof Project) {
-            postWrap = ProjectWrapper.convertProjectToProjectWrapper((Project) offer.getPosting());
-        } else {
-            postWrap = JobWrapper.convertJobToJobWrapper((Job) offer.getPosting());
-        }
-        offerWrapper.setPosting(postWrap);
-        
-        StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(offer.getStudent());
-        offerWrapper.setStudent(stuWrap);
-        
         return offerWrapper;
     }
     

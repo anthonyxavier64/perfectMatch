@@ -8,8 +8,10 @@ package ws.rest;
 import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
+import entity.Job;
 import entity.Offer;
 import entity.Payment;
+import entity.Project;
 import entity.Student;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,11 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
+import ws.datamodel.PostingWrapper;
+import ws.datamodel.ProjectWrapper;
+import ws.datamodel.StartUpWrapper;
 
 /**
  * REST Web Service
@@ -57,7 +63,7 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerStudentAccount(StudentWrapper student) {
         try {
-         
+
             Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
             newStudent = studentSessionBeanLocal.registerStudentAccount(newStudent);
@@ -109,12 +115,30 @@ public class StudentResource {
     public Response getStudentOffers(@PathParam("studentId") Long studentId) {
         try {
             List<Offer> offers = studentSessionBeanLocal.getStudentOffers(studentId);
+            
             List<OfferWrapper> offerWrappers = new ArrayList<>();
-            for (Offer o:offers) {
-                offerWrappers.add(OfferWrapper.convertOfferToOfferWrapper(o));
+            for (Offer o : offers) {
+                OfferWrapper offerWrapper = OfferWrapper.convertOfferToOfferWrapper(o);
+                
+                PostingWrapper postWrap;
+                if (o.getPosting() instanceof Project) {
+                    postWrap = ProjectWrapper.convertProjectToProjectWrapper((Project) o.getPosting());
+                } else {
+                    postWrap = JobWrapper.convertJobToJobWrapper((Job) o.getPosting());
+                }
+                offerWrapper.setPosting(postWrap);
+
+                StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(o.getStudent());
+                offerWrapper.setStudent(stuWrap);
+                
+                StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
+                offerWrapper.getPosting().setStartup(startWrap);
+                
+                offerWrappers.add(offerWrapper);
             }
 
-            GenericEntity<List<OfferWrapper>> genericEntity = new GenericEntity<List<OfferWrapper>>(offerWrappers) {};
+            GenericEntity<List<OfferWrapper>> genericEntity = new GenericEntity<List<OfferWrapper>>(offerWrappers) {
+            };
 
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
