@@ -92,7 +92,7 @@
                         </p:column>
                         <p:column>
                             <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}" required="true" >
-                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{Arrays.toString(skillSets)}" itemLabel="#{Arrays.toString(skillSets)}" />
+                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{skillSets}" itemLabel="#{skillSets}" />
                             </p:selectManyMenu>
                         </p:column>
                     </p:row>

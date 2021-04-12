@@ -114,7 +114,7 @@ public class PostingsManagedBean implements Serializable {
         setListOfPostings(postingSessionBean.retrieveAllPostings());
         setListOfProjects(postingSessionBean.retrieveAllProjects());
         setListOfJobs(postingSessionBean.retrieveAllJobs());
-        List<Industry> listOfIndustries = new ArrayList<Industry>();
+        List<Industry> listOfIndustries = new ArrayList<>();
         for (Industry industry: Industry.values()) {
             listOfIndustries.add(industry);
         }
