@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -85,12 +86,21 @@ public class Student implements Serializable {
 
     @OneToMany(mappedBy = "studentBeingRated", fetch = FetchType.LAZY)
     private List<ReviewOfStudent> reviews;
+    
+    @OneToMany(mappedBy = "acceptedStudent", fetch = FetchType.LAZY)
+    private List<Posting> postings;
 
     public Student() {
+        this.applications = new ArrayList<>();
+        this.payments = new ArrayList<>();
+        this.offers = new ArrayList<>();
+        this.postings = new ArrayList<>();
+        this.rating = "0.00";
     }
 
     public Student(String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
             Date projectedGraduationYear, List<String> relevantSkills, Date[] availabiltiyPeriod) {
+        this();
         this.name = name;
         this.educationalInstitute = educationalInstitute;
         this.biography = biography;
@@ -101,14 +111,11 @@ public class Student implements Serializable {
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
         this.availabilityPeriod = availabiltiyPeriod;
-        this.applications = new ArrayList<>();
-        this.payments = new ArrayList<>();
-        this.offers = new ArrayList<>();
-        this.rating = "0.00";
     }
 
     public Student(long studentId, String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
             Date projectedGraduationYear, List<String> relevantSkills, Date[] availabiltiyPeriod) {
+        this();
         this.studentId = studentId;
         this.name = name;
         this.educationalInstitute = educationalInstitute;
@@ -120,10 +127,6 @@ public class Student implements Serializable {
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
         this.availabilityPeriod = availabiltiyPeriod;
-        this.applications = new ArrayList<>();
-        this.payments = new ArrayList<>();
-        this.offers = new ArrayList<>();
-        this.rating = "0.00";
     }
 
     public Long getStudentId() {
@@ -159,6 +162,14 @@ public class Student implements Serializable {
         return "entity.StudentEntity[ id=" + studentId + " ]";
     }
 
+    public List<Posting> getPostings() {
+        return postings;
+    }
+
+    public void setPostings(List<Posting> postings) {
+        this.postings = postings;
+    }
+    
     public String getBiography() {
         return biography;
     }
@@ -271,7 +282,7 @@ public class Student implements Serializable {
         BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
         Double aveRating = ave.doubleValue();
         rating = String.valueOf(aveRating);
-        
+
         return rating;
     }
 
