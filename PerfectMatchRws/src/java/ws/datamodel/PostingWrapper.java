@@ -5,6 +5,7 @@
  */
 package ws.datamodel;
 
+import entity.Student;
 import enumeration.Industry;
 
 /**
@@ -20,6 +21,9 @@ public class PostingWrapper {
     private String latestStartDate;
     private Industry industry;
     private String[] requiredSkills;
+    
+    private StartUpWrapper startup;
+    private StudentWrapper student;
 
     public PostingWrapper() {
     }
@@ -98,6 +102,22 @@ public class PostingWrapper {
     public void setRequiredSkills(String[] requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
-    
+
+    public StartUpWrapper getStartup() {
+        return startup;
+    }
+
+    public void setStartup(StartUpWrapper startup) {
+        this.startup = startup;
+    }
+
+    public StudentWrapper getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentWrapper student) {
+        this.student = student;
+    }
+
     
 }
