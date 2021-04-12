@@ -5,7 +5,9 @@
  */
 package ws.datamodel;
 
+import entity.Project;
 import enumeration.Industry;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -19,6 +21,35 @@ public class ProjectWrapper extends PostingWrapper {
 
     public ProjectWrapper() {
         super();
+    }
+    
+    public static ProjectWrapper convertProjectToProjectWrapper(Project project) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        ProjectWrapper newProjectWrapper = new ProjectWrapper();
+        newProjectWrapper.setPostingId(project.getPostingId());
+        newProjectWrapper.setTitle(project.getTitle());
+        newProjectWrapper.setDescription(project.getDescription());
+        newProjectWrapper.setPay(project.getPay());
+
+        if (project.getEarliestStartDate() != null) {
+            newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(project.getEarliestStartDate()));
+        }
+
+        if (project.getLatestStartDate() != null) {
+            newProjectWrapper.setLatestStartDate(simpleDateFormat.format(project.getLatestStartDate()));
+        }
+
+        newProjectWrapper.setIndustry(project.getIndustry());
+
+        String[] skillsArray = project.getRequiredSkills().toArray(new String[0]);
+        String[] milestoneArray = project.getMilestones().toArray(new String[0]);
+
+        newProjectWrapper.setRequiredSkills(skillsArray);
+        newProjectWrapper.setProjectSpecialisation(project.getProjectSpecialisation());
+        newProjectWrapper.setIsComplete(project.isIsComplete());
+        newProjectWrapper.setMilestones(milestoneArray);
+        
+        return newProjectWrapper;
     }
 
     public ProjectWrapper(String projectSpecialisation, Boolean isComplete, String[] milestones, Long postingId, String title, String description, Double pay, String earliestStartDate, String latestStartDate, Industry industry, String[] requiredSkills) {
