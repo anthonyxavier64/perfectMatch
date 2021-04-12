@@ -54,32 +54,8 @@ public class ProjectResource {
 
             List<ProjectWrapper> projectWrappers = new ArrayList<>();
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
             for (int i = 0; i < projects.size(); i++) {
-                ProjectWrapper newProjectWrapper = new ProjectWrapper();
-                newProjectWrapper.setPostingId(projects.get(i).getPostingId());
-                newProjectWrapper.setTitle(projects.get(i).getTitle());
-                newProjectWrapper.setDescription(projects.get(i).getDescription());
-                newProjectWrapper.setPay(projects.get(i).getPay());
-
-                if (projects.get(i).getEarliestStartDate() != null) {
-                    newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(projects.get(i).getEarliestStartDate()));
-                }
-
-                if (projects.get(i).getLatestStartDate() != null) {
-                    newProjectWrapper.setLatestStartDate(simpleDateFormat.format(projects.get(i).getLatestStartDate()));
-                }
-
-                newProjectWrapper.setIndustry(projects.get(i).getIndustry());
-
-                String[] skillsArray = projects.get(i).getRequiredSkills().toArray(new String[0]);
-                String[] milestoneArray = projects.get(i).getMilestones().toArray(new String[0]);
-                
-                newProjectWrapper.setRequiredSkills(skillsArray);
-                newProjectWrapper.setProjectSpecialisation(projects.get(i).getProjectSpecialisation());
-                newProjectWrapper.setIsComplete(projects.get(i).isIsComplete());
-                newProjectWrapper.setMilestones(milestoneArray);
+                ProjectWrapper newProjectWrapper = ProjectWrapper.convertProjectToProjectWrapper(projects.get(i));
                 projectWrappers.add(newProjectWrapper);
             }
 
@@ -100,31 +76,7 @@ public class ProjectResource {
         try {
             Project project = projectSessionBeanLocal.retrieveProjectById(postingId);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            ProjectWrapper newProjectWrapper = new ProjectWrapper();
-            newProjectWrapper.setPostingId(project.getPostingId());
-            newProjectWrapper.setTitle(project.getTitle());
-            newProjectWrapper.setDescription(project.getDescription());
-            newProjectWrapper.setPay(project.getPay());
-
-            if (project.getEarliestStartDate() != null) {
-                newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(project.getEarliestStartDate()));
-            }
-
-            if (project.getLatestStartDate() != null) {
-                newProjectWrapper.setLatestStartDate(simpleDateFormat.format(project.getLatestStartDate()));
-            }
-
-            newProjectWrapper.setIndustry(project.getIndustry());
-
-            String[] skillsArray = project.getRequiredSkills().toArray(new String[0]);
-            String[] milestonesArray = project.getMilestones().toArray(new String[0]);
-            
-            newProjectWrapper.setRequiredSkills(skillsArray);
-            newProjectWrapper.setProjectSpecialisation(project.getProjectSpecialisation());
-            newProjectWrapper.setIsComplete(project.isIsComplete());
-            newProjectWrapper.setMilestones(milestonesArray);
+            ProjectWrapper newProjectWrapper = ProjectWrapper.convertProjectToProjectWrapper(project);
 
             return Response.status(Response.Status.OK).entity(newProjectWrapper).build();
         } catch (Exception ex) {

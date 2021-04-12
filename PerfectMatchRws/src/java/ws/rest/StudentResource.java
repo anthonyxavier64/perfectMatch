@@ -11,9 +11,7 @@ import entity.Application;
 import entity.Offer;
 import entity.Payment;
 import entity.Student;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +30,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.OfferWrapper;
 
 /**
  * REST Web Service
@@ -58,30 +57,14 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response registerStudentAccount(StudentWrapper student) {
         try {
-            Date[] availableDates = new Date[2];
-            availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
-            availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
-            Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
-            List<String> skillList = Arrays.asList(student.getRelevantSkills());
-
-            Student newStudent = new Student(student.getName(), student.getEducationalInstitute(),
-                    student.getBiography(), student.getEmail(), student.getPassword(),
-                    student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
-                    skillList, availableDates);
+         
+            Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
             newStudent = studentSessionBeanLocal.registerStudentAccount(newStudent);
 
             String[] availablePeriod = new String[2];
 
-            availablePeriod[0] = newStudent.getAvailabilityPeriod()[0].toString();
-            availablePeriod[1] = newStudent.getAvailabilityPeriod()[1].toString();
-            String[] skillsArray = newStudent.getRelevantSkills().toArray(new String[0]);
-
-            StudentWrapper newStudentWrapper = new StudentWrapper(
-                    newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
-                    newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
-                    newStudent.getYearOfStudy(), newStudent.getProjectedGraduationYear().toString(),
-                    skillsArray, availablePeriod);
+            StudentWrapper newStudentWrapper = StudentWrapper.convertStudentToStudentWrapper(newStudent);
 
             return Response.status(Status.OK).entity(newStudentWrapper).build();
         } catch (Exception ex) {
@@ -97,20 +80,7 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-
-            String[] availablePeriod = new String[2];
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            availablePeriod[0] = simpleDateFormat.format(student.getAvailabilityPeriod()[0]);
-            availablePeriod[1] = simpleDateFormat.format(student.getAvailabilityPeriod()[1]);
-            String[] skillsArray = student.getRelevantSkills().toArray(new String[0]);
-
-            StudentWrapper studentWrapper = new StudentWrapper(
-                    student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
-                    student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
-                    student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
-                    skillsArray, availablePeriod);
+            StudentWrapper studentWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
 
             return Response.status(Status.OK).entity(studentWrapper).build();
         } catch (Exception ex) {
@@ -139,11 +109,12 @@ public class StudentResource {
     public Response getStudentOffers(@PathParam("studentId") Long studentId) {
         try {
             List<Offer> offers = studentSessionBeanLocal.getStudentOffers(studentId);
+            List<OfferWrapper> offerWrappers = new ArrayList<>();
+            for (Offer o:offers) {
+                offerWrappers.add(OfferWrapper.convertOfferToOfferWrapper(o));
+            }
 
-            
-            
-            GenericEntity<List<Offer>> genericEntity = new GenericEntity<List<Offer>>(offers) {
-            };
+            GenericEntity<List<OfferWrapper>> genericEntity = new GenericEntity<List<OfferWrapper>>(offerWrappers) {};
 
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
@@ -207,29 +178,13 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response editStudentDetails(StudentWrapper student) {
         try {
-            Date[] availableDates = new Date[2];
-            availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
-            availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
-            Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
-            List<String> skillsList = Arrays.asList(student.getRelevantSkills());
-
-            Student newStudent = new Student(student.getStudentId(), student.getName(), student.getEducationalInstitute(),
-                    student.getBiography(), student.getEmail(), student.getPassword(),
-                    student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
-                    skillsList, availableDates);
+            Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
             newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
 
             String[] availablePeriod = new String[2];
 
-            availablePeriod[0] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabilityPeriod()[0]);
-            availablePeriod[1] = new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getAvailabilityPeriod()[1]);
-            String[] skillsArray = newStudent.getRelevantSkills().toArray(new String[0]);
-            StudentWrapper newStudentWrapper = new StudentWrapper(
-                    newStudent.getStudentId(), newStudent.getName(), newStudent.getBiography(), newStudent.getEmail(),
-                    newStudent.getPassword(), newStudent.getEducationalInstitute(), newStudent.getCourseOfStudy(),
-                    newStudent.getYearOfStudy(), new SimpleDateFormat("yyyy-MM-dd").format(newStudent.getProjectedGraduationYear()),
-                    skillsArray, availablePeriod);
+            StudentWrapper newStudentWrapper = StudentWrapper.convertStudentToStudentWrapper(newStudent);
 
             return Response.status(Status.OK).entity(newStudentWrapper).build();
         } catch (Exception ex) {
