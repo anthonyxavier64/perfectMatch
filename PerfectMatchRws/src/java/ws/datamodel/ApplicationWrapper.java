@@ -15,8 +15,8 @@ public class ApplicationWrapper {
     private Long applicationId;
     private Boolean offerSent;
     private String applicationStatus;
-    private Long postingId;
-    private Long studentId;
+    private PostingWrapper posting;
+    private StudentWrapper student;
 
     public Long getApplicationId() {
         return applicationId;
@@ -42,21 +42,19 @@ public class ApplicationWrapper {
         this.applicationStatus = applicationStatus;
     }
 
-    public Long getPostingId() {
-        return postingId;
+    public PostingWrapper getPosting() {
+        return posting;
     }
 
-    public void setPostingId(Long postingId) {
-        this.postingId = postingId;
+    public void setPosting(PostingWrapper posting) {
+        this.posting = posting;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public StudentWrapper getStudent() {
+        return student;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudent(StudentWrapper student) {
+        this.student = student;
     }
-    
-    
 }

@@ -94,9 +94,10 @@ public class OfferResource {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Posting posting = offerSessionBeanLocal.getPostingByOfferId(offerId);
-            PostingWrapper pwrap = new PostingWrapper();
+            PostingWrapper pwrap;
             if (posting instanceof Project) { 
                 pwrap = ProjectWrapper.convertProjectToProjectWrapper((Project) posting);
+                
             } else {
                 pwrap = JobWrapper.convertJobToJobWrapper((Job) posting);
             }
