@@ -13,6 +13,7 @@
         <div>
             <h3> View All Projects </h3>
             <h:form id="formViewAllProjects" >
+                <p:messages id="messages" redisplay="false" closable="true" />
                 <p:panel header="View All Projects">
                     <p:dataTable id="dataTableViewAllProjects" widgetVar="dataTableViewAllProjects" value="#{postingsManagedBean.listOfProjects}" var="project" rowKey="#{project.postingId}" rowIndexVar="row"
                                  filteredValue="#{postingsManagedBean.filteredPostings}"
@@ -65,13 +66,13 @@
                         
                         <p:column headerText="Action">
 
-                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateProject}" update="ccUpdateProject:formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
+                            <p:commandButton actionListener="#{postingsManagedBean.selectProjectToUpdate}" update="ccUpdateProject:formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
                                 <f:attribute name="selectedProjectToUpdate" value="#{project}" />
                                 <f:attribute name="selectedProjectToUpdateIndustry" value="#{project.industry}"/>
                                 <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{project.requiredSkills}"/>
                             </p:commandButton>
 
-                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="ccDeleteProject:formDeleteProject" oncomplete="PF('dialogDeleteProject').show()" icon="ui-icon-trash" title="Delete">
+                            <p:commandButton actionListener="#{postingsManagedBean.deleteProject}" update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages" icon="ui-icon-trash" title="Delete">
                                 <f:attribute name="postingToDelete" value="#{project}" />
                             </p:commandButton>
                         </p:column>

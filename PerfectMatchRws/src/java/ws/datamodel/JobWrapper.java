@@ -44,6 +44,7 @@ public class JobWrapper extends PostingWrapper {
 
         String[] skillsArray = job.getRequiredSkills().toArray(new String[0]);
         newJobWrapper.setRequiredSkills(skillsArray);
+        newJobWrapper.setIsProject(false);
 
         return newJobWrapper;
     }

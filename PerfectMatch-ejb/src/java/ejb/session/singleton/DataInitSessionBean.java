@@ -176,6 +176,46 @@ public class DataInitSessionBean {
                                     "password",
                                     Industry.FOR_TESTING_ONLY,
                                     StartUpLocation.FOR_TESTING_ONLY));
+            startUpSessionBean
+                    .createNewStartUp(
+                            new StartUp(
+                                    "0004",
+                                    "StartUp04",
+                                    "DataInit Startup",
+                                    "StartUp04@gmail.com",
+                                    "password",
+                                    Industry.EDUCATION,
+                                    StartUpLocation.NORTH));
+            startUpSessionBean
+                    .createNewStartUp(
+                            new StartUp(
+                                    "0005",
+                                    "StartUp05",
+                                    "DataInit Startup",
+                                    "StartUp05@gmail.com",
+                                    "password",
+                                    Industry.ENGINEERING,
+                                    StartUpLocation.EAST));
+            startUpSessionBean
+                    .createNewStartUp(
+                            new StartUp(
+                                    "0006",
+                                    "StartUp06",
+                                    "DataInit Startup",
+                                    "StartUp06@gmail.com",
+                                    "password",
+                                    Industry.FINANCE,
+                                    StartUpLocation.SOUTH));
+            startUpSessionBean
+                    .createNewStartUp(
+                            new StartUp(
+                                    "0007",
+                                    "StartUp07",
+                                    "DataInit Startup",
+                                    "StartUp07@gmail.com",
+                                    "password",
+                                    Industry.MARKETING,
+                                    StartUpLocation.WEST));
             System.out.println("**************** DataInitSessionBean.initStartUps");
 
             try {
@@ -246,13 +286,13 @@ public class DataInitSessionBean {
             jobSessionBean.createNewJob(
                     new Job("Job 6", "Job 6", 2000.00, new Date(), new Date(), Industry.EDUCATION, skills), 1l);
             jobSessionBean.createNewJob(
-                    new Job("Job 7", "Job 7", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
+                    new Job("Job 7", "Job 7", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 5l);
             jobSessionBean.createNewJob(
-                    new Job("Job 8", "Job 8", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
+                    new Job("Job 8", "Job 8", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 6l);
             jobSessionBean.createNewJob(
-                    new Job("Job 9", "Job 9", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
+                    new Job("Job 9", "Job 9", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 7l);
             jobSessionBean.createNewJob(
-                    new Job("Job 10", "Job 10", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 1l);
+                    new Job("Job 10", "Job 10", 2000.00, new Date(), new Date(), Industry.ENGINEERING, skills), 8l);
 
             System.out.println("**************** DataInitSessionBean.initJobs");
         } catch (CreateNewStartUpException | InputDataValidationException | CreateNewPostingException ex) {
