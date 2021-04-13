@@ -10,5 +10,5 @@ package enumeration;
  * @author Antho
  */
 public enum ApplicationStatus {
-    APPLIED, PENDING, ACCEPTED, REJECTED
+    PENDING, ACCEPTED, REJECTED
 }
