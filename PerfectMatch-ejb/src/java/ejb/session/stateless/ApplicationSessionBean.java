@@ -76,7 +76,6 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
             student.getApplications().add(app);
             posting.getApplications().add(app);
-
             return app;
 
         } catch (StudentNotFoundException | PostingNotFoundException ex) {
