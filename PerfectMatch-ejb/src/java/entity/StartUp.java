@@ -54,26 +54,26 @@ public class StartUp implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Industry industry;
-    
+
     private StartUpLocation startupLocation;
-    
+
     @OneToMany(mappedBy = "startup")
     private List<Posting> postings;
-    
+
     @OneToMany(mappedBy = "startup")
     private List<Project> projects = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "startup")
     private List<Job> jobs = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "startup")
     private List<Payment> payments = new ArrayList<>();
-    
+
     @Column(nullable = false, length = 4)
     private String rating;
 
     @OneToMany(mappedBy = "startUpBeingRated", fetch = FetchType.LAZY)
-    private List<ReviewOfStartUp> reviews;
+    private List<ReviewOfStartUp> reviews = new ArrayList<>();
 
     public StartUp() {
     }
@@ -98,7 +98,7 @@ public class StartUp implements Serializable {
         this.startupLocation = startupLocation;
         this.rating = "0.00";
     }
-    
+
     public Long getStartupId() {
         return startupId;
     }
@@ -204,7 +204,6 @@ public class StartUp implements Serializable {
         this.payments = payments;
     }
 
-
     public List<Project> getProjects() {
         return projects;
     }
@@ -220,17 +219,21 @@ public class StartUp implements Serializable {
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
     }
-    
+
     public String getRating() {
         BigDecimal sum = BigDecimal.ZERO;
         for (ReviewOfStartUp r : reviews) {
             sum.add(BigDecimal.valueOf(r.getRating()));
         }
-        BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
-        Double aveRating = ave.doubleValue();
-        rating = String.valueOf(aveRating);
-        
-        return rating;
+        if (reviews.size() > 0) {
+            BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
+            Double aveRating = ave.doubleValue();
+            rating = String.valueOf(aveRating);
+
+            return rating;
+        } else {
+            return "0";
+        }
     }
 
     public void setRating(String rating) {
@@ -246,4 +249,3 @@ public class StartUp implements Serializable {
     }
 
 }
-

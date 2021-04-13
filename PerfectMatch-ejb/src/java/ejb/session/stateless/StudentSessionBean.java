@@ -143,7 +143,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             em.merge(student);
             em.flush();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            throw ex;
         }
 
         return student;

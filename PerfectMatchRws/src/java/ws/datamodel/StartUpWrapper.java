@@ -45,7 +45,7 @@ public class StartUpWrapper {
         result.setIndustry(startup.getIndustry());
         result.setStartupLocation(startup.getStartupLocation());
         result.setRating(startup.getRating());
-   
+
         return result;
     }
 

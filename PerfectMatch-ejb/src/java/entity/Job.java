@@ -28,4 +28,5 @@ public class Job extends Posting implements Serializable {
     public Job(String title, String description, Double pay, Date earliestStartDate, Date latestStartDate, Industry industry, List<String> requiredSkills) {
         super(title, description, pay, industry, requiredSkills, earliestStartDate, latestStartDate);
     }
+    
 }

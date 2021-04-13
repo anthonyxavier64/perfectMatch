@@ -25,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.datamodel.JobWrapper;
+import ws.datamodel.StartUpWrapper;
 
 /**
  * REST Web Service
@@ -58,6 +59,7 @@ public class JobResource {
 
             for (int i = 0; i < jobs.size(); i++) {
                 JobWrapper newJobWrapper = JobWrapper.convertJobToJobWrapper(jobs.get(i));
+                newJobWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(jobs.get(i).getStartup()));
                 jobWrappers.add(newJobWrapper);
             }
 
@@ -75,7 +77,6 @@ public class JobResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveJobById(@PathParam("postingId") Long postingId) {
-        System.out.println("here");
         try {
             Job job = jobSessionBeanLocal.retrieveJobById(postingId);
             JobWrapper newJobWrapper = JobWrapper.convertJobToJobWrapper(job);
