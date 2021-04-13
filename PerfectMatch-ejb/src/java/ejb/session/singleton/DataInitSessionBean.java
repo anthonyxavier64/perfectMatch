@@ -51,7 +51,6 @@ import util.exception.CreateNewPostingException;
 import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
 import util.exception.PaymentNotFoundException;
-import util.exception.PostingNotFoundException;
 import util.exception.RepeatedApplicationException;
 import util.exception.StudentNotFoundException;
 

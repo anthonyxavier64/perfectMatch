@@ -51,7 +51,7 @@ public class PaymentManagementManagedBean implements Serializable {
         newPayment = new Payment();
     }
 
-    public void createNewStartUp(ActionEvent event) {
+    public void completePayment() {
         try {
             Payment payment = paymentSessionBean
                     .createNewPayment(newPayment,
