@@ -5,6 +5,7 @@
  */
 package ws.rest;
 
+import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
@@ -32,6 +33,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.ApplicationWrapper;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
 import ws.datamodel.PostingWrapper;
@@ -45,6 +47,8 @@ import ws.datamodel.StartUpWrapper;
  */
 @Path("Student")
 public class StudentResource {
+
+    ApplicationSessionBeanLocal applicationSessionBean = lookupApplicationSessionBeanLocal();
 
     StudentSessionBeanLocal studentSessionBeanLocal = lookupStudentSessionBeanLocal();
 
@@ -131,7 +135,7 @@ public class StudentResource {
 
                 StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(o.getStudent());
                 offerWrapper.setStudent(stuWrap);
-                
+
                 StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
                 offerWrapper.getPosting().setStartup(startWrap);
 
@@ -217,10 +221,54 @@ public class StudentResource {
         }
     }
 
+    @Path("getApplicationsByStudentId/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getApplicationsByStudentId(@PathParam("studentId") Long id) {
+
+        try {
+            List<Application> applications = studentSessionBeanLocal.getStudentApplications(id);
+
+            List<ApplicationWrapper> applicationWrappers = new ArrayList<>();
+
+            for (Application a : applications) {
+                ApplicationWrapper applicationWrapper = ApplicationWrapper.createApplicationWrapper(a);
+                PostingWrapper postWrap = PostingWrapper.convertPostingToPostingWrapper(a.getPosting());
+
+                if (a.getPosting() instanceof Project) {
+                    postWrap.setIsProject(true);
+                } else { 
+                    postWrap.setIsProject(false);
+                }
+                
+                applicationWrapper.setPosting(postWrap);
+                applicationWrappers.add(applicationWrapper);
+            }
+
+            GenericEntity<List<ApplicationWrapper>> genericEntity = new GenericEntity<List<ApplicationWrapper>>(applicationWrappers) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
     private StudentSessionBeanLocal lookupStudentSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
             return (StudentSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/StudentSessionBean!ejb.session.stateless.StudentSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ApplicationSessionBeanLocal lookupApplicationSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ApplicationSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/ApplicationSessionBean!ejb.session.stateless.ApplicationSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

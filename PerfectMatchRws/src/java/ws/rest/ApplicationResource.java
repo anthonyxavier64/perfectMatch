@@ -9,6 +9,7 @@ import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
+import entity.Project;
 import enumeration.ApplicationStatus;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +19,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import util.exception.RepeatedApplicationException;
 import ws.datamodel.ApplicationWrapper;
 import ws.datamodel.PostingWrapper;
+import ws.datamodel.StartUpWrapper;
 import ws.datamodel.StudentWrapper;
 
 /**
@@ -72,13 +76,41 @@ public class ApplicationResource {
             app.setApplicationId(createdApp.getApplicationId());
             app.setStudent(StudentWrapper.convertStudentToStudentWrapper(createdApp.getStudent()));
             app.setPosting(PostingWrapper.convertPostingToPostingWrapper(createdApp.getPosting()));
-            
+
             return Response.status(Status.OK).entity(app).build();
         } catch (RepeatedApplicationException ex) {
             System.out.println(ex.getMessage());
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("retrieveApplicationById/{applicationId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveApplicationById(@PathParam("applicationId") Long id) {
+        try {
+            Application application = applicationSessionBean.retrieveApplicationByApplicationId(id);
+            ApplicationWrapper app = ApplicationWrapper.createApplicationWrapper(application);
+
+            PostingWrapper postWrap = PostingWrapper.convertPostingToPostingWrapper(application.getPosting());
+            if (application.getPosting() instanceof Project) {
+                postWrap.setIsProject(true);
+            } else { 
+                postWrap.setIsProject(false);
+            }
+            
+            StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(application.getPosting().getStartup());
+            postWrap.setStartup(startWrap);
+
+            app.setPosting(postWrap);
+            app.setStudent(StudentWrapper.convertStudentToStudentWrapper(application.getStudent()));
+
+            return Response.status(Status.OK).entity(app).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
 
