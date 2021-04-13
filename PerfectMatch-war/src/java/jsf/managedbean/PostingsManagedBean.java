@@ -97,7 +97,7 @@ public class PostingsManagedBean implements Serializable {
     
     private Posting selectedPostingtoDelete;
     private List<Offer> updatedOffers;
-    private List<List<String>> listOfSkillSets;
+    private List<String> listOfSkillSets;
     
     /**
      * Creates a new instance of PostingsManagedBean
@@ -119,14 +119,24 @@ public class PostingsManagedBean implements Serializable {
         System.out.println(industries);
 
         String[] requiredSkillsOneArray = new String[]{"Java", "Javascript", "SQL", "Web services"};
-        List<String> requiredSkillsOne = Arrays.asList(requiredSkillsOneArray);
+        String requiredSkillsOneArrayConcat = "";
+        for (int i = 0; i < requiredSkillsOneArray.length - 1; i++) {
+            requiredSkillsOneArrayConcat += requiredSkillsOneArray[i] + ", ";
+        }
+        
+        requiredSkillsOneArrayConcat += requiredSkillsOneArray[requiredSkillsOneArray.length - 1];
 
         String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
-        List<String> requiredSkillsTwo = Arrays.asList(requiredSkillsTwoArray);
+        String requiredSkillsTwoArrayConcat = "";
+        for (int i = 0; i < requiredSkillsTwoArray.length - 1; i++) {
+            requiredSkillsTwoArrayConcat += requiredSkillsTwoArray[i] + ", ";
+        }
+        
+        requiredSkillsTwoArrayConcat += requiredSkillsTwoArray[requiredSkillsTwoArray.length - 1];
 
-        List<List<String>> listToInit = new ArrayList<>();
-        listToInit.add(requiredSkillsOne);
-        listToInit.add(requiredSkillsTwo);
+        List<String> listToInit = new ArrayList<>();
+        listToInit.add(requiredSkillsOneArrayConcat);
+        listToInit.add(requiredSkillsTwoArrayConcat);
 
         setListOfSkillSets(listToInit);
         System.out.println(listOfSkillSets.get(0));
@@ -183,16 +193,20 @@ public class PostingsManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Job created successfully (Project ID: " + jobId + ")", null));
     }
     
+    public void selectProjectToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
+    {
+        setSelectedProjectToUpdate((Project)event.getComponent().getAttributes().get("selectedProjectToUpdate"));
+        setSelectedProjectToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
+        setSelectedProjectToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
+        
+    }
+    
+    
     public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException 
     {
         
-        setSelectedProjectToUpdate((Project)event.getComponent().getAttributes().get("selectedProjectToUpdate"));
         
-        System.out.println(getSelectedProjectToUpdate().getPostingId());
-        postingSessionBean.updatePosting(getSelectedProjectToUpdate());
-        
-        setSelectedProjectToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
-        setSelectedProjectToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
+        System.out.println(getSelectedProjectToUpdate().getPostingId());;
         
         System.out.println(getSelectedProjectToUpdateIndustry());
 
@@ -201,40 +215,52 @@ public class PostingsManagedBean implements Serializable {
         postingSessionBean.updatePosting(getSelectedProjectToUpdate());
     }
     
-    public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
+    
+    public void selectJobToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
     {
-        
         setSelectedJobToUpdate((Job)event.getComponent().getAttributes().get("selectedJobToUpdate"));
-        
-        System.out.println(getSelectedJobToUpdate().getPostingId());
         setSelectedJobToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedJobToUpdateIndustry"));
         setSelectedJobToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
+        
+    }
+    
+    
+    public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
+    {
+                
+        
+        System.out.println(getSelectedJobToUpdate().getPostingId());
+
         
         System.out.println(getSelectedJobToUpdateIndustry());
 
         getSelectedJobToUpdate().setIndustry(getSelectedJobToUpdateIndustry());
         getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
+        
+//        getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedJobToUpdate());
-
+        
     }
     
-    public void deletePosting(ActionEvent event) 
+    public void deleteJob(ActionEvent event) 
     {
         try
         {
             Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
-            setSelectedPostingtoDelete(postingToDelete);
-            System.out.println(getSelectedPostingtoDelete().getPostingId());
-            postingSessionBean.deletePosting(getSelectedPostingtoDelete().getPostingId());
             
-            getListOfPostings().remove(getSelectedPostingtoDelete());
+            System.out.println(postingToDelete.getPostingId());
+            postingSessionBean.deletePosting(postingToDelete.getPostingId());                        
+            
+            this.listOfJobs.remove(postingToDelete);
+            
+            
             
             if(getFilteredPostings() != null)
-            {
-                getFilteredPostings().remove(getSelectedPostingtoDelete());
+            {            
+                getFilteredPostings().remove(postingToDelete);            
             }
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Posting " + getSelectedPostingtoDelete().getPostingId() + " has been deleted.", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Job " + postingToDelete.getPostingId() + " has been deleted.", null));
         }
         catch(PostingNotFoundException ex)
         {
@@ -246,6 +272,35 @@ public class PostingsManagedBean implements Serializable {
         }
     }
     
+    public void deleteProject(ActionEvent event) 
+    {
+        try
+        {
+            Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
+            
+            System.out.println(postingToDelete.getPostingId());
+            postingSessionBean.deletePosting(postingToDelete.getPostingId());                        
+            
+            this.listOfProjects.remove(postingToDelete);
+            
+            
+            
+            if(getFilteredPostings() != null)
+            {            
+                getFilteredPostings().remove(postingToDelete);            
+            }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project " + postingToDelete.getPostingId() + " has been deleted.", null));
+        }
+        catch(PostingNotFoundException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting posting: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
 
     public viewPostingManagedBean getViewPostingManagedBean() {
         return viewPostingManagedBean;
@@ -375,11 +430,12 @@ public class PostingsManagedBean implements Serializable {
         return jobPostingId;
     }
 
-    public List<List<String>> getListOfSkillSets() {
+    
+    public List<String> getListOfSkillSets() {
         return listOfSkillSets;
     }
 
-    public void setListOfSkillSets(List<List<String>> listOfSkillSets) {
+    public void setListOfSkillSets(List<String> listOfSkillSets) {
         this.listOfSkillSets = listOfSkillSets;
     }
 

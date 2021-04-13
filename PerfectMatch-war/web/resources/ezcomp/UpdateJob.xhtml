@@ -100,10 +100,7 @@
                     
                     <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Update Job" process="@form formViewAllJobs:dataTableViewAllJobs" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
-                                    <f:attribute name="selectedJobToUpdate" value="#{postingsManagedBean.selectedJobToUpdate}" />
-                                    <f:attribute name="selectedJobToUpdateIndustry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}"/>
-                                    <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}"/>
+                                <p:commandButton value="Update Job" process="@form" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
                                     
                                 </p:commandButton>
                             </p:column>
