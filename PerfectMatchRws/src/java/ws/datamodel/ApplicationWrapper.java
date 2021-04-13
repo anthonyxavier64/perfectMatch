@@ -5,6 +5,7 @@
  */
 package ws.datamodel;
 
+import entity.Application;
 import enumeration.ApplicationStatus;
 
 /**
@@ -15,11 +16,23 @@ public class ApplicationWrapper {
 
     private Long applicationId;
     private Boolean offerSent;
-    private String applicationStatus;
+    private ApplicationStatus applicationStatus;
     private Long postingId;
     private Long studentId;
     private PostingWrapper posting;
     private StudentWrapper student;
+
+    public static ApplicationWrapper createApplicationWrapper(Application app) {
+        ApplicationWrapper appWrapper = new ApplicationWrapper();
+        appWrapper.setApplicationId(app.getApplicationId());
+        appWrapper.setOfferSent(app.isOfferSent());
+        appWrapper.setApplicationStatus(app.getApplicationStatus());
+        appWrapper.setPostingId(app.getPosting().getPostingId());
+        appWrapper.setStudentId(app.getStudent().getStudentId());
+        appWrapper.setPosting(PostingWrapper.convertPostingToPostingWrapper(app.getPosting()));
+        appWrapper.setStudent(StudentWrapper.convertStudentToStudentWrapper(app.getStudent()));
+        return appWrapper;
+    }
 
     public Long getApplicationId() {
         return applicationId;
@@ -37,11 +50,11 @@ public class ApplicationWrapper {
         this.offerSent = offerSent;
     }
 
-    public String getApplicationStatus() {
+    public ApplicationStatus getApplicationStatus() {
         return applicationStatus;
     }
 
-    public void setApplicationStatus(String applicationStatus) {
+    public void setApplicationStatus(ApplicationStatus applicationStatus) {
         this.applicationStatus = applicationStatus;
     }
 
