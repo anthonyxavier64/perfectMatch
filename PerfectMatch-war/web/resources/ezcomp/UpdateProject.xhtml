@@ -107,6 +107,15 @@
                     </p:row>
                     
                     <p:row>
+                        <p:column>
+                            <h:outputLabel value="Is Complete?" />
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{postingsManagedBean.selectedProjectToUpdate.isComplete}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
                             <p:column colspan="2">
                                 <p:commandButton value="Update Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.doUpdateProject}">
                                     <f:attribute name="selectedProjectToUpdate" value="#{postingsManagedBean.selectedProjectToUpdate}" />

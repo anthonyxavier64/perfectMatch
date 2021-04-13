@@ -22,50 +22,87 @@
                        <f:facet name="header">
                             <p:outputPanel style="text-align: right;">
                                 <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewAllProjects').filter()" style="width:300px" placeholder="Enter keyword"/>
+                                <p:inputText id="globalFilter"
+                                             onkeyup="PF('dataTableViewAllProjects').filter()"
+                                             style="width:300px"
+                                             placeholder="Enter keyword"/>
                             </p:outputPanel>
                         </f:facet>
-                        <p:column headerText="Project ID" sortBy="#{project.postingId}" filterBy="#{project.postingId}" filterMatchMode="contains">
+                        <p:column headerText="Project ID"
+                                  sortBy="#{project.postingId}"
+                                  filterBy="#{project.postingId}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.postingId}" />
                         </p:column> 
 
-                        <p:column headerText="Project Title" sortBy="#{project.title}" filterBy="#{project.title}" filterMatchMode="contains">
+                        <p:column headerText="Project Title"
+                                  sortBy="#{project.title}"
+                                  filterBy="#{project.title}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.title}" />
                         </p:column> 
 
-                        <p:column headerText="Compensation" sortBy="#{project.pay}" filterBy="#{project.pay}" filterMatchMode="contains">
+                        <p:column headerText="Compensation"
+                                  sortBy="#{project.pay}"
+                                  filterBy="#{project.pay}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.pay}" />
                         </p:column> 
 
-                        <p:column headerText="Earliest Start Date" sortBy="#{project.earliestStartDate}" filterBy="#{project.earliestStartDate}" filterMatchMode="contains">
+                        <p:column headerText="Earliest Start Date"
+                                  sortBy="#{project.earliestStartDate}"
+                                  filterBy="#{project.earliestStartDate}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.earliestStartDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column> 
 
-                        <p:column headerText="Latest Start Date" sortBy="#{project.latestStartDate}" filterBy="#{project.latestStartDate}" filterMatchMode="contains">
+                        <p:column headerText="Latest Start Date"
+                                  sortBy="#{project.latestStartDate}"
+                                  filterBy="#{project.latestStartDate}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.latestStartDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column> 
 
-                        <p:column headerText="Required Skills" sortBy="#{project.requiredSkills}" filterBy="#{project.requiredSkills}" filterMatchMode="contains">
+                        <p:column headerText="Required Skills"
+                                  sortBy="#{project.requiredSkills}"
+                                  filterBy="#{project.requiredSkills}"
+                                  filterMatchMode="contains">
                             <p:dataList value="#{project.requiredSkills}" var="skills" type="unordered">
                                 #{skills}
                             </p:dataList>
                         </p:column> 
 
-                        <p:column headerText="Industry" sortBy="#{project.industry}" filterBy="#{project.industry}" filterMatchMode="contains">
+                        <p:column headerText="Industry"
+                                  sortBy="#{project.industry}"
+                                  filterBy="#{project.industry}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.industry}" />
                         </p:column> 
                         
-                        <p:column headerText="Specialisation" sortBy="#{project.projectSpecialisation}" filterBy="#{project.projectSpecialisation}" filterMatchMode="contains">
+                        <p:column headerText="Specialisation"
+                                  sortBy="#{project.projectSpecialisation}"
+                                  filterBy="#{project.projectSpecialisation}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.projectSpecialisation}" />
                         </p:column> 
                         
-                        <p:column headerText="Action">
+                        <p:column headerText="Complete?"
+                                  sortBy="#{project.projectSpecialisation}"
+                                  filterBy="#{project.projectSpecialisation}"
+                                  filterMatchMode="contains"
+                                  style="align-content: center">
+                            <p:selectBooleanCheckbox value="#{project.isComplete}"
+                                                     disabled="true"
+                                                     />
+                        </p:column> 
+                        
+                        <p:column headerText="Action" style="align-content: center">
 
-                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateProject}" update="ccUpdateProject:formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
+                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateProject}" update="ccUpdateProject:formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update" >
                                 <f:attribute name="selectedProjectToUpdate" value="#{project}" />
                                 <f:attribute name="selectedProjectToUpdateIndustry" value="#{project.industry}"/>
                                 <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{project.requiredSkills}"/>
