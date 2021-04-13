@@ -70,8 +70,10 @@ public abstract class Posting implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private StartUp startup;
-
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Student acceptedStudent;
+   
     public Posting() {
         offers = new ArrayList<>();
         applications = new ArrayList<>();
@@ -79,6 +81,7 @@ public abstract class Posting implements Serializable {
     }
 
     public Posting(String title, String description, Double pay, Industry industry, List<String> requiredSkills, Date earliestStartDate, Date latestStartDate) {
+        this();
         this.title = title;
         this.description = description;
         this.pay = pay;
@@ -121,6 +124,14 @@ public abstract class Posting implements Serializable {
         return "entity.Posting[ id=" + postingId + " ]";
     }
 
+    public Student getAcceptedStudent() {
+        return acceptedStudent;
+    }
+
+    public void setAcceptedStudent(Student acceptedStudent) {
+        this.acceptedStudent = acceptedStudent;
+    }
+    
     public List<Offer> getOffers() {
         return offers;
     }

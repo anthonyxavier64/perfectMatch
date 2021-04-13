@@ -67,7 +67,7 @@
                         
                         <p:column headerText="Action">
 
-                            <p:commandButton actionListener="#{postingsManagedBean.doUpdateJob}" update="ccUpdateJob:formUpdateJob" oncomplete="PF('dialogUpdateJob').show()" icon="ui-icon-pencil" title="Update">
+                            <p:commandButton actionListener="#{postingsManagedBean.selectJobToUpdate}" update="ccUpdateJob:formUpdateJob" oncomplete="PF('dialogUpdateJob').show()" icon="ui-icon-pencil" title="Update">
                                 <f:attribute name="selectedJobToUpdate" value="#{job}" />
                                 <f:attribute name="selectedJobToUpdateIndustry" value="#{job.industry}"/>
                                 <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{job.requiredSkills}"/>
@@ -75,7 +75,7 @@
 
 
 
-                            <p:commandButton actionListener="#{postingsManagedBean.deletePosting}" update="@form formViewAllJobs:dataTableViewAllJobs formViewAllJobs:messages" icon="ui-icon-trash" title="Delete">
+                            <p:commandButton actionListener="#{postingsManagedBean.deleteJob}" update="@form" icon="ui-icon-trash" title="Delete" ajax="false">
                                 <f:attribute name="postingToDelete" value="#{job}" />
                             </p:commandButton>
                         </p:column>

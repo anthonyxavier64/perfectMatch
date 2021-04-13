@@ -81,7 +81,6 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}" required="false" >
-                                <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="false" />
                                 <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
           
                             </p:selectOneMenu>
@@ -101,10 +100,7 @@
                     
                     <p:row>
                             <p:column colspan="2">
-                                <p:commandButton value="Update Job" process="@form formViewAllJobs:dataTableViewAllJobs" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
-                                    <f:attribute name="selectedJobToUpdate" value="#{postingsManagedBean.selectedJobToUpdate}" />
-                                    <f:attribute name="selectedJobToUpdateIndustry" value="#{postingsManagedBean.selectedJobToUpdateIndustry}"/>
-                                    <f:attribute name="selectedJobToUpdateRequiredSkills" value="#{postingsManagedBean.selectedJobToUpdateRequiredSkills}"/>
+                                <p:commandButton value="Update Job" process="@form" update="@form formViewAllJobs:dataTableViewAllJobs" actionListener="#{postingsManagedBean.doUpdateJob}">
                                     
                                 </p:commandButton>
                             </p:column>
