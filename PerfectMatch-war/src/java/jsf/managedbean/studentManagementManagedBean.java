@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -46,6 +47,8 @@ public class studentManagementManagedBean implements Serializable {
     private StartUp currentStartUp;
     private Student favouriteStudent;
     
+    private Student studentToView;
+    private long studentIdToView;
 
     /**
      * Creates a new instance of studentManagementManagedBean
@@ -64,9 +67,23 @@ public class studentManagementManagedBean implements Serializable {
     
     public void viewStudentDetails(ActionEvent event) throws IOException 
     {
-        Long studentIdToView = (Long)event.getComponent().getAttributes().get("studentId");
+        Long studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("studentManagement.xhtml");
+    }
+    
+        
+    public void retrieveStudentByStudentId(ActionEvent event) throws IOException, StudentNotFoundException 
+    {
+            studentIdToView = (Long)event.getComponent().getAttributes().get("studentId");
+            System.out.println("Student ID is:" + getStudentIdToView());
+
+            if (studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()) == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentIdToView() + " does not exist.", null));
+            } else {
+                setStudentToView(studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentToView().getStudentId() + " is selected.", null));
+            }
     }
     
     public void addStudentToFavourite(ActionEvent event) 
@@ -151,6 +168,22 @@ public class studentManagementManagedBean implements Serializable {
 
     public void setFavouriteStudent(Student favouriteStudent) {
         this.favouriteStudent = favouriteStudent;
+    }
+
+    public Student getStudentToView() {
+        return studentToView;
+    }
+
+    public void setStudentToView(Student studentToView) {
+        this.studentToView = studentToView;
+    }
+
+    public long getStudentIdToView() {
+        return studentIdToView;
+    }
+
+    public void setStudentIdToView(long studentIdToView) {
+        this.studentIdToView = studentIdToView;
     }
     
     

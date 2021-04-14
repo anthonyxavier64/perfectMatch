@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h3> Compare Students </h3>
+        <p:panel header="Student 1">
+   
+            <h:form id="student1Form">
+                <p:panelGrid>
+                    <p:messages id="message1"/>    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student ID" for="studentId" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText id="studentId" value="#{studentManagementManagedBean.studentIdToView}" required="true"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Search for Student" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Search" process="@form" update="@form" actionListener="#{studentManagementManagedBean.retrieveStudentByStudentId}">
+                                <f:attribute name="studentId" value="#{studentManagementManagedBean.studentIdToView}"/>
+                            </p:commandButton>    
+                        </p:column>
+                    </p:row>
+                    
+                </p:panelGrid>
+                
+                <br></br>
+                
+                <p:panelGrid id="student1PanelGrid">
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student ID" for="student1Id" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="student1Id" value="#{studentManagementManagedBean.studentToView.studentId}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Name" for="studentName" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="studentName" value="#{studentManagementManagedBean.studentToView.name}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Biography" for="studentBiography" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="studentBiography" value="#{studentManagementManagedBean.studentToView.biography}"/>
+                        </p:column>
+                    </p:row>                    
+                     
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Email" for="email" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="email" value="#{studentManagementManagedBean.studentToView.email}"/>
+                        </p:column>
+                    </p:row>  
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Educational Institute" for="educationalInstitute" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="educationalInstitute" value="#{studentManagementManagedBean.studentToView.educationalInstitute}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Course of Study" for="courseOfStudy" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="courseOfStudy" value="#{studentManagementManagedBean.studentToView.courseOfStudy}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Year of Study" for="yearOfStudy" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="yearOfStudy" value="#{studentManagementManagedBean.studentToView.yearOfStudy}"/>
+                        </p:column>
+                    </p:row>    
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Projected Graduation Year: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.projectedGraduationYear}">
+                                <f:convertDateTime pattern="yyyy" />
+                            </h:outputText>                 
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Relevant Skills: " />
+                        </p:column>
+                        <p:column>
+                            <p:dataList value="#{studentManagementManagedBean.studentToView.relevantSkills}" var ="skill">
+                                 <h:outputText value="#{skill}" />
+                            </p:dataList> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Availability Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.availabilityPeriod[0]}" >
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Availability End Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.availabilityPeriod[1]}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+            
+        </p:panel>
+        <p:panel header="Student 2">
+   
+            <h:form id="student2Form">
+                <p:panelGrid>
+                    <p:messages id="message2"/>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student ID" for="student2Id" />
+                        </p:column>
+                        <p:column>
+                            <h:inputText id="student2Id" value="#{studentManagementManagedBean.studentIdToView}" required="true"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Search for Student" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Search" process="@form" update="@form" actionListener="#{studentManagementManagedBean.retrieveStudentByStudentId}">
+                                <f:attribute name="studentId" value="#{studentManagementManagedBean.studentIdToView}"/>
+                            </p:commandButton> </p:column>
+                    </p:row>
+                    
+                </p:panelGrid>
+                
+                <br></br>
+                
+                <p:panelGrid id="student2PanelGrid">
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student ID" for="studentId" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="studentId" value="#{studentManagementManagedBean.studentToView.studentId}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Name" for="studentName" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="studentName" value="#{studentManagementManagedBean.studentToView.name}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Biography" for="studentBiography" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="studentBiography" value="#{studentManagementManagedBean.studentToView.biography}"/>
+                        </p:column>
+                    </p:row>                    
+                     
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Student Email" for="email" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="email" value="#{studentManagementManagedBean.studentToView.email}"/>
+                        </p:column>
+                    </p:row>  
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Educational Institute" for="educationalInstitute" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="educationalInstitute" value="#{studentManagementManagedBean.studentToView.educationalInstitute}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Course of Study" for="courseOfStudy" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="courseOfStudy" value="#{studentManagementManagedBean.studentToView.courseOfStudy}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Year of Study" for="yearOfStudy" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="yearOfStudy" value="#{studentManagementManagedBean.studentToView.yearOfStudy}"/>
+                        </p:column>
+                    </p:row>    
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Projected Graduation Year: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.projectedGraduationYear}">
+                                <f:convertDateTime pattern="yyyy" />
+                            </h:outputText>                 
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Relevant Skills: " />
+                        </p:column>
+                        <p:column>
+                            <p:dataList value="#{studentManagementManagedBean.studentToView.relevantSkills}" var ="skill">
+                                 <h:outputText value="#{skill}" />
+                            </p:dataList> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Availability Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.availabilityPeriod[0]}" >
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Availability End Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.availabilityPeriod[1]}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
