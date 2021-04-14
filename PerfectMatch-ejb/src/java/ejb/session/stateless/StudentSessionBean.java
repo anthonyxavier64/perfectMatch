@@ -66,7 +66,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             em.flush();
             return student;
         } else {
-            throw new CreateNewStudentException("Studednt information not provided");
+            throw new CreateNewStudentException("Student information not provided");
         }
     }
 
