@@ -8,47 +8,12 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="../template/defTemplate.xhtml">
 
-    <ui:define name="content">
-
-        <div>
-            <h3> View All Students </h3>
-            <h:form id="formViewAllStudents" >
-                <p:panel header="View All Students">
-                    <p:dataTable id="dataTableViewAllStudents" widgetVar="dataTableViewAllStudents" value="#{studentManagementManagedBean.listOfStudents}" var="student">
-
-                        <p:column headerText="Student ID" sortBy="#{student.studentId}" filterBy="#{student.studentId}" filterMatchMode="contains">
-                            <h:outputText value="#{student.studentId}" />
-                        </p:column> 
-
-                        <p:column headerText="Student Name" sortBy="#{student.name}" filterBy="#{student.name}" filterMatchMode="contains">
-                            <h:outputText value="#{student.name}" />
-                        </p:column> 
-
-                        <p:column headerText="Educational Institute" sortBy="#{student.educationalInstitute}" filterBy="#{student.educationalInstitute}" filterMatchMode="contains">
-                            <h:outputText value="#{student.educationalInstitute}" />
-                        </p:column> 
-
-                        <p:column headerText="Course of Study" sortBy="#{student.courseOfStudy}" filterBy="#{student.courseOfStudy}" filterMatchMode="contains">
-                            <h:outputText value="#{student.courseOfStudy}" />
-                        </p:column> 
-
-                        <p:column headerText="Student Email" sortBy="#{student.email}" filterBy="#{student.email}" filterMatchMode="contains">
-                            <h:outputText value="#{student.email}" />
-                        </p:column> 
-
-
-                        <p:column headerText="View Details">
-                            <p:commandButton update="ccViewStudent:formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View">
-                                <f:setPropertyActionListener value="#{student}" target="#{studentManagementManagedBean.viewStudentManagedBean.studentEntityToView}" />
-                            </p:commandButton>   
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
-            <ez:ViewStudent id="ccViewStudent" />
-        </div>
-
-
+        <ui:define name="content">
+         <h3>What would you like to do today? </h3>
+         <p:row>
+             <p:button id="students" outcome="/studentManagement/viewAllStudents.xhtml" value="View All Students" />
+             <p:button id="favStudents" outcome="/studentManagement/viewFavouriteStudents.xhtml" value="View Favourite Students" />
+         </p:row>
     </ui:define>
 
 </ui:composition>
