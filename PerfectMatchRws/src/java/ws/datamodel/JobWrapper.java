@@ -19,10 +19,6 @@ public class JobWrapper extends PostingWrapper {
         super();
     }
 
-    public JobWrapper(Long postingId, String title, String description, Double pay, String earliestStartDate, String latestStartDate, Industry industry, String[] requiredSkills) {
-        super(postingId, title, description, pay, earliestStartDate, latestStartDate, industry, requiredSkills);
-    }
-
     public static JobWrapper convertJobToJobWrapper(Job job) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
