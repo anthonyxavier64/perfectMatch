@@ -68,6 +68,9 @@ public class StartUp implements Serializable {
 
     @OneToMany(mappedBy = "startup")
     private List<Payment> payments = new ArrayList<>();
+    
+    @OneToMany
+    private List<Student> favouriteStudents = new ArrayList<>();
 
     @Column(nullable = false, length = 4)
     private String rating;
@@ -246,6 +249,14 @@ public class StartUp implements Serializable {
 
     public void setReviews(List<ReviewOfStartUp> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<Student> getFavouriteStudents() {
+        return favouriteStudents;
+    }
+
+    public void setFavouriteStudents(List<Student> favouriteStudents) {
+        this.favouriteStudents = favouriteStudents;
     }
 
 }

@@ -9,6 +9,7 @@ import entity.Payment;
 import entity.Posting;
 import util.exception.CreateNewStartUpException;
 import entity.StartUp;
+import entity.Student;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
