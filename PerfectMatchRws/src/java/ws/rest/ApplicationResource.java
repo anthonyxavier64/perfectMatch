@@ -64,7 +64,8 @@ public class ApplicationResource {
             Application newApp = new Application();
 
             for (ApplicationStatus status : ApplicationStatus.values()) {
-                if (status.name().equals(app.getApplicationStatus())) {
+
+                if (status == app.getApplicationStatus()) {
                     newApp.setApplicationStatus(status);
                 }
             }
@@ -98,10 +99,10 @@ public class ApplicationResource {
             PostingWrapper postWrap = PostingWrapper.convertPostingToPostingWrapper(application.getPosting());
             if (application.getPosting() instanceof Project) {
                 postWrap.setIsProject(true);
-            } else { 
+            } else {
                 postWrap.setIsProject(false);
             }
-            
+
             StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(application.getPosting().getStartup());
             postWrap.setStartup(startWrap);
 
