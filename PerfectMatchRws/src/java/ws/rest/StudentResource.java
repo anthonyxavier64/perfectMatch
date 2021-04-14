@@ -6,12 +6,14 @@
 package ws.rest;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
+import ejb.session.stateless.PostingSessionBeanLocal;
 import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
 import entity.Job;
 import entity.Offer;
 import entity.Payment;
+import entity.Posting;
 import entity.Project;
 import entity.Student;
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ import ws.datamodel.StartUpWrapper;
  */
 @Path("Student")
 public class StudentResource {
+
+    PostingSessionBeanLocal postingSessionBeanLocal = lookupPostingSessionBeanLocal();
 
     ApplicationSessionBeanLocal applicationSessionBean = lookupApplicationSessionBeanLocal();
 
@@ -209,9 +213,14 @@ public class StudentResource {
         try {
             Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
-            newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
+            List<Posting> pList = new ArrayList<>();
+            for (PostingWrapper pw : student.getFavorites()) {
+                Posting p = postingSessionBeanLocal.retrievePostingByPostingId(pw.getPostingId());
+                pList.add(p);
+            }
+            newStudent.setFavorites(pList);
 
-            String[] availablePeriod = new String[2];
+            newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
 
             StudentWrapper newStudentWrapper = StudentWrapper.convertStudentToStudentWrapper(newStudent);
 
@@ -238,15 +247,45 @@ public class StudentResource {
 
                 if (a.getPosting() instanceof Project) {
                     postWrap.setIsProject(true);
-                } else { 
+                } else {
                     postWrap.setIsProject(false);
                 }
-                
+
                 applicationWrapper.setPosting(postWrap);
                 applicationWrappers.add(applicationWrapper);
             }
 
             GenericEntity<List<ApplicationWrapper>> genericEntity = new GenericEntity<List<ApplicationWrapper>>(applicationWrappers) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("getFavoritesByStudentId/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFavoritesByStudentId(@PathParam("studentId") Long id) {
+
+        try {
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
+
+            List<PostingWrapper> postingWrappers = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                if (p instanceof Job) {
+                    JobWrapper jw = JobWrapper.convertJobToJobWrapper((Job) p);
+                    postingWrappers.add((PostingWrapper) jw);
+                } else {
+                    ProjectWrapper pw = ProjectWrapper.convertProjectToProjectWrapper((Project) p);
+                    postingWrappers.add(pw);
+                }
+            }
+
+            GenericEntity<List<PostingWrapper>> genericEntity = new GenericEntity<List<PostingWrapper>>(postingWrappers) {
             };
 
             return Response.status(Status.OK).entity(genericEntity).build();
@@ -269,6 +308,16 @@ public class StudentResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (ApplicationSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/ApplicationSessionBean!ejb.session.stateless.ApplicationSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private PostingSessionBeanLocal lookupPostingSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (PostingSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/PostingSessionBean!ejb.session.stateless.PostingSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

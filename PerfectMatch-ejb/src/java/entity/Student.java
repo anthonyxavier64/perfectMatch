@@ -72,6 +72,9 @@ public class Student implements Serializable {
 
     private Date[] availabilityPeriod;
 
+    @OneToMany
+    private List<Posting> favorites;
+    
     @OneToMany(mappedBy = "student")
     private List<Application> applications;
 
@@ -96,6 +99,7 @@ public class Student implements Serializable {
         this.offers = new ArrayList<>();
         this.postings = new ArrayList<>();
         this.rating = "0.00";
+        this.favorites = new ArrayList<>();
     }
 
     public Student(String name, String educationalInstitute, String biography, String email, String password, String courseOfStudy, Integer yearOfStudy,
@@ -296,6 +300,14 @@ public class Student implements Serializable {
 
     public void setReviews(List<ReviewOfStudent> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<Posting> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Posting> favorites) {
+        this.favorites = favorites;
     }
 
 }
