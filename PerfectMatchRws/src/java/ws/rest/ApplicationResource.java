@@ -64,7 +64,10 @@ public class ApplicationResource {
             Application newApp = new Application();
 
             for (ApplicationStatus status : ApplicationStatus.values()) {
-                newApp.setApplicationStatus(ApplicationStatus.PENDING);
+
+                if (status == app.getApplicationStatus()) {
+                    newApp.setApplicationStatus(status);
+                }
             }
 
 //            newApp.setApplicationStatus(app.getApplicationStatus());
