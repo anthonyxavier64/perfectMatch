@@ -64,7 +64,7 @@ public class ApplicationResource {
             Application newApp = new Application();
 
             for (ApplicationStatus status : ApplicationStatus.values()) {
-                if (status.name().equals(app.getApplicationStatus())) {
+                if (status == app.getApplicationStatus()) {
                     newApp.setApplicationStatus(status);
                 }
             }
