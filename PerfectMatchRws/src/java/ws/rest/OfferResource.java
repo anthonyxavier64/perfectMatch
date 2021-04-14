@@ -7,9 +7,13 @@ package ws.rest;
 
 import ejb.session.stateless.OfferSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
+import entity.Job;
 import entity.Offer;
 import entity.Posting;
+import entity.Project;
 import entity.StartUp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +30,12 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.JobWrapper;
+import ws.datamodel.OfferWrapper;
+import ws.datamodel.PostingWrapper;
+import ws.datamodel.ProjectWrapper;
+import ws.datamodel.StartUpWrapper;
+import ws.datamodel.StudentWrapper;
 
 /**
  * REST Web Service
@@ -46,10 +56,16 @@ public class OfferResource {
     @Path("retrieveAllOffers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllProjects() {
+    public Response retrieveAllOffers() {
         try {
             List<Offer> offers = offerSessionBeanLocal.retrieveAllOffers();
-            GenericEntity<List<Offer>> genericEntity = new GenericEntity<List<Offer>>(offers) {
+            List<OfferWrapper> results = new ArrayList<>();
+            
+            for (Offer o:offers) {
+                results.add(OfferWrapper.convertOfferToOfferWrapper(o));
+            }
+            
+            GenericEntity<List<OfferWrapper>> genericEntity = new GenericEntity<List<OfferWrapper>>(results) {
             };
             return Response.status(Response.Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
@@ -57,27 +73,47 @@ public class OfferResource {
         }
     }
 
-    @Path("retrieveOffer/{offerId}")
+    @Path("retrieveOffer")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveJobById(@PathParam("offerId") Long offerId) {
         try {
-            Offer offer = offerSessionBeanLocal.retrieveOfferByOfferId(offerId);
+            Offer oriOffer = offerSessionBeanLocal.retrieveOfferByOfferId(offerId);
+            OfferWrapper offer = OfferWrapper.convertOfferToOfferWrapper(oriOffer);
+            
             return Response.status(Status.OK).entity(offer).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
     
-    @Path("getOfferPosting")
+    @Path("retrieveOfferById/{offerId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOfferPosting(@PathParam("offerId") Long offerId) {
         try {
-            Posting posting = offerSessionBeanLocal.getPostingByOfferId(offerId);
-            return Response.status(Status.OK).entity(posting).build();
+            Offer o = offerSessionBeanLocal.retrieveOfferByOfferId(offerId);
+            
+            OfferWrapper offerWrapper = OfferWrapper.convertOfferToOfferWrapper(o);
+
+                PostingWrapper postWrap;
+                if (o.getPosting() instanceof Project) {
+                    postWrap = ProjectWrapper.convertProjectToProjectWrapper((Project) o.getPosting());
+                } else {
+                    postWrap = JobWrapper.convertJobToJobWrapper((Job) o.getPosting());
+                }
+
+                offerWrapper.setPosting(postWrap);
+
+                StudentWrapper stuWrap = StudentWrapper.convertStudentToStudentWrapper(o.getStudent());
+                offerWrapper.setStudent(stuWrap);
+                
+                StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
+                offerWrapper.getPosting().setStartup(startWrap);
+                
+                return Response.status(Status.OK).entity(offerWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }

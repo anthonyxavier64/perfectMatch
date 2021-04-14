@@ -25,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.datamodel.JobWrapper;
+import ws.datamodel.StartUpWrapper;
 
 /**
  * REST Web Service
@@ -35,17 +36,16 @@ import ws.datamodel.JobWrapper;
 public class JobResource {
 
     JobSessionBeanLocal jobSessionBeanLocal = lookupJobSessionBeanLocal();
-    
+
     @Context
     private UriInfo context;
-    
+
     /**
      * Creates a new instance of JobResource
      */
     public JobResource() {
     }
-    
-    
+
     @Path("retrieveAllJobs")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,24 +58,8 @@ public class JobResource {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             for (int i = 0; i < jobs.size(); i++) {
-                JobWrapper newJobWrapper = new JobWrapper();
-                newJobWrapper.setPostingId(jobs.get(i).getPostingId());
-                newJobWrapper.setTitle(jobs.get(i).getTitle());
-                newJobWrapper.setDescription(jobs.get(i).getDescription());
-                newJobWrapper.setPay(jobs.get(i).getPay());
-
-                if (jobs.get(i).getEarliestStartDate() != null) {
-                    newJobWrapper.setEarliestStartDate(simpleDateFormat.format(jobs.get(i).getEarliestStartDate()));
-                }
-
-                if (jobs.get(i).getLatestStartDate() != null) {
-                    newJobWrapper.setLatestStartDate(simpleDateFormat.format(jobs.get(i).getLatestStartDate()));
-                }
-
-                newJobWrapper.setIndustry(jobs.get(i).getIndustry());
-                
-                String[] skillsArray = jobs.get(i).getRequiredSkills().toArray(new String[0]);
-                newJobWrapper.setRequiredSkills(skillsArray);
+                JobWrapper newJobWrapper = JobWrapper.convertJobToJobWrapper(jobs.get(i));
+                newJobWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(jobs.get(i).getStartup()));
                 jobWrappers.add(newJobWrapper);
             }
 
@@ -93,37 +77,16 @@ public class JobResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveJobById(@PathParam("postingId") Long postingId) {
-        System.out.println("here");
         try {
             Job job = jobSessionBeanLocal.retrieveJobById(postingId);
+            JobWrapper newJobWrapper = JobWrapper.convertJobToJobWrapper(job);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            JobWrapper newJobWrapper = new JobWrapper();
-            newJobWrapper.setPostingId(job.getPostingId());
-            newJobWrapper.setTitle(job.getTitle());
-            newJobWrapper.setDescription(job.getDescription());
-            newJobWrapper.setPay(job.getPay());
-
-            if (job.getEarliestStartDate() != null) {
-                newJobWrapper.setEarliestStartDate(simpleDateFormat.format(job.getEarliestStartDate()));
-            }
-
-            if (job.getLatestStartDate() != null) {
-                newJobWrapper.setLatestStartDate(simpleDateFormat.format(job.getLatestStartDate()));
-            }
-
-            newJobWrapper.setIndustry(job.getIndustry());
-            
-            String[] skillsArray = job.getRequiredSkills().toArray(new String[0]);
-            newJobWrapper.setRequiredSkills(skillsArray);
-            
             return Response.status(Response.Status.OK).entity(newJobWrapper).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     private JobSessionBeanLocal lookupJobSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
