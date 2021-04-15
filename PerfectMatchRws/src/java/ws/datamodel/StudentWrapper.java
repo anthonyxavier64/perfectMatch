@@ -5,10 +5,10 @@
  */
 package ws.datamodel;
 
-import entity.Posting;
 import entity.Student;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,7 @@ public class StudentWrapper {
     private String projectedGraduationYear;
     private String[] relevantSkills;
     private String[] availabilityPeriod;
-    private PostingWrapper[] favorites;
+    private FavouritesWrapper[] favorites;
 
     public StudentWrapper() {
     }
@@ -47,7 +47,7 @@ public class StudentWrapper {
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
         this.availabilityPeriod = availabilityPeriod;
-        this.favorites = new PostingWrapper[0];
+        this.favorites = new FavouritesWrapper[]{};
     }
 
     public static StudentWrapper convertStudentToStudentWrapper(Student student) {
@@ -74,10 +74,6 @@ public class StudentWrapper {
         availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
         Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
         List<String> skillsList = Arrays.asList(student.getRelevantSkills());
-        List<PostingWrapper> postingList = Arrays.asList(student.getFavorites());
-        for (PostingWrapper pw : postingList) {
-            
-        }
         Student newStudent = new Student(student.getStudentId(), student.getName(), student.getEducationalInstitute(),
                 student.getBiography(), student.getEmail(), student.getPassword(),
                 student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
@@ -174,11 +170,11 @@ public class StudentWrapper {
         this.studentId = studentId;
     }
 
-    public PostingWrapper[] getFavorites() {
+    public FavouritesWrapper[] getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(PostingWrapper[] favorites) {
+    public void setFavorites(FavouritesWrapper[] favorites) {
         this.favorites = favorites;
     }
 

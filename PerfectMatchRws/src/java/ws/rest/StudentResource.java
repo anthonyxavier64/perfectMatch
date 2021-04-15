@@ -36,6 +36,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import ws.datamodel.ApplicationWrapper;
+import ws.datamodel.FavouritesWrapper;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
 import ws.datamodel.PostingWrapper;
@@ -94,9 +95,26 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-            StudentWrapper studentWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
 
-            return Response.status(Status.OK).entity(studentWrapper).build();
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
@@ -213,13 +231,6 @@ public class StudentResource {
         try {
             Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
-            List<Posting> pList = new ArrayList<>();
-            for (PostingWrapper pw : student.getFavorites()) {
-                Posting p = postingSessionBeanLocal.retrievePostingByPostingId(pw.getPostingId());
-                pList.add(p);
-            }
-            newStudent.setFavorites(pList);
-
             newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
 
             StudentWrapper newStudentWrapper = StudentWrapper.convertStudentToStudentWrapper(newStudent);
@@ -230,11 +241,85 @@ public class StudentResource {
         }
     }
 
+    @Path("addFavourite")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavourite(@QueryParam("studId") Long studentId,
+            @QueryParam("postId") Long postingId) {
+        try {
+            Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
+            studentSessionBeanLocal.addFavourite(posting, studentId);
+
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("removeFavourite")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeFavourite(@QueryParam("studId") Long studentId,
+            @QueryParam("postId") Long postingId) {
+        try {
+            Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
+            studentSessionBeanLocal.removeFavourite(posting, studentId);
+
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
+
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+
     @Path("getApplicationsByStudentId/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getApplicationsByStudentId(@PathParam("studentId") Long id) {
+    public Response getApplicationsByStudentId(@PathParam("studentId") Long id
+    ) {
 
         try {
             List<Application> applications = studentSessionBeanLocal.getStudentApplications(id);
@@ -268,27 +353,31 @@ public class StudentResource {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFavoritesByStudentId(@PathParam("studentId") Long id) {
+    public Response getFavoritesByStudentId(@PathParam("studentId") Long id
+    ) {
 
         try {
-            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
+           Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
 
-            List<PostingWrapper> postingWrappers = new ArrayList<>();
+            List<FavouritesWrapper> faves = new ArrayList<>();
 
             for (Posting p : student.getFavorites()) {
-                if (p instanceof Job) {
-                    JobWrapper jw = JobWrapper.convertJobToJobWrapper((Job) p);
-                    postingWrappers.add((PostingWrapper) jw);
-                } else {
-                    ProjectWrapper pw = ProjectWrapper.convertProjectToProjectWrapper((Project) p);
-                    postingWrappers.add(pw);
-                }
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
             }
 
-            GenericEntity<List<PostingWrapper>> genericEntity = new GenericEntity<List<PostingWrapper>>(postingWrappers) {
-            };
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
 
-            return Response.status(Status.OK).entity(genericEntity).build();
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
