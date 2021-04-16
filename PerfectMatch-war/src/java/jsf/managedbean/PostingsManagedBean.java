@@ -284,13 +284,20 @@ public class PostingsManagedBean implements Serializable {
             if (toUpdate.getAcceptedStudent() == null) {
                 System.out.println("********** doProjectPayment Null Student");
 
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "A Student has not been associated to the project for payment", null));
+                FacesContext.getCurrentInstance()
+                        .addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                        "A Student has not been associated to the project for payment",
+                                        null));
             } else {
                 System.out.println("********** doProjectPayment Student Not Null");
 
-                selectedProjectToUpdate.setIsComplete(true);
-                paymentManagementManagedBean.setProjectToPay(selectedProjectToUpdate);
-                paymentManagementManagedBean.setStudentToPay(selectedProjectToUpdate.getAcceptedStudent());
+                toUpdate.setIsComplete(true);
+                paymentManagementManagedBean
+                        .setProjectToPay(toUpdate);
+                paymentManagementManagedBean
+                        .setStudentToPay(toUpdate.getAcceptedStudent());
+                paymentManagementManagedBean.completePayment();
             }
         } catch (PostingNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "There was an error retrieving this project", null));
