@@ -395,8 +395,26 @@ public class DataInitSessionBean {
                     .createNewOffer(
                             new Offer(
                                     "TestOffer3",
-                                    OfferStatus.REJECTED),
+                                    OfferStatus.PENDING),
                             (long) 3, (long) 3);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer5",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 4);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer6",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 5);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 6);
             offerSessionBean
                     .createNewOffer(
                             new Offer(
