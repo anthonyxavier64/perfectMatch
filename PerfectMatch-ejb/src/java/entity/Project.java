@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,11 +25,14 @@ public class Project extends Posting implements Serializable {
     private String projectSpecialisation;
     
     private List<String> milestones;
-
+    
     @NotNull
     @Column(nullable = false)
     private boolean isComplete;
 
+    @OneToOne
+    private Payment projectPayment;
+    
     public Project() {
         super();
         milestones = new ArrayList<>();
@@ -42,6 +46,14 @@ public class Project extends Posting implements Serializable {
         this.projectSpecialisation = projectSpecialisation;
     }
 
+    public Payment getProjectPayment() {
+        return projectPayment;
+    }
+
+    public void setProjectPayment(Payment projectPayment) {
+        this.projectPayment = projectPayment;
+    }
+    
     public String getProjectSpecialisation() {
         return projectSpecialisation;
     }

@@ -127,7 +127,7 @@ public class DataInitSessionBean {
         try {
             paymentSessionBean.retrievePaymentByPaymentId(1l);
         } catch (PaymentNotFoundException ex) {
-            initPayments();
+            //initPayments();
         }
         
         System.out.println("**************** DataInitSessionBean.postConstruct");
