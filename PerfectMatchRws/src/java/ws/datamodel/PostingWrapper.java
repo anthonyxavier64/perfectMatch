@@ -5,9 +5,10 @@
  */
 package ws.datamodel;
 
+import entity.Job;
 import entity.Posting;
+import entity.Project;
 import enumeration.Industry;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -42,22 +43,15 @@ public class PostingWrapper {
     }
     
     public static PostingWrapper convertPostingToPostingWrapper(Posting posting) {
-        PostingWrapper postingWrapper = new PostingWrapper();
+        PostingWrapper pw;
         
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (posting instanceof Job) {
+            pw = JobWrapper.convertJobToJobWrapper((Job) posting);
+        } else {
+            pw = ProjectWrapper.convertProjectToProjectWrapper((Project) posting);
+        }
         
-        postingWrapper.setPostingId(posting.getPostingId());
-        postingWrapper.setTitle(posting.getTitle());
-        postingWrapper.setDescription(posting.getDescription());
-        postingWrapper.setPay(posting.getPay());
-        
-        postingWrapper.setEarliestStartDate(simpleDateFormat.format(posting.getEarliestStartDate()));
-        postingWrapper.setLatestStartDate(simpleDateFormat.format(posting.getLatestStartDate()));
-        
-        postingWrapper.setIndustry(posting.getIndustry());
-        postingWrapper.setRequiredSkills((String[])posting.getRequiredSkills().toArray());
-        
-        return postingWrapper;
+        return pw;
     }
 
     public Long getPostingId() {

@@ -8,6 +8,7 @@ package ws.datamodel;
 import entity.Student;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ public class StudentWrapper {
     private String projectedGraduationYear;
     private String[] relevantSkills;
     private String[] availabilityPeriod;
+    private FavouritesWrapper[] favorites;
 
     public StudentWrapper() {
     }
@@ -45,8 +47,9 @@ public class StudentWrapper {
         this.projectedGraduationYear = projectedGraduationYear;
         this.relevantSkills = relevantSkills;
         this.availabilityPeriod = availabilityPeriod;
+        this.favorites = new FavouritesWrapper[]{};
     }
-    
+
     public static StudentWrapper convertStudentToStudentWrapper(Student student) {
         String[] availablePeriod = new String[2];
 
@@ -61,22 +64,21 @@ public class StudentWrapper {
                 student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
                 student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
                 skillsArray, availablePeriod);
-        
+
         return studentWrapper;
     }
-    
-     public static Student convertStudentWrapperToStudent(StudentWrapper student) throws ParseException {
+
+    public static Student convertStudentWrapperToStudent(StudentWrapper student) throws ParseException {
         Date[] availableDates = new Date[2];
         availableDates[0] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[0]);
         availableDates[1] = new SimpleDateFormat("yyyy-MM-dd").parse(student.getAvailabilityPeriod()[1]);
         Date projectedGraduationYear = new SimpleDateFormat("yyyy-MM-dd").parse(student.getProjectedGraduationYear());
         List<String> skillsList = Arrays.asList(student.getRelevantSkills());
-
         Student newStudent = new Student(student.getStudentId(), student.getName(), student.getEducationalInstitute(),
                 student.getBiography(), student.getEmail(), student.getPassword(),
                 student.getCourseOfStudy(), student.getYearOfStudy(), projectedGraduationYear,
                 skillsList, availableDates);
-        
+
         return newStudent;
     }
 
@@ -166,6 +168,14 @@ public class StudentWrapper {
 
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
+    }
+
+    public FavouritesWrapper[] getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(FavouritesWrapper[] favorites) {
+        this.favorites = favorites;
     }
 
 }

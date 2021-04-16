@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Application;
 import entity.Offer;
 import entity.Payment;
+import entity.Posting;
 import entity.StartUp;
 import entity.Student;
 import java.util.List;
@@ -66,7 +67,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             em.flush();
             return student;
         } else {
-            throw new CreateNewStudentException("Studednt information not provided");
+            throw new CreateNewStudentException("Student information not provided");
         }
     }
 
@@ -147,6 +148,22 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
 
         return student;
+    }
+
+    @Override
+    public void addFavourite(Posting post, Long studentId) {
+        Student stud = em.find(Student.class, studentId);
+
+        if (!stud.getFavorites().contains(post)) {
+            stud.getFavorites().add(post);
+        }
+    }
+
+    @Override
+    public void removeFavourite(Posting post, Long studentId) {
+        Student stud = em.find(Student.class, studentId);
+
+        stud.getFavorites().remove(post);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
