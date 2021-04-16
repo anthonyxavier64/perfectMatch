@@ -12,6 +12,8 @@ import entity.Offer;
 import entity.Posting;
 import entity.Project;
 import entity.StartUp;
+import entity.Student;
+import enumeration.OfferStatus;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
@@ -85,6 +88,29 @@ public class OfferResource {
             return Response.status(Status.OK).entity(offer).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @Path("updateOffer")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateOffer(OfferWrapper offer) {
+        try {
+            Offer oriOffer = offerSessionBeanLocal.retrieveOfferByOfferId(offer.getOfferId());
+            
+            for (OfferStatus status : OfferStatus.values()) {
+
+                if (status == offer.getOfferStatus()) {
+                    oriOffer.setOfferStatus(status);
+                }
+            }
+                        
+            offerSessionBeanLocal.updateOffer(oriOffer);
+            
+            return Response.status(Status.OK).entity(offer).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
     

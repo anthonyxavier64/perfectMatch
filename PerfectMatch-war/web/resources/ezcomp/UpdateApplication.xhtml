@@ -14,6 +14,7 @@
     <cc:implementation>
 
         <h:form id="formUpdateApplication">
+            <p:messages id="messages" redisplay="false" closable="true" />
 
             <p:dialog id="dialogUpdateApplication" widgetVar="dialogUpdateApplication" header="Update Application" closable="true">
 
@@ -78,7 +79,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="applicantStatus" value="#{applicationsManagementManagedBean.updateApplicationStatus}">
-                                    <f:selectItems value="#{applicationsManagementManagedBean.applicationStatus}"
+                                <f:selectItems value="#{applicationsManagementManagedBean.applicationStatus}"
                                                var="applicantStatus"
                                                itemValue="#{applicationStatus}"
                                                itemLabel="#{applicationStatus}" />
@@ -88,9 +89,10 @@
 
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton value="Update Application" process="@form formViewAllApplications:dataTableViewAllApplications" update="@form formViewAllApplications:dataTableViewAllApplications" actionListener="#{selectedApplicationToUpdate.doUpdateApplication}">
-                                <f:attribute name="selectedApplicationToUpdate" value="#{applicationsManagementManagedBean.selectedApplicationToUpdate}" />
-                                <f:attribute name="studentToUpdate" value="#{applicationsManagementManagedBean.studentIdUpdate}" />
+                            <p:commandButton value="Update Application"
+                                             process="@form formViewAllApplications:dataTableViewAllApplications"
+                                             update="@form formViewAllApplications:dataTableViewAllApplications"
+                                             actionListener="#{applicationsManagementManagedBean.doUpdateApplication}">
                             </p:commandButton>
                         </p:column>
                     </p:row>
