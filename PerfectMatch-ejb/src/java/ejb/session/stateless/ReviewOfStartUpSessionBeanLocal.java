@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.ReviewOfStartUp;
+import entity.StartUp;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewReviewOfStartUpException;
@@ -26,5 +27,7 @@ public interface ReviewOfStartUpSessionBeanLocal {
     public ReviewOfStartUp retrieveReviewOfStartUpByReviewOfStartUpId(Long reviewOfStartUpId) throws ReviewOfStartUpNotFoundException;
 
     public void updateReviewOfStartUp(ReviewOfStartUp review);
-    
+
+    StartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException;
+
 }
