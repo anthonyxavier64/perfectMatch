@@ -54,14 +54,6 @@ public class Application implements Serializable {
         this.applicationStatus = applicationStatus;
     }
 
-    public Long getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(Long applicationId) {
-        this.applicationId = applicationId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -85,6 +77,14 @@ public class Application implements Serializable {
     @Override
     public String toString() {
         return "entity.Application[ id=" + applicationId + " ]";
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
     }
 
     public boolean isOfferSent() {
@@ -118,5 +118,4 @@ public class Application implements Serializable {
     public void setStudent(Student student) {
         this.student = student;
     }
-
 }

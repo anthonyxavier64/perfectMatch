@@ -9,6 +9,7 @@ import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
 import entity.Student;
+import enumeration.ApplicationStatus;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -39,12 +40,14 @@ public class ApplicationsManagementManagedBean implements Serializable {
 
     @Inject
     private ViewApplicationManagedBean viewApplicationManagedBean;
-    
+
     private List<Application> listOfApplications;
     private List<Application> filteredApplications;
+    private ApplicationStatus[] applicationStatus;
 
     private Application selectedApplicationToUpdate;
     private Long studentIdUpdate;
+    private ApplicationStatus updateApplicationStatus;
 
     private Application selectedApplicationToDelete;
 
@@ -52,14 +55,12 @@ public class ApplicationsManagementManagedBean implements Serializable {
      * Creates a new instance of ApplicationsManagementManagedBean
      */
     public ApplicationsManagementManagedBean() {
+        applicationStatus = ApplicationStatus.values();
     }
 
     @PostConstruct
     public void postConstruct() {
         setListOfApplications(applicationSessionBean.retrieveAllApplication());
-        for(Application app:listOfApplications) {
-            System.out.println("App Id: " + app.getApplicationId());
-        }
     }
 
     public void viewApplicationDetails(ActionEvent event) throws IOException {
@@ -100,6 +101,11 @@ public class ApplicationsManagementManagedBean implements Serializable {
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
+    }
+    
+    public void selectProjectToUpdate(ActionEvent event) {
+        selectedApplicationToUpdate = ((Application) event.getComponent().getAttributes().get("selectedApplicationToUpdate"));
+        updateApplicationStatus = selectedApplicationToUpdate.getApplicationStatus();
     }
 
     public List<Application> getListOfApplications() {
@@ -148,6 +154,22 @@ public class ApplicationsManagementManagedBean implements Serializable {
 
     public void setViewApplicationManagedBean(ViewApplicationManagedBean viewApplicationManagedBean) {
         this.viewApplicationManagedBean = viewApplicationManagedBean;
+    }
+
+    public ApplicationStatus[] getApplicationStatus() {
+        return applicationStatus;
+    }
+
+    public void setApplicationStatus(ApplicationStatus[] applicationStatus) {
+        this.applicationStatus = applicationStatus;
+    }
+
+    public ApplicationStatus getUpdateApplicationStatus() {
+        return updateApplicationStatus;
+    }
+
+    public void setUpdateApplicationStatus(ApplicationStatus updateApplicationStatus) {
+        this.updateApplicationStatus = updateApplicationStatus;
     }
 
 }

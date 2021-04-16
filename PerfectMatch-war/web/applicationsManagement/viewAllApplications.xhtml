@@ -15,39 +15,36 @@
             <h:form id="formViewAllApplications" >
                 <p:messages id="messages" redisplay="false" closable="true" />
                 <p:panel header="View All Applications">
-                    <p:dataTable id="dataTableViewAllApplications" widgetVar="dataTableViewAllApplications" value="#{applicationsManagementManagedBean.listOfApplications}" var="application">
+                    <p:dataTable id="dataTableViewAllApplications" widgetVar="dataTableViewAllApplications" value="#{applicationsManagementManagedBean.listOfApplications}" var="app">
 
-                        <p:column headerText="Application ID" sortBy="#{application.applicationId}" filterBy="#{application.applicationId}" filterMatchMode="contains">
-                            <h:outputText value="#{application.applicationId}" />
+                        <p:column headerText="Application ID" sortBy="#{app.applicationId}" filterBy="#{app.applicationId}" filterMatchMode="contains">
+                            <h:outputText value="#{app.applicationId}" />
                         </p:column> 
 
-                        <p:column headerText="Applied Student" sortBy="#{application.student.name}" filterBy="#{application.student.name}" filterMatchMode="contains">
-                            <h:outputText value="#{application.student.name}" />
+                        <p:column headerText="Applied Student" sortBy="#{app.student.name}" filterBy="#{app.student.name}" filterMatchMode="contains">
+                            <h:outputText value="#{app.student.name}" />
                         </p:column> 
 
-<!--                        <p:column headerText="For Posting" sortBy="#{application.posting.title}" filterBy="#{application.posting.title}" filterMatchMode="contains">
-                            <h:outputText value="#{application.posting.title}" />
-                        </p:column> -->
+                        <p:column headerText="For Posting" sortBy="#{app.posting.title}" filterBy="#{app.posting.title}" filterMatchMode="contains">
+                            <h:outputText value="#{app.posting.title}" />
+                        </p:column> 
 
-                        <p:column headerText="Application Status" sortBy="#{application.applicationStatus}" filterBy="#{application.applicationStatus}" filterMatchMode="contains">
-                            <h:outputText value="#{application.applicationStatus}" />
+                        <p:column headerText="Application Status" sortBy="#{app.applicationStatus}" filterBy="#{app.applicationStatus}" filterMatchMode="contains">
+                            <h:outputText value="#{app.applicationStatus}" />
                         </p:column>  
 
                         <p:column headerText="Action">
                             <p:commandButton update="ccViewApplication:formViewApplication" oncomplete="PF('dialogViewApplication').show()" icon="ui-icon-document" title="View">
-                                <f:setPropertyActionListener value="#{application}" target="#{applicationsManagementManagedBean.viewApplicationManagedBean.applicationEntityToView}" />
+                                <f:setPropertyActionListener value="#{app}" target="#{viewApplicationManagedBean.applicationEntityToView}" />
                             </p:commandButton>
 
-                            <p:commandButton actionListener="#{applicationsManagementManagedBean.doUpdateApplication}" update="ccUpdateApplication:formUpdateApplication" oncomplete="PF('dialogUpdateApplication').show()" icon="ui-icon-pencil" title="Update">
-                                <f:attribute name="selectedApplicationToUpdate" value="#{application}" />
-                                <f:attribute name="studentToUpdate" value="#{application.student.studentId}" />
+                            <p:commandButton actionListener="#{applicationsManagementManagedBean.selectProjectToUpdate}" update="ccUpdateApplication:formUpdateApplication" oncomplete="PF('dialogUpdateApplication').show()" icon="ui-icon-pencil" title="Update">
+                                <f:attribute name="selectedApplicationToUpdate" value="#{app}" />
                             </p:commandButton>
                             
                             <p:commandButton actionListener="#{applicationsManagementManagedBean.deleteApplication}" update="ccDeleteApplication:formDeleteApplication" oncomplete="PF('dialogDeleteApplication').show()" icon="ui-icon-trash" title="Delete">
-                                <f:attribute name="selectedApplicationToDelete" value="#{application}" />
+                                <f:attribute name="selectedApplicationToDelete" value="#{app}" />
                             </p:commandButton>
-
-
 
                         </p:column>
                     </p:dataTable>

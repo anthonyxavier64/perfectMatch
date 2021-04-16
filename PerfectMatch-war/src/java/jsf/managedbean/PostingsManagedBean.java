@@ -202,8 +202,10 @@ public class PostingsManagedBean implements Serializable {
 
         System.out.println(getSelectedProjectToUpdateIndustry());
 
-        getSelectedProjectToUpdate().setIndustry(getSelectedProjectToUpdateIndustry());
-        getSelectedProjectToUpdate().setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
+        getSelectedProjectToUpdate()
+                .setIndustry(getSelectedProjectToUpdateIndustry());
+        getSelectedProjectToUpdate()
+                .setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedProjectToUpdate());
     }
 

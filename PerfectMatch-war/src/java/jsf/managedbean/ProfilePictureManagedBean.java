@@ -49,6 +49,7 @@ public class ProfilePictureManagedBean {
                             .getCurrentInstance()
                             .getExternalContext()
                             .getInitParameter("alternatedocroot_1")
+                    + System.getProperty("file.separator")
                     + outputFileName;
 
             System.out.println("********** profilePictureManagedBean.handleFileUpload() - Original File name: " + event.getFile().getFileName());
@@ -81,8 +82,9 @@ public class ProfilePictureManagedBean {
             FacesContext
                     .getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
-            startupManagementManagedBean.setProfilePic();
 
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("startUpProfilePicture", newFilePath);
         } catch (IOException ex) {
             FacesContext
                     .getCurrentInstance()

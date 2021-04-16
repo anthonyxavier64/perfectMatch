@@ -12,13 +12,13 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        
+
         <h:form id="formUpdateApplication">
 
             <p:dialog id="dialogUpdateApplication" widgetVar="dialogUpdateApplication" header="Update Application" closable="true">
 
                 <p:messages id="messagesUpdateApplication" redisplay="false" />
-                
+
                 <p:panelGrid>
 
                     <p:row>
@@ -37,27 +37,62 @@
                             <h:outputLabel value="Applicant Student ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText id="applicantStudentId" value="#{applicationsManagementManagedBean.studentIdUpdate}" />
+                            <h:outputText id="applicantStudentId"
+                                          value="#{applicationsManagementManagedBean.selectedApplicationToUpdate.student.studentId}" />
                         </p:column>
                     </p:row>
 
-                  
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Applicant Student Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="applicantStudentName"
+                                          value="#{applicationsManagementManagedBean.selectedApplicationToUpdate.student.name}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Posting ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="postingId"
+                                          value="#{applicationsManagementManagedBean.selectedApplicationToUpdate.posting.postingId}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Posting Title: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="postingTitle"
+                                          value="#{applicationsManagementManagedBean.selectedApplicationToUpdate.posting.title}" />
+                        </p:column>
+                    </p:row>
+
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Application Status: " />
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="applicantStatus" value="#{applicationsManagementManagedBean.selectedApplicationToUpdate.applicationStatus}" />
+                            <p:selectOneMenu id="applicantStatus" value="#{applicationsManagementManagedBean.updateApplicationStatus}">
+                                    <f:selectItems value="#{applicationsManagementManagedBean.applicationStatus}"
+                                               var="applicantStatus"
+                                               itemValue="#{applicationStatus}"
+                                               itemLabel="#{applicationStatus}" />
+                            </p:selectOneMenu>
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
-                            <p:column colspan="2">
-                                <p:commandButton value="Update Application" process="@form formViewAllApplications:dataTableViewAllApplications" update="@form formViewAllApplications:dataTableViewAllApplications" actionListener="#{selectedApplicationToUpdate.doUpdateApplication}">
-                                    <f:attribute name="selectedApplicationToUpdate" value="#{applicationsManagementManagedBean.selectedApplicationToUpdate}" />
-                                    <f:attribute name="studentToUpdate" value="#{applicationsManagementManagedBean.studentIdUpdate}" />
-                                </p:commandButton>
-                            </p:column>
+                        <p:column colspan="2">
+                            <p:commandButton value="Update Application" process="@form formViewAllApplications:dataTableViewAllApplications" update="@form formViewAllApplications:dataTableViewAllApplications" actionListener="#{selectedApplicationToUpdate.doUpdateApplication}">
+                                <f:attribute name="selectedApplicationToUpdate" value="#{applicationsManagementManagedBean.selectedApplicationToUpdate}" />
+                                <f:attribute name="studentToUpdate" value="#{applicationsManagementManagedBean.studentIdUpdate}" />
+                            </p:commandButton>
+                        </p:column>
                     </p:row>
 
 
