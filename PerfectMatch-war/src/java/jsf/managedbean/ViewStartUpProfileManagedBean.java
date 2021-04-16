@@ -6,20 +6,20 @@
 package jsf.managedbean;
 
 import entity.StartUp;
-import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Phire
  */
 @Named(value = "viewStartUpProfileManagedBean")
-@ViewScoped
-public class ViewStartUpProfileManagedBean implements Serializable {
+@RequestScoped
+public class ViewStartUpProfileManagedBean {
 
    private StartUp currentStartUp;
+   private double startUpRating;
     
     /**
      * Creates a new instance of ViewStartUpProfileManagedBean
@@ -27,6 +27,7 @@ public class ViewStartUpProfileManagedBean implements Serializable {
     public ViewStartUpProfileManagedBean() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
+        startUpRating = Integer.valueOf(currentStartUp.getRating());
     }
 
     public StartUp getCurrentStartUp() {
@@ -36,6 +37,12 @@ public class ViewStartUpProfileManagedBean implements Serializable {
     public void setCurrentStartUp(StartUp currentStartUp) {
         this.currentStartUp = currentStartUp;
     }
-    
-    
+
+    public double getStartUpRating() {
+        return startUpRating;
+    }
+
+    public void setStartUpRating(double startUpRating) {
+        this.startUpRating = startUpRating;
+    }
 }
