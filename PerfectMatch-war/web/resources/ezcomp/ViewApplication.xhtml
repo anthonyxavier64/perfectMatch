@@ -47,34 +47,40 @@
 
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Associated Posting: " />
+                            <h:outputLabel value="Associated Posting ID: " />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{viewApplicationManagedBean.applicationEntityToView.posting.postingId}" />
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Applciation Status: " />
+                            <h:outputLabel value="Associated Posting Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewApplicationManagedBean.applicationEntityToView.posting.postingId}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column> 
+                            <h:outputLabel value="Was Offered?"/>
+                        </p:column>
+                        <p:column> 
+                            <p:selectBooleanCheckbox value="#{viewApplicationManagedBean.applicationEntityToView.offerSent}" disabled="true" />
+                        </p:column>
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Application Status: " />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{viewApplicationManagedBean.applicationEntityToView.applicationStatus}" />
                         </p:column>
                     </p:row>
-
-
-
-<!--                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Tag(s): " />
-                        </p:column>
-                        <p:column>
-                            <p:dataList value="#{viewProductManagedBean.productEntityToView.tagEntities}" var="tag" type="unordered">
-                                #{tag.name}
-                            </p:dataList>
-                        </p:column>
-                    </p:row>-->
 
                 </p:panelGrid>
 
