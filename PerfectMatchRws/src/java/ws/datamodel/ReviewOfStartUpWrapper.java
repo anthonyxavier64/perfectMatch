@@ -5,6 +5,8 @@
  */
 package ws.datamodel;
 
+import entity.ReviewOfStartUp;
+
 /**
  *
  * @author yappeizhen
@@ -25,6 +27,15 @@ public class ReviewOfStartUpWrapper {
         this.review = review;
         this.student = student;
         this.startUpBeingRated = startUpBeingRated;
+    }
+    
+    public static ReviewOfStartUp convertWrapperToReview(ReviewOfStartUpWrapper wrapper) { 
+        ReviewOfStartUp newReview = new ReviewOfStartUp();
+        
+        newReview.setRating(wrapper.getRating());
+        newReview.setReview(wrapper.getReview());
+        
+        return newReview;
     }
 
     public Long getReviewOfStartUpId() {
