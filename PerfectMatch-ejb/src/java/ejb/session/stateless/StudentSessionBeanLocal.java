@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Application;
 import entity.Offer;
 import entity.Payment;
+import entity.Posting;
 import entity.Student;
 import java.util.List;
 import javax.ejb.Local;
@@ -41,5 +42,9 @@ public interface StudentSessionBeanLocal {
     public Student createNewStudent(Student student) throws CreateNewStudentException, InputDataValidationException; 
 
     Student editStudentDetails(Student student);
+
+    void addFavourite(Posting post, Long studentId);
+
+    void removeFavourite(Posting post, Long studentId);
 
 }

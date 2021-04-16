@@ -5,7 +5,9 @@
  */
 package jsf.managedbean;
 
+import ejb.session.stateless.StartUpSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.StartUp;
 import entity.Student;
 import java.io.IOException;
 import javax.inject.Named;
@@ -13,10 +15,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -25,6 +29,9 @@ import javax.inject.Inject;
 @Named(value = "studentManagementManagedBean")
 @ViewScoped
 public class studentManagementManagedBean implements Serializable {
+
+    @EJB
+    private StartUpSessionBeanLocal startUpSessionBean;
 
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
@@ -37,8 +44,11 @@ public class studentManagementManagedBean implements Serializable {
     
     private List<Student> filteredStudents;
     
+    private StartUp currentStartUp;
+    private Student favouriteStudent;
     
-    
+    private Student studentToView;
+    private long studentIdToView;
 
     /**
      * Creates a new instance of studentManagementManagedBean
@@ -51,21 +61,58 @@ public class studentManagementManagedBean implements Serializable {
     public void postConstruct() 
     {
         listOfStudents = studentSessionBean.getAllStudents();
+        setCurrentStartUp((StartUp) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("currentStartUp"));
     }
     
     public void viewStudentDetails(ActionEvent event) throws IOException 
     {
-        Long studentIdToView = (Long)event.getComponent().getAttributes().get("studentId");
+        Long studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("studentManagement.xhtml");
     }
     
-//        public void viewStudentDetails(ActionEvent event) throws IOException {
-//        Long studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
-//        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
-//        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("backMode", "viewStudent");
-//        FacesContext.getCurrentInstance().getExternalContext().redirect("viewStudentDetails.xhtml");
-//    }
+        
+    public void retrieveStudentByStudentId(ActionEvent event) throws IOException, StudentNotFoundException 
+    {
+            studentIdToView = (Long)event.getComponent().getAttributes().get("studentId");
+            System.out.println("Student ID is:" + getStudentIdToView());
+
+            if (studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()) == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentIdToView() + " does not exist.", null));
+            } else {
+                setStudentToView(studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentToView().getStudentId() + " is selected.", null));
+            }
+    }
+    
+    public void addStudentToFavourite(ActionEvent event) 
+    {
+        setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
+        System.out.println(getFavouriteStudent().getStudentId());
+        
+        getCurrentStartUp().getFavouriteStudents().add(getFavouriteStudent());
+        
+        startUpSessionBean.updateStartUp(getCurrentStartUp());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been added to favourites.", null));
+        
+        
+    }
+    
+    public void removeStudentFromFavourite(ActionEvent event) 
+    {
+        setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
+        System.out.println(getFavouriteStudent().getStudentId());
+        
+        getCurrentStartUp().getFavouriteStudents().remove(getFavouriteStudent());
+        
+        startUpSessionBean.updateStartUp(getCurrentStartUp());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been removed from favourites.", null));
+        
+        
+    }
+    
+
 
     public StudentSessionBeanLocal getStudentSessionBean() {
         return studentSessionBean;
@@ -105,6 +152,38 @@ public class studentManagementManagedBean implements Serializable {
 
     public void setViewStudentManagedBean(viewStudentManagedBean viewStudentManagedBean) {
         this.viewStudentManagedBean = viewStudentManagedBean;
+    }
+
+    public StartUp getCurrentStartUp() {
+        return currentStartUp;
+    }
+
+    public void setCurrentStartUp(StartUp currentStartUp) {
+        this.currentStartUp = currentStartUp;
+    }
+
+    public Student getFavouriteStudent() {
+        return favouriteStudent;
+    }
+
+    public void setFavouriteStudent(Student favouriteStudent) {
+        this.favouriteStudent = favouriteStudent;
+    }
+
+    public Student getStudentToView() {
+        return studentToView;
+    }
+
+    public void setStudentToView(Student studentToView) {
+        this.studentToView = studentToView;
+    }
+
+    public long getStudentIdToView() {
+        return studentIdToView;
+    }
+
+    public void setStudentIdToView(long studentIdToView) {
+        this.studentIdToView = studentIdToView;
     }
     
     
