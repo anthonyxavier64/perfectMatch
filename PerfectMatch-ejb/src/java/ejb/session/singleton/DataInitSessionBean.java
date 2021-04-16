@@ -143,8 +143,8 @@ public class DataInitSessionBean {
                                     "forTesting",
                                     "manager@gmail.com",
                                     "password",
-                                    Industry.FOR_TESTING_ONLY,
-                                    StartUpLocation.FOR_TESTING_ONLY));
+                                    Industry.EDUCATION,
+                                    StartUpLocation.CENTRAL));
             startUpSessionBean
                     .createNewStartUp(
                             new StartUp(
@@ -153,8 +153,8 @@ public class DataInitSessionBean {
                                     "DataInit Startup",
                                     "StartUp01@gmail.com",
                                     "password",
-                                    Industry.FOR_TESTING_ONLY,
-                                    StartUpLocation.FOR_TESTING_ONLY));
+                                    Industry.ENGINEERING,
+                                    StartUpLocation.SOUTH));
             startUpSessionBean
                     .createNewStartUp(
                             new StartUp(
@@ -163,8 +163,8 @@ public class DataInitSessionBean {
                                     "DataInit Startup",
                                     "StartUp02@gmail.com",
                                     "password",
-                                    Industry.FOR_TESTING_ONLY,
-                                    StartUpLocation.FOR_TESTING_ONLY));
+                                    Industry.FINANCE,
+                                    StartUpLocation.EAST));
             startUpSessionBean
                     .createNewStartUp(
                             new StartUp(
@@ -173,8 +173,8 @@ public class DataInitSessionBean {
                                     "DataInit Startup",
                                     "StartUp03@gmail.com",
                                     "password",
-                                    Industry.FOR_TESTING_ONLY,
-                                    StartUpLocation.FOR_TESTING_ONLY));
+                                    Industry.MARKETING,
+                                    StartUpLocation.CENTRAL));
             startUpSessionBean
                     .createNewStartUp(
                             new StartUp(
