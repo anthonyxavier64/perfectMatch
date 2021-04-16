@@ -25,6 +25,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.datamodel.ProjectWrapper;
+import ws.datamodel.StartUpWrapper;
 
 /**
  * REST Web Service
@@ -56,6 +57,7 @@ public class ProjectResource {
 
             for (int i = 0; i < projects.size(); i++) {
                 ProjectWrapper newProjectWrapper = ProjectWrapper.convertProjectToProjectWrapper(projects.get(i));
+                newProjectWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(projects.get(i).getStartup()));
                 projectWrappers.add(newProjectWrapper);
             }
 
