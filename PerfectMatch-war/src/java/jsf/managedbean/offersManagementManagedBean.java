@@ -41,7 +41,6 @@ public class offersManagementManagedBean implements Serializable {
     @EJB
     private OfferSessionBeanLocal offerSessionBean;
     
-    
     @Inject
     private viewOfferManagedBean viewOfferManagedBean;
    
