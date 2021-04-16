@@ -104,6 +104,19 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
+    public void deleteApplication(Long applicationId) throws ApplicationNotFoundException {
+        Application applicationToRemove = retrieveApplicationByApplicationId(applicationId);
+
+        Student studentApplied = applicationToRemove.getStudent();
+
+        if (studentApplied != null) {
+            studentApplied.getApplications().remove(applicationToRemove);
+        }
+
+        em.remove(applicationToRemove);
+    }
+
+    @Override
     public Student getStudentFromApplicationId(Long appId) throws ApplicationNotFoundException {
         Application app = retrieveApplicationByApplicationId(appId);
         return app.getStudent();
