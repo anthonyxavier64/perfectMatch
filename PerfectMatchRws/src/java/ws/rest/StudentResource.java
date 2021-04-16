@@ -16,6 +16,8 @@ import entity.Payment;
 import entity.Posting;
 import entity.Project;
 import entity.Student;
+import enumeration.ApplicationStatus;
+import enumeration.OfferStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -241,6 +243,53 @@ public class StudentResource {
         }
     }
 
+    @Path("getStudentPostings/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudentPostings(@PathParam("studentId") Long id) {
+        try {
+            List<PostingWrapper> postings = new ArrayList<>();
+            List<Application> applications = studentSessionBeanLocal.getStudentApplications(id);
+            for (Application app : applications) {
+                if (app.getApplicationStatus() == ApplicationStatus.ACCEPTED) {
+                    PostingWrapper pw = PostingWrapper.convertPostingToPostingWrapper(app.getPosting());
+                    if (app.getPosting() instanceof Project) {
+                        pw.setIsProject(true);
+                    } else {
+                        pw.setIsProject(false);
+                    }
+                    
+                    StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(app.getPosting().getStartup());
+                    pw.setStartup(sw);
+                    postings.add(pw);
+                }
+            }
+            List<Offer> offers = studentSessionBeanLocal.getStudentOffers(id);
+            for (Offer o : offers) {
+                if (o.getOfferStatus() == OfferStatus.ACCEPTED) {
+                    PostingWrapper pw = PostingWrapper.convertPostingToPostingWrapper(o.getPosting());
+                    if (o.getPosting() instanceof Project) {
+                        pw.setIsProject(true);
+                    } else {
+                        pw.setIsProject(false);
+                    }
+                    
+                    StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
+                    pw.setStartup(sw);
+                    postings.add(pw);
+                }
+            }
+
+            GenericEntity<List<PostingWrapper>> genericEntity = new GenericEntity<List<PostingWrapper>>(postings) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
     @Path("addFavourite")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -357,7 +406,7 @@ public class StudentResource {
     ) {
 
         try {
-           Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
 
             List<FavouritesWrapper> faves = new ArrayList<>();
 

@@ -413,7 +413,31 @@ public class DataInitSessionBean {
                             new Offer(
                                     "TestOffer3",
                                     OfferStatus.PENDING),
-                            (long) 3, (long) 6);
+                            (long) 3, (long) 12);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 12);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 13);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 14);
+            offerSessionBean
+                    .createNewOffer(
+                            new Offer(
+                                    "TestOffer3",
+                                    OfferStatus.PENDING),
+                            (long) 3, (long) 15);
             offerSessionBean
                     .createNewOffer(
                             new Offer(
@@ -450,7 +474,7 @@ public class DataInitSessionBean {
         try {
             Application application1 = new Application(true, ApplicationStatus.PENDING);
             Application application2 = new Application(true, ApplicationStatus.PENDING);
-            Application application3 = new Application(true, ApplicationStatus.REJECTED);
+            Application application3 = new Application(true, ApplicationStatus.ACCEPTED);
             Application application4 = new Application(true, ApplicationStatus.REJECTED);
             Application application5 = new Application(false, ApplicationStatus.REJECTED);
 

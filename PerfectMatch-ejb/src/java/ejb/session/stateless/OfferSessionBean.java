@@ -114,6 +114,14 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
     }
     
     @Override
+    public void updatePostingResult(Offer offer) throws OfferNotFoundException {
+        Posting post = getPostingByOfferId(offer.getOfferId());
+        post.setAcceptedStudent(offer.getStudent());
+        em.persist(post);
+        em.flush();
+    }
+        
+    @Override
     public void deleteOffer(Long offerId) throws OfferNotFoundException
     {
         try {

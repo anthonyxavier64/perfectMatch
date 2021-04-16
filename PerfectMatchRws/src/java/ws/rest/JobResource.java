@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.StartUpWrapper;
+import ws.datamodel.StudentWrapper;
 
 /**
  * REST Web Service
@@ -80,6 +81,11 @@ public class JobResource {
         try {
             Job job = jobSessionBeanLocal.retrieveJobById(postingId);
             JobWrapper newJobWrapper = JobWrapper.convertJobToJobWrapper(job);
+            if (job.getAcceptedStudent() != null) {
+                newJobWrapper.setStudent(job.getAcceptedStudent().getStudentId());
+            } else {
+                newJobWrapper.setStudent(null);
+            }
 
             return Response.status(Response.Status.OK).entity(newJobWrapper).build();
         } catch (Exception ex) {

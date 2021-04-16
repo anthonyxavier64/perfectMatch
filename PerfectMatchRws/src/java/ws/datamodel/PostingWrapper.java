@@ -26,7 +26,7 @@ public class PostingWrapper {
     private boolean isProject;
     
     private StartUpWrapper startup;
-    private StudentWrapper student;
+    private Long studentId;
 
     public PostingWrapper() {
     }
@@ -126,12 +126,12 @@ public class PostingWrapper {
         this.startup = startup;
     }
 
-    public StudentWrapper getStudent() {
-        return student;
+    public Long getStudent() {
+        return studentId;
     }
 
-    public void setStudent(StudentWrapper student) {
-        this.student = student;
+    public void setStudent(Long student) {
+        this.studentId = student;
     }
 
     public boolean isIsProject() {
