@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -272,16 +272,28 @@ public class PostingsManagedBean implements Serializable {
         }
     }
 
-    public void completeProjectPayment(ActionEvent event) {
-         selectedProjectToUpdate = (Project) event.getComponent().getAttributes().get("projectToPay");
-        
-        if (selectedProjectToUpdate.getAcceptedStudent() == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "A Student has not been associated to the project for payment", null));
-        } else {
-            selectedProjectToUpdate.setIsComplete(true);
-            paymentManagementManagedBean.setProjectToPay(selectedProjectToUpdate);
-            paymentManagementManagedBean.setStudentToPay(selectedProjectToUpdate.getAcceptedStudent());
-            paymentManagementManagedBean.completePayment();
+    public void doProjectPayment(ActionEvent event) {
+        try {
+            System.out.println("********** PostingsManagedBean.doProjectPayment");
+
+            Long selectedProjectToUpdateId = (Long) event.getComponent().getAttributes().get("projectToPayId");
+            System.out.println("********** doProjectPayment selectedProjectToUpdateId: " + selectedProjectToUpdateId);
+
+            Project toUpdate = projectSessionBean.retrieveProjectById(selectedProjectToUpdateId);
+            System.out.println("********** doProjectPayment Post Retrieve Project");
+            if (toUpdate.getAcceptedStudent() == null) {
+                System.out.println("********** doProjectPayment Null Student");
+
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "A Student has not been associated to the project for payment", null));
+            } else {
+                System.out.println("********** doProjectPayment Student Not Null");
+
+                selectedProjectToUpdate.setIsComplete(true);
+                paymentManagementManagedBean.setProjectToPay(selectedProjectToUpdate);
+                paymentManagementManagedBean.setStudentToPay(selectedProjectToUpdate.getAcceptedStudent());
+            }
+        } catch (PostingNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "There was an error retrieving this project", null));
         }
 
     }

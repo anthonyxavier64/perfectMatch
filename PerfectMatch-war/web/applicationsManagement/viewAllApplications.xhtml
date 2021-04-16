@@ -28,10 +28,14 @@
                         <p:column headerText="For Posting" sortBy="#{app.posting.title}" filterBy="#{app.posting.title}" filterMatchMode="contains">
                             <h:outputText value="#{app.posting.title}" />
                         </p:column> 
+                        
+                        <p:column headerText="Was Offered?" sortBy="#{app.offerSent}">
+                            <p:selectBooleanCheckbox value="#{app.offerSent}" disabled="true" />
+                        </p:column> 
 
                         <p:column headerText="Application Status" sortBy="#{app.applicationStatus}" filterBy="#{app.applicationStatus}" filterMatchMode="contains">
                             <h:outputText value="#{app.applicationStatus}" />
-                        </p:column>  
+                        </p:column> 
 
                         <p:column headerText="Action">
                             <p:commandButton update="ccViewApplication:formViewApplication" oncomplete="PF('dialogViewApplication').show()" icon="ui-icon-document" title="View">

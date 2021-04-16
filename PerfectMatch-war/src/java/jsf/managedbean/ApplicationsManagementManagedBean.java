@@ -6,8 +6,10 @@
 package jsf.managedbean;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
+import ejb.session.stateless.PostingSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
+import entity.Project;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import util.exception.ApplicationNotFoundException;
+import util.exception.ProjectNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -31,6 +34,9 @@ import util.exception.StudentNotFoundException;
 @Named(value = "applicationsManagementManagedBean")
 @ViewScoped
 public class ApplicationsManagementManagedBean implements Serializable {
+
+    @EJB
+    private PostingSessionBeanLocal postingSessionBean;
 
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
@@ -69,17 +75,56 @@ public class ApplicationsManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("viewAllApplcations.xhtml");
     }
 
-    public void doUpdateApplication(ActionEvent event) throws StudentNotFoundException {
-
-        selectedApplicationToUpdate = (Application) event.getComponent().getAttributes().get("selectedApplicationToUpdate");
-
+    public void doUpdateApplication(ActionEvent event) throws StudentNotFoundException, ProjectNotFoundException {
         //System.out.println((long) event.getComponent().getAttributes().get("studentToUpdate"));
-        studentIdUpdate = selectedApplicationToUpdate.getStudent().getStudentId();
+        selectedApplicationToUpdate.setApplicationStatus(updateApplicationStatus);
+        Student studentToUpdate = studentSessionBean.retrieveStudentByStudentId(studentIdUpdate);
 
-        Student toUpdate = studentSessionBean.retrieveStudentByStudentId(studentIdUpdate);
+        if (updateApplicationStatus.equals(ApplicationStatus.ACCEPTED)) {
+            System.out.println("********** ApplicationsManagementManagedBean.doUpdateApplication.Accepted");
+            Project projectToUpdate = postingSessionBean.retrieveProjectByProjectId(selectedApplicationToUpdate.getPosting().getPostingId());
+            if (projectToUpdate.getAcceptedStudent() != null) {
+                System.out.println("********** ApplicationsManagementManagedBean.doUpdateApplication.AcceptError");
 
-        selectedApplicationToUpdate.setStudent(toUpdate);
-        applicationSessionBean.updateApplication(selectedApplicationToUpdate);
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "This project has already accepted a student!",
+                                null));
+            } else {
+                projectToUpdate.setAcceptedStudent(studentToUpdate); 
+                postingSessionBean.updatePosting(projectToUpdate);
+
+                studentToUpdate.getPostings().add(projectToUpdate);
+                studentSessionBean.editStudentDetails(studentToUpdate);
+                applicationSessionBean.updateApplication(selectedApplicationToUpdate);
+            }
+        }
+
+        if (updateApplicationStatus.equals(ApplicationStatus.REJECTED)) {
+            System.out.println("********** ApplicationsManagementManagedBean.doUpdateApplication.Rejected");
+            Project projectToUpdate = postingSessionBean.retrieveProjectByProjectId(selectedApplicationToUpdate.getPosting().getPostingId());
+            if (projectToUpdate.getAcceptedStudent().equals(studentToUpdate)) {
+                projectToUpdate.setAcceptedStudent(null);
+                postingSessionBean.updatePosting(projectToUpdate);
+
+                studentToUpdate.getPostings().remove(projectToUpdate);
+                studentSessionBean.editStudentDetails(studentToUpdate);
+                applicationSessionBean.updateApplication(selectedApplicationToUpdate);
+            }
+        }
+        
+        if (updateApplicationStatus.equals(ApplicationStatus.PENDING)) {
+            System.out.println("********** ApplicationsManagementManagedBean.doUpdateApplication.Pending");
+            Project projectToUpdate = postingSessionBean.retrieveProjectByProjectId(selectedApplicationToUpdate.getPosting().getPostingId());
+            if (projectToUpdate.getAcceptedStudent().equals(studentToUpdate)) {
+                projectToUpdate.setAcceptedStudent(null);
+                postingSessionBean.updatePosting(projectToUpdate);
+
+                studentToUpdate.getPostings().remove(projectToUpdate);
+                studentSessionBean.editStudentDetails(studentToUpdate);
+                applicationSessionBean.updateApplication(selectedApplicationToUpdate);
+            }
+        }
     }
 
     public void deleteApplication(ActionEvent event) {
@@ -102,10 +147,11 @@ public class ApplicationsManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
-    
+
     public void selectProjectToUpdate(ActionEvent event) {
         selectedApplicationToUpdate = ((Application) event.getComponent().getAttributes().get("selectedApplicationToUpdate"));
         updateApplicationStatus = selectedApplicationToUpdate.getApplicationStatus();
+        studentIdUpdate = selectedApplicationToUpdate.getStudent().getStudentId();
     }
 
     public List<Application> getListOfApplications() {

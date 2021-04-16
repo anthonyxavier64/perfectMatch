@@ -430,7 +430,7 @@ public class DataInitSessionBean {
 
     private void initApplications() {
         try {
-            Application application1 = new Application(true, ApplicationStatus.ACCEPTED);
+            Application application1 = new Application(true, ApplicationStatus.PENDING);
             Application application2 = new Application(true, ApplicationStatus.PENDING);
             Application application3 = new Application(true, ApplicationStatus.REJECTED);
             Application application4 = new Application(true, ApplicationStatus.REJECTED);
