@@ -76,6 +76,19 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
     }
 
     @Override
+    public ReviewOfStartUp retrieveReviewOfStartUpByStartUpId(Long startUpId) throws ReviewOfStartUpNotFoundException {
+        try {
+        Query query = em.createQuery("SELECT r FROM ReviewOfStartUp r WHERE r.startupId = :startupId");
+        query.setParameter("startupId", startUpId);
+        ReviewOfStartUp review = (ReviewOfStartUp) query.getSingleResult();
+        return review;
+
+        } catch (Exception ex) {
+            throw new ReviewOfStartUpNotFoundException("ReviewOfStartUp with startup ID: " + startUpId + " does not exist");
+        }
+    }
+
+    @Override
     public List<ReviewOfStartUp> retrieveAllReviewOfStartUp() {
         Query q = em.createQuery("SELECT r FROM ReviewOfStartUp r");
         List<ReviewOfStartUp> results = q.getResultList();

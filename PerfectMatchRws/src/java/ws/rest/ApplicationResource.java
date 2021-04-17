@@ -69,7 +69,7 @@ public class ApplicationResource {
                     newApp.setApplicationStatus(status);
                 }
             }
-
+            
 //            newApp.setApplicationStatus(app.getApplicationStatus());
             newApp.setOfferSent(app.getOfferSent());
 
