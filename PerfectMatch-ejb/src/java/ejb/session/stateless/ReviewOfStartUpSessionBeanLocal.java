@@ -9,6 +9,7 @@ import entity.ReviewOfStartUp;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewReviewOfStartUpException;
+import util.exception.DuplicateReviewException;
 import util.exception.InputDataValidationException;
 import util.exception.ReviewOfStartUpNotFoundException;
 
@@ -19,12 +20,14 @@ import util.exception.ReviewOfStartUpNotFoundException;
 @Local
 public interface ReviewOfStartUpSessionBeanLocal {
 
-    public ReviewOfStartUp createNewStartUp(ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException;
-
     public List<ReviewOfStartUp> retrieveAllReviewOfStartUp();
 
     public ReviewOfStartUp retrieveReviewOfStartUpByReviewOfStartUpId(Long reviewOfStartUpId) throws ReviewOfStartUpNotFoundException;
 
     public void updateReviewOfStartUp(ReviewOfStartUp review);
-    
+
+    ReviewOfStartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException, DuplicateReviewException;
+
+    public ReviewOfStartUp createNewStartUpReview(ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException, DuplicateReviewException;
+
 }

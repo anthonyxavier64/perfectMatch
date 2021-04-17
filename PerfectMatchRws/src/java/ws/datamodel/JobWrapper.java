@@ -27,6 +27,7 @@ public class JobWrapper extends PostingWrapper {
         newJobWrapper.setTitle(job.getTitle());
         newJobWrapper.setDescription(job.getDescription());
         newJobWrapper.setPay(job.getPay());
+        newJobWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(job.getStartup()));
 
         if (job.getEarliestStartDate() != null) {
             newJobWrapper.setEarliestStartDate(simpleDateFormat.format(job.getEarliestStartDate()));

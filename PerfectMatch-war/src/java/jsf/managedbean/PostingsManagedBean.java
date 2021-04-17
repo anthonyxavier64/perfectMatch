@@ -46,6 +46,9 @@ import util.exception.StartUpNotFoundException;
 @ViewScoped
 public class PostingsManagedBean implements Serializable {
 
+    @Inject
+    private PaymentManagementManagedBean paymentManagementManagedBean;
+
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
 
@@ -60,21 +63,21 @@ public class PostingsManagedBean implements Serializable {
 
     @EJB
     private PostingSessionBeanLocal postingSessionBean;
-    
+
     @EJB
     private OfferSessionBeanLocal offerSessionBean;
 
     @Inject
     private viewPostingManagedBean viewPostingManagedBean;
-    
+
     @Inject
     private StartupLoginManagedBean startUpLoginManagedBean;
-    
+
     private List<Posting> listOfPostings;
     private List<Posting> filteredPostings;
     private List<Offer> offers;
     private Industry[] industries;
-    
+
     private Posting newPosting;
     private Project newProject;
     private long projectPostingId;
@@ -85,20 +88,20 @@ public class PostingsManagedBean implements Serializable {
     private Long offerId;
     private Long startUpId;
     private Long studentId;
-    
+
     private Posting selectedPostingToUpdate;
     private Project selectedProjectToUpdate;
     private Industry selectedProjectToUpdateIndustry;
     private List<String> selectedProjectToUpdateRequiredSkills;
-    
+
     private Job selectedJobToUpdate;
     private Industry selectedJobToUpdateIndustry;
     private List<String> selectedJobToUpdateRequiredSkills;
-    
+
     private Posting selectedPostingtoDelete;
     private List<Offer> updatedOffers;
     private List<String> listOfSkillSets;
-    
+
     /**
      * Creates a new instance of PostingsManagedBean
      */
@@ -107,10 +110,9 @@ public class PostingsManagedBean implements Serializable {
         newJob = new Job();
 
     }
-    
+
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         setListOfPostings(postingSessionBean.retrieveAllPostings());
         setListOfProjects(postingSessionBean.retrieveAllProjects());
         setListOfJobs(postingSessionBean.retrieveAllJobs());
@@ -123,7 +125,7 @@ public class PostingsManagedBean implements Serializable {
         for (int i = 0; i < requiredSkillsOneArray.length - 1; i++) {
             requiredSkillsOneArrayConcat += requiredSkillsOneArray[i] + ", ";
         }
-        
+
         requiredSkillsOneArrayConcat += requiredSkillsOneArray[requiredSkillsOneArray.length - 1];
 
         String[] requiredSkillsTwoArray = new String[]{"Marketing", "Communication", "Critical thinking", "Flexible"};
@@ -131,7 +133,7 @@ public class PostingsManagedBean implements Serializable {
         for (int i = 0; i < requiredSkillsTwoArray.length - 1; i++) {
             requiredSkillsTwoArrayConcat += requiredSkillsTwoArray[i] + ", ";
         }
-        
+
         requiredSkillsTwoArrayConcat += requiredSkillsTwoArray[requiredSkillsTwoArray.length - 1];
 
         List<String> listToInit = new ArrayList<>();
@@ -141,165 +143,174 @@ public class PostingsManagedBean implements Serializable {
         setListOfSkillSets(listToInit);
         System.out.println(listOfSkillSets.get(0));
     }
-    
-    public void viewPostingDetails(ActionEvent event) throws IOException
-    {
-        Long postingIdToView = (Long)event.getComponent().getAttributes().get("postingId");
+
+    public void viewPostingDetails(ActionEvent event) throws IOException {
+        Long postingIdToView = (Long) event.getComponent().getAttributes().get("postingId");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("postingIdToView", postingIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("postingsManagement.xhtml");
     }
-    
-    public void createNewProject(ActionEvent event) throws CreateNewPostingException, ProjectNotFoundException
-    {                     
+
+    public void createNewProject(ActionEvent event) throws CreateNewPostingException, ProjectNotFoundException {
         StartUp currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
-        
+
         System.out.println(currentStartUp.getCompanyName());
-        
-        setStartUpId(currentStartUp.getStartupId());  
-        
+
+        setStartUpId(currentStartUp.getStartupId());
+
         long projectId = projectSessionBean.createNewProject(getNewProject(), getStartUpId());
         Project project = postingSessionBean.retrieveProjectByProjectId(projectId);
         getListOfPostings().add(project);
-        if(getFilteredPostings() != null)
-        {
+        if (getFilteredPostings() != null) {
             getFilteredPostings().add(project);
         }
         setNewProject(new Project());
         setStartUpId(null);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Project created successfully (Project ID: " + projectId + ")", null));
     }
-    
-    
-    public void createNewJob(ActionEvent event) throws CreateNewPostingException, JobNotFoundException, StartUpNotFoundException
-    {   
-        
+
+    public void createNewJob(ActionEvent event) throws CreateNewPostingException, JobNotFoundException, StartUpNotFoundException {
+
         StartUp currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
-        
+
         System.out.println(currentStartUp.getCompanyName());
-        
-        setStartUpId(currentStartUp.getStartupId());            
-        
+
+        setStartUpId(currentStartUp.getStartupId());
+
         long jobId = jobSessionBean.createNewJob(getNewJob(), getStartUpId());
         Job job = postingSessionBean.retrieveJobByJobId(jobId);
         getListOfPostings().add(job);
-        if(getFilteredPostings() != null)
-        {
+        if (getFilteredPostings() != null) {
             getFilteredPostings().add(job);
         }
         setNewJob(new Job());
         setStartUpId(null);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Job created successfully (Project ID: " + jobId + ")", null));
     }
-    
-    public void selectProjectToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
-    {
-        setSelectedProjectToUpdate((Project)event.getComponent().getAttributes().get("selectedProjectToUpdate"));
-        setSelectedProjectToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
-        setSelectedProjectToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
-        
+
+    public void selectProjectToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException {
+        setSelectedProjectToUpdate((Project) event.getComponent().getAttributes().get("selectedProjectToUpdate"));
+        setSelectedProjectToUpdateIndustry((Industry) event.getComponent().getAttributes().get("selectedProjectToUpdateIndustry"));
+        setSelectedProjectToUpdateRequiredSkills((List<String>) event.getComponent().getAttributes().get("selectedProjectToUpdateRequiredSkills"));
+
     }
-    
-    
-    public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException 
-    {
-        
-        
+
+    public void doUpdateProject(ActionEvent event) throws ProjectNotFoundException, OfferNotFoundException {
+
         System.out.println(getSelectedProjectToUpdate().getPostingId());;
-        
+
         System.out.println(getSelectedProjectToUpdateIndustry());
 
-        getSelectedProjectToUpdate().setIndustry(getSelectedProjectToUpdateIndustry());
-        getSelectedProjectToUpdate().setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
+        getSelectedProjectToUpdate()
+                .setIndustry(getSelectedProjectToUpdateIndustry());
+        getSelectedProjectToUpdate()
+                .setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedProjectToUpdate());
     }
-    
-    
-    public void selectJobToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
-    {
-        setSelectedJobToUpdate((Job)event.getComponent().getAttributes().get("selectedJobToUpdate"));
-        setSelectedJobToUpdateIndustry((Industry)event.getComponent().getAttributes().get("selectedJobToUpdateIndustry"));
-        setSelectedJobToUpdateRequiredSkills((List<String>)event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
-        
+
+    public void selectJobToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException {
+        setSelectedJobToUpdate((Job) event.getComponent().getAttributes().get("selectedJobToUpdate"));
+        setSelectedJobToUpdateIndustry((Industry) event.getComponent().getAttributes().get("selectedJobToUpdateIndustry"));
+        setSelectedJobToUpdateRequiredSkills((List<String>) event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
+
     }
     
-    
-    public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException 
-    {
-                
-        
+    public String[] outputJobSkills() {
+        String[] outputString = new String[getListOfSkillSets().size()];
+        for (int i = 0; i < getListOfSkillSets().size(); i++) {
+            outputString[i] = getListOfSkillSets().get(i);
+        }
+        return outputString;
+    }
+
+    public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException {
+
         System.out.println(getSelectedJobToUpdate().getPostingId());
 
-        
         System.out.println(getSelectedJobToUpdateIndustry());
 
         getSelectedJobToUpdate().setIndustry(getSelectedJobToUpdateIndustry());
         getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
-        
+
 //        getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedJobToUpdate());
-        
+
     }
-    
-    public void deleteJob(ActionEvent event) 
-    {
-        try
-        {
-            Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
-            
+
+    public void deleteJob(ActionEvent event) {
+        try {
+            Posting postingToDelete = (Posting) event.getComponent().getAttributes().get("postingToDelete");
+
             System.out.println(postingToDelete.getPostingId());
-            postingSessionBean.deletePosting(postingToDelete.getPostingId());                        
-            
+            postingSessionBean.deletePosting(postingToDelete.getPostingId());
+
             this.listOfJobs.remove(postingToDelete);
-            
-            
-            
-            if(getFilteredPostings() != null)
-            {            
-                getFilteredPostings().remove(postingToDelete);            
+
+            if (getFilteredPostings() != null) {
+                getFilteredPostings().remove(postingToDelete);
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Job " + postingToDelete.getPostingId() + " has been deleted.", null));
-        }
-        catch(PostingNotFoundException ex)
-        {
+        } catch (PostingNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting posting: " + ex.getMessage(), null));
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
-    
-    public void deleteProject(ActionEvent event) 
-    {
-        try
-        {
-            Posting postingToDelete = (Posting)event.getComponent().getAttributes().get("postingToDelete");
-            
+
+    public void deleteProject(ActionEvent event) {
+        try {
+            Posting postingToDelete = (Posting) event.getComponent().getAttributes().get("postingToDelete");
+
             System.out.println(postingToDelete.getPostingId());
-            postingSessionBean.deletePosting(postingToDelete.getPostingId());                        
-            
+            postingSessionBean.deletePosting(postingToDelete.getPostingId());
+
             this.listOfProjects.remove(postingToDelete);
-            
-            
-            
-            if(getFilteredPostings() != null)
-            {            
-                getFilteredPostings().remove(postingToDelete);            
+
+            if (getFilteredPostings() != null) {
+                getFilteredPostings().remove(postingToDelete);
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project " + postingToDelete.getPostingId() + " has been deleted.", null));
-        }
-        catch(PostingNotFoundException ex)
-        {
+        } catch (PostingNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting posting: " + ex.getMessage(), null));
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
+    }
+
+    public void doProjectPayment(ActionEvent event) {
+        try {
+            System.out.println("********** PostingsManagedBean.doProjectPayment");
+
+            Long selectedProjectToUpdateId = (Long) event.getComponent().getAttributes().get("projectToPayId");
+            System.out.println("********** doProjectPayment selectedProjectToUpdateId: " + selectedProjectToUpdateId);
+
+            Project toUpdate = projectSessionBean.retrieveProjectById(selectedProjectToUpdateId);
+            System.out.println("********** doProjectPayment Post Retrieve Project");
+            if (toUpdate.getAcceptedStudent() == null) {
+                System.out.println("********** doProjectPayment Null Student");
+
+                FacesContext.getCurrentInstance()
+                        .addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                        "A Student has not been associated to the project for payment",
+                                        null));
+            } else {
+                System.out.println("********** doProjectPayment Student Not Null");
+
+                toUpdate.setIsComplete(true);
+                paymentManagementManagedBean
+                        .setProjectToPay(toUpdate);
+                paymentManagementManagedBean
+                        .setStudentToPay(toUpdate.getAcceptedStudent());
+                paymentManagementManagedBean.completePayment();
+            }
+        } catch (PostingNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "There was an error retrieving this project", null));
+        }
+
     }
 
     public viewPostingManagedBean getViewPostingManagedBean() {
@@ -430,7 +441,6 @@ public class PostingsManagedBean implements Serializable {
         return jobPostingId;
     }
 
-    
     public List<String> getListOfSkillSets() {
         return listOfSkillSets;
     }
@@ -502,5 +512,5 @@ public class PostingsManagedBean implements Serializable {
     public void setSelectedProjectToUpdateRequiredSkills(List<String> selectedProjectToUpdateRequiredSkills) {
         this.selectedProjectToUpdateRequiredSkills = selectedProjectToUpdateRequiredSkills;
     }
-    
+
 }

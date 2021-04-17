@@ -77,7 +77,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
             student.getPayments().add(pay);
             startup.getPayments().add(pay);
-
+            
             return pay;
 
         } catch (StudentNotFoundException | ProjectNotFoundException | StartUpNotFoundException ex) {

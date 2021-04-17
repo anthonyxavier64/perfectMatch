@@ -25,6 +25,8 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.datamodel.ProjectWrapper;
+import ws.datamodel.StartUpWrapper;
+import ws.datamodel.StudentWrapper;
 
 /**
  * REST Web Service
@@ -56,6 +58,7 @@ public class ProjectResource {
 
             for (int i = 0; i < projects.size(); i++) {
                 ProjectWrapper newProjectWrapper = ProjectWrapper.convertProjectToProjectWrapper(projects.get(i));
+                newProjectWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(projects.get(i).getStartup()));
                 projectWrappers.add(newProjectWrapper);
             }
 
@@ -77,6 +80,11 @@ public class ProjectResource {
             Project project = projectSessionBeanLocal.retrieveProjectById(postingId);
 
             ProjectWrapper newProjectWrapper = ProjectWrapper.convertProjectToProjectWrapper(project);
+            if (project.getAcceptedStudent() != null) {
+                newProjectWrapper.setStudent(project.getAcceptedStudent().getStudentId());
+            } else {
+                newProjectWrapper.setStudent(null);
+            }
 
             return Response.status(Response.Status.OK).entity(newProjectWrapper).build();
         } catch (Exception ex) {

@@ -16,7 +16,7 @@
             <p:dialog id="dialogUpdateProject" widgetVar="dialogUpdateProject" header="Update Project" closable="true">
 
                 <p:messages id="messagesUpdateProject" redisplay="false" />
-                
+
                 <p:panelGrid>
 
                     <p:row>
@@ -35,16 +35,20 @@
                             <h:outputLabel value="Project Title: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="title" value="#{postingsManagedBean.selectedProjectToUpdate.title}" required="false" placeholder="Cool Project" />
+                            <p:inputText id="title"
+                                         value="#{postingsManagedBean.selectedProjectToUpdate.title}"
+                                         required="false" placeholder="Cool Project" />
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Project Description: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="description" value="#{postingsManagedBean.selectedProjectToUpdate.description}" required="false" placeholder="Cool Project" />
+                            <p:inputText id="description"
+                                         value="#{postingsManagedBean.selectedProjectToUpdate.description}"
+                                         required="false" placeholder="Cool Project" />
                         </p:column>
                     </p:row>
 
@@ -53,16 +57,20 @@
                             <h:outputLabel value="Compensation: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="pay" value="#{postingsManagedBean.selectedProjectToUpdate.pay}" required="false" placeholder="1000.00" />
+                            <p:inputText id="pay"
+                                         value="#{postingsManagedBean.selectedProjectToUpdate.pay}"
+                                         required="false" placeholder="1000.00" />
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
                         <p:column>
                             <p:outputLabel value="Earliest Start Date: "/>
                         </p:column>
                         <p:column>
-                            <p:datePicker id="earliestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.earliestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
+                            <p:datePicker id="earliestStartDate"
+                                          value="#{postingsManagedBean.selectedProjectToUpdate.earliestStartDate}"
+                                          placeholder="yyyy-mm-dd" required="false"/>                              
                         </p:column>
                     </p:row>
 
@@ -74,29 +82,24 @@
                             <p:datePicker id="latestStartDate" value="#{postingsManagedBean.selectedProjectToUpdate.latestStartDate}" placeholder="yyyy-mm-dd" required="false"/>                              
                         </p:column>
                     </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Project Industry: "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="industry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}" required="false" >
-                                <f:selectItems value="#{postingsManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                    
+
+
                     <p:row>
                         <p:column>
                             <p:outputLabel value="Required Skills: "/>
                         </p:column>
                         <p:column>
-                            <p:selectManyMenu id="skills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}" required="true" >
-                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}" var="skillSets" itemValue="#{skillSets}" itemLabel="#{skillSets}" />
+                            <p:selectManyMenu id="skills"
+                                              value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}"
+                                              required="true" >
+                                <f:selectItems value="#{postingsManagedBean.listOfSkillSets}"
+                                               var="skillSets"
+                                               itemValue="#{skillSets}"
+                                               itemLabel="#{skillSets}" />
                             </p:selectManyMenu>
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Specialisation: " />
@@ -105,16 +108,31 @@
                             <p:inputText id="projectSpecialisation" value="#{postingsManagedBean.selectedProjectToUpdate.projectSpecialisation}" required="false" placeholder="Cool stuff" />
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
-                            <p:column colspan="2">
-                                <p:commandButton value="Update Project" process="@form formViewAllProjects:dataTableViewAllProjects" update="@form formViewAllProjects:dataTableViewAllProjects" actionListener="#{postingsManagedBean.doUpdateProject}">
-                                    <f:attribute name="selectedProjectToUpdate" value="#{postingsManagedBean.selectedProjectToUpdate}" />
-                                    <f:attribute name="selectedProjectToUpdateIndustry" value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"/>
-                                    <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}"/>
-                                    
-                                </p:commandButton>
-                            </p:column>
+                        <p:column>
+                            <h:outputLabel value="Is Complete?" />
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{postingsManagedBean.selectedProjectToUpdate.isComplete}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="Update Project"
+                                             process="@form formViewAllProjects:dataTableViewAllProjects"
+                                             update="@form formViewAllProjects:dataTableViewAllProjects"
+                                             actionListener="#{postingsManagedBean.doUpdateProject}">
+                                <f:attribute name="selectedProjectToUpdate"
+                                             value="#{postingsManagedBean.selectedProjectToUpdate}" />
+                                <f:attribute name="selectedProjectToUpdateIndustry"
+                                             value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"/>
+                                <f:attribute name="selectedProjectToUpdateRequiredSkills"
+                                             value="#{postingsManagedBean.selectedProjectToUpdateRequiredSkills}"/>
+
+                            </p:commandButton>
+                        </p:column>
                     </p:row>
 
 

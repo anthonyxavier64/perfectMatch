@@ -55,13 +55,13 @@
                             </h:outputText>
                         </p:column> 
 
-                        <p:column headerText="Required Skills" sortBy="#{job.requiredSkills}" filterBy="#{job.requiredSkills}" filterMatchMode="contains">
+                        <p:column headerText="Required Skills" sortBy="#{job.requiredSkills}" filterBy="#{job.requiredSkills}" filterMatchMode="contains" style="width:180px;">
                             <p:dataList value="#{job.requiredSkills}" var="skills" type="unordered">
                                 #{skills}
                             </p:dataList>
                         </p:column> 
 
-                        <p:column headerText="Industry" sortBy="#{job.industry}" filterBy="#{job.industry}" filterMatchMode="contains">
+                        <p:column headerText="Industry" sortBy="#{job.industry}" filterBy="#{job.industry}" filterMatchMode="contains" style="width:130px;">
                             <h:outputText value="#{job.industry}" />
                         </p:column> 
                         
