@@ -88,8 +88,14 @@ public class studentManagementManagedBean implements Serializable {
     
     public void addStudentToFavourite(ActionEvent event) 
     {
+        
         setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
         System.out.println(getFavouriteStudent().getStudentId());
+     
+        if (getCurrentStartUp().getFavouriteStudents().contains(getFavouriteStudent())) {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student ID " + getFavouriteStudent().getStudentId() + " is already in your favourites.", null));
+           return;
+        }
         
         getCurrentStartUp().getFavouriteStudents().add(getFavouriteStudent());
         

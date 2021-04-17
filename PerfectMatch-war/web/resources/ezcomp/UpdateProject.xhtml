@@ -83,21 +83,6 @@
                         </p:column>
                     </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Project Industry: "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="industry"
-                                             value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"
-                                             required="false" >
-                                <f:selectItems value="#{postingsManagedBean.industries}"
-                                               var="industry"
-                                               itemValue="#{industry}"
-                                               itemLabel="#{industry}" />
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
 
                     <p:row>
                         <p:column>

@@ -71,7 +71,8 @@
                         <p:column headerText="Required Skills"
                                   sortBy="#{project.requiredSkills}"
                                   filterBy="#{project.requiredSkills}"
-                                  filterMatchMode="contains">
+                                  filterMatchMode="contains"
+                                  style="width:180px;">
                             <p:dataList value="#{project.requiredSkills}" var="skills" type="unordered">
                                 #{skills}
                             </p:dataList>
@@ -80,7 +81,8 @@
                         <p:column headerText="Industry"
                                   sortBy="#{project.industry}"
                                   filterBy="#{project.industry}"
-                                  filterMatchMode="contains">
+                                  filterMatchMode="contains"
+                                  style="width:130px;">
                             <h:outputText value="#{project.industry}" />
                         </p:column> 
 

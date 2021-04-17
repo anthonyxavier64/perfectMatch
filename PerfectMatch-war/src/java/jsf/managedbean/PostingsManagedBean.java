@@ -215,6 +215,14 @@ public class PostingsManagedBean implements Serializable {
         setSelectedJobToUpdateRequiredSkills((List<String>) event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
 
     }
+    
+    public String[] outputJobSkills() {
+        String[] outputString = new String[getListOfSkillSets().size()];
+        for (int i = 0; i < getListOfSkillSets().size(); i++) {
+            outputString[i] = getListOfSkillSets().get(i);
+        }
+        return outputString;
+    }
 
     public void doUpdateJob(ActionEvent event) throws JobNotFoundException, OfferNotFoundException {
 
