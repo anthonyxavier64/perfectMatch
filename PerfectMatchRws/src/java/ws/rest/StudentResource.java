@@ -7,6 +7,8 @@ package ws.rest;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
+import ejb.session.stateless.ReviewOfStartUpSessionBeanLocal;
+import ejb.session.stateless.StartUpSessionBeanLocal;
 import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
@@ -15,7 +17,11 @@ import entity.Offer;
 import entity.Payment;
 import entity.Posting;
 import entity.Project;
+import entity.ReviewOfStartUp;
+import entity.StartUp;
 import entity.Student;
+import enumeration.ApplicationStatus;
+import enumeration.OfferStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,10 +42,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import ws.datamodel.ApplicationWrapper;
+import ws.datamodel.FavouritesWrapper;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
 import ws.datamodel.PostingWrapper;
 import ws.datamodel.ProjectWrapper;
+import ws.datamodel.ReviewOfStartUpWrapper;
+import ws.datamodel.ReviewWrapper;
 import ws.datamodel.StartUpWrapper;
 
 /**
@@ -50,11 +59,19 @@ import ws.datamodel.StartUpWrapper;
 @Path("Student")
 public class StudentResource {
 
+    StartUpSessionBeanLocal startUpSessionBeanLocal = lookupStartUpSessionBeanLocal();
+
+    ReviewOfStartUpSessionBeanLocal reviewOfStartUpSessionBeanLocal = lookupReviewOfStartUpSessionBeanLocal();
+
     PostingSessionBeanLocal postingSessionBeanLocal = lookupPostingSessionBeanLocal();
 
     ApplicationSessionBeanLocal applicationSessionBean = lookupApplicationSessionBeanLocal();
 
     StudentSessionBeanLocal studentSessionBeanLocal = lookupStudentSessionBeanLocal();
+    
+    
+    
+    
 
     @Context
     private UriInfo context;
@@ -94,9 +111,26 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-            StudentWrapper studentWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
 
-            return Response.status(Status.OK).entity(studentWrapper).build();
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
@@ -213,13 +247,6 @@ public class StudentResource {
         try {
             Student newStudent = StudentWrapper.convertStudentWrapperToStudent(student);
 
-            List<Posting> pList = new ArrayList<>();
-            for (PostingWrapper pw : student.getFavorites()) {
-                Posting p = postingSessionBeanLocal.retrievePostingByPostingId(pw.getPostingId());
-                pList.add(p);
-            }
-            newStudent.setFavorites(pList);
-
             newStudent = studentSessionBeanLocal.editStudentDetails(newStudent);
 
             StudentWrapper newStudentWrapper = StudentWrapper.convertStudentToStudentWrapper(newStudent);
@@ -230,11 +257,177 @@ public class StudentResource {
         }
     }
 
+    @Path("getStudentPostings/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudentPostings(@PathParam("studentId") Long id) {
+        try {
+            List<PostingWrapper> postings = new ArrayList<>();
+            List<Application> applications = studentSessionBeanLocal.getStudentApplications(id);
+            for (Application app : applications) {
+                if (app.getApplicationStatus() == ApplicationStatus.ACCEPTED) {
+                    PostingWrapper pw = PostingWrapper.convertPostingToPostingWrapper(app.getPosting());
+                    if (app.getPosting() instanceof Project) {
+                        pw.setIsProject(true);
+                    } else {
+                        pw.setIsProject(false);
+                    }
+                    
+                    StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(app.getPosting().getStartup());
+                    pw.setStartup(sw);
+                    postings.add(pw);
+                }
+            }
+            List<Offer> offers = studentSessionBeanLocal.getStudentOffers(id);
+            for (Offer o : offers) {
+                if (o.getOfferStatus() == OfferStatus.ACCEPTED) {
+                    PostingWrapper pw = PostingWrapper.convertPostingToPostingWrapper(o.getPosting());
+                    if (o.getPosting() instanceof Project) {
+                        pw.setIsProject(true);
+                    } else {
+                        pw.setIsProject(false);
+                    }
+                    
+                    StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
+                    pw.setStartup(sw);
+                    postings.add(pw);
+                }
+            }
+
+            GenericEntity<List<PostingWrapper>> genericEntity = new GenericEntity<List<PostingWrapper>>(postings) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @Path("createNewReview")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createNewReview(ReviewWrapper review) {
+        try {
+            ReviewOfStartUp newReview = new ReviewOfStartUp();
+            newReview.setRating(review.getRating());
+            newReview.setReview(review.getReview());
+            
+            StartUp startup = reviewOfStartUpSessionBeanLocal.addStartupReview(review.getStartUpBeingRatedId(), review.getStudentId(), newReview);            
+            newReview = reviewOfStartUpSessionBeanLocal.retrieveReviewOfStartUpByStartUpId(startup.getStartupId());
+            ReviewWrapper result = new ReviewWrapper();
+            result.setRating(newReview.getRating());
+            result.setReview(newReview.getReview());
+            result.setStartUpBeingRatedId(newReview.getStartUpBeingRated().getStartupId());
+            result.setStudentId(newReview.getStudent().getStudentId());
+
+            return Response.status(Status.OK).entity(result).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @Path("getReviewsByStudent/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getReviewsByStudent(@PathParam("studentId") Long id) {
+        try {
+            List<ReviewOfStartUpWrapper> reviews = new ArrayList<>();         
+            List<ReviewOfStartUp> rs = studentSessionBeanLocal.getReviewsByStudent(id);
+            for (ReviewOfStartUp r : rs) {
+                ReviewOfStartUpWrapper rev = ReviewOfStartUpWrapper.convertReviewToWrapper(r);
+                rev.setStartUpBeingRated(StartUpWrapper.convertStartUpToStartUpWrapper(r.getStartUpBeingRated()));
+                reviews.add(rev);
+            }
+            GenericEntity<List<ReviewOfStartUpWrapper>> genericEntity = new GenericEntity<List<ReviewOfStartUpWrapper>>(reviews) {
+            };
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("addFavourite")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavourite(@QueryParam("studId") Long studentId,
+            @QueryParam("postId") Long postingId) {
+        try {
+            Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
+            studentSessionBeanLocal.addFavourite(posting, studentId);
+
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+
+    @Path("removeFavourite")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeFavourite(@QueryParam("studId") Long studentId,
+            @QueryParam("postId") Long postingId) {
+        try {
+            Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
+            studentSessionBeanLocal.removeFavourite(posting, studentId);
+
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+
+            List<FavouritesWrapper> faves = new ArrayList<>();
+
+            for (Posting p : student.getFavorites()) {
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
+            }
+
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
+
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+
     @Path("getApplicationsByStudentId/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getApplicationsByStudentId(@PathParam("studentId") Long id) {
+    public Response getApplicationsByStudentId(@PathParam("studentId") Long id
+    ) {
 
         try {
             List<Application> applications = studentSessionBeanLocal.getStudentApplications(id);
@@ -268,27 +461,31 @@ public class StudentResource {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFavoritesByStudentId(@PathParam("studentId") Long id) {
+    public Response getFavoritesByStudentId(@PathParam("studentId") Long id
+    ) {
 
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
 
-            List<PostingWrapper> postingWrappers = new ArrayList<>();
+            List<FavouritesWrapper> faves = new ArrayList<>();
 
             for (Posting p : student.getFavorites()) {
-                if (p instanceof Job) {
-                    JobWrapper jw = JobWrapper.convertJobToJobWrapper((Job) p);
-                    postingWrappers.add((PostingWrapper) jw);
-                } else {
-                    ProjectWrapper pw = ProjectWrapper.convertProjectToProjectWrapper((Project) p);
-                    postingWrappers.add(pw);
-                }
+                FavouritesWrapper fave = new FavouritesWrapper();
+                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+                faves.add(fave);
             }
 
-            GenericEntity<List<PostingWrapper>> genericEntity = new GenericEntity<List<PostingWrapper>>(postingWrappers) {
-            };
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
+            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
 
-            return Response.status(Status.OK).entity(genericEntity).build();
+            int index = 0;
+            for (FavouritesWrapper fw : faves) {
+                faveWraps[index] = fw;
+                index++;
+            }
+            studWrapper.setFavorites(faveWraps);
+
+            return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
@@ -318,6 +515,26 @@ public class StudentResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (PostingSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/PostingSessionBean!ejb.session.stateless.PostingSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ReviewOfStartUpSessionBeanLocal lookupReviewOfStartUpSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ReviewOfStartUpSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/ReviewOfStartUpSessionBean!ejb.session.stateless.ReviewOfStartUpSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private StartUpSessionBeanLocal lookupStartUpSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (StartUpSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/StartUpSessionBean!ejb.session.stateless.StartUpSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

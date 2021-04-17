@@ -30,6 +30,7 @@ public class ProjectWrapper extends PostingWrapper {
         newProjectWrapper.setTitle(project.getTitle());
         newProjectWrapper.setDescription(project.getDescription());
         newProjectWrapper.setPay(project.getPay());
+        newProjectWrapper.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(project.getStartup()));
 
         if (project.getEarliestStartDate() != null) {
             newProjectWrapper.setEarliestStartDate(simpleDateFormat.format(project.getEarliestStartDate()));
@@ -83,4 +84,5 @@ public class ProjectWrapper extends PostingWrapper {
     public void setMilestones(String[] milestones) {
         this.milestones = milestones;
     }
+
 }

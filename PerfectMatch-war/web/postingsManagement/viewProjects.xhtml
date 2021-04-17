@@ -19,62 +19,117 @@
                                  filteredValue="#{postingsManagedBean.filteredPostings}"
                                  rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
- 
-                       <f:facet name="header">
+
+                        <f:facet name="header">
                             <p:outputPanel style="text-align: right;">
                                 <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewAllProjects').filter()" style="width:300px" placeholder="Enter keyword"/>
+                                <p:inputText id="globalFilter"
+                                             onkeyup="PF('dataTableViewAllProjects').filter()"
+                                             style="width:300px"
+                                             placeholder="Enter keyword"/>
                             </p:outputPanel>
                         </f:facet>
-                        <p:column headerText="Project ID" sortBy="#{project.postingId}" filterBy="#{project.postingId}" filterMatchMode="contains">
+                        <p:column headerText="Project ID"
+                                  sortBy="#{project.postingId}"
+                                  filterBy="#{project.postingId}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.postingId}" />
                         </p:column> 
 
-                        <p:column headerText="Project Title" sortBy="#{project.title}" filterBy="#{project.title}" filterMatchMode="contains">
+                        <p:column headerText="Project Title"
+                                  sortBy="#{project.title}"
+                                  filterBy="#{project.title}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.title}" />
                         </p:column> 
 
-                        <p:column headerText="Compensation" sortBy="#{project.pay}" filterBy="#{project.pay}" filterMatchMode="contains">
+                        <p:column headerText="Compensation"
+                                  sortBy="#{project.pay}"
+                                  filterBy="#{project.pay}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.pay}" />
                         </p:column> 
 
-                        <p:column headerText="Earliest Start Date" sortBy="#{project.earliestStartDate}" filterBy="#{project.earliestStartDate}" filterMatchMode="contains">
+                        <p:column headerText="Earliest Start Date"
+                                  sortBy="#{project.earliestStartDate}"
+                                  filterBy="#{project.earliestStartDate}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.earliestStartDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column> 
 
-                        <p:column headerText="Latest Start Date" sortBy="#{project.latestStartDate}" filterBy="#{project.latestStartDate}" filterMatchMode="contains">
+                        <p:column headerText="Latest Start Date"
+                                  sortBy="#{project.latestStartDate}"
+                                  filterBy="#{project.latestStartDate}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.latestStartDate}">
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
                         </p:column> 
 
-                        <p:column headerText="Required Skills" sortBy="#{project.requiredSkills}" filterBy="#{project.requiredSkills}" filterMatchMode="contains">
+                        <p:column headerText="Required Skills"
+                                  sortBy="#{project.requiredSkills}"
+                                  filterBy="#{project.requiredSkills}"
+                                  filterMatchMode="contains"
+                                  style="width:180px;">
                             <p:dataList value="#{project.requiredSkills}" var="skills" type="unordered">
                                 #{skills}
                             </p:dataList>
                         </p:column> 
 
-                        <p:column headerText="Industry" sortBy="#{project.industry}" filterBy="#{project.industry}" filterMatchMode="contains">
+                        <p:column headerText="Industry"
+                                  sortBy="#{project.industry}"
+                                  filterBy="#{project.industry}"
+                                  filterMatchMode="contains"
+                                  style="width:130px;">
                             <h:outputText value="#{project.industry}" />
                         </p:column> 
-                        
-                        <p:column headerText="Specialisation" sortBy="#{project.projectSpecialisation}" filterBy="#{project.projectSpecialisation}" filterMatchMode="contains">
+
+                        <p:column headerText="Specialisation"
+                                  sortBy="#{project.projectSpecialisation}"
+                                  filterBy="#{project.projectSpecialisation}"
+                                  filterMatchMode="contains">
                             <h:outputText value="#{project.projectSpecialisation}" />
                         </p:column> 
-                        
-                        <p:column headerText="Action">
 
-                            <p:commandButton actionListener="#{postingsManagedBean.selectProjectToUpdate}" update="ccUpdateProject:formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
+                        <p:column headerText="Complete?"
+                                  sortBy="#{project.projectSpecialisation}"
+                                  filterBy="#{project.projectSpecialisation}"
+                                  filterMatchMode="contains"
+                                  style="align-content: center">
+                            <p:selectBooleanCheckbox value="#{project.isComplete}"
+                                                     disabled="true"
+                                                     />
+                        </p:column> 
+
+                        <p:column headerText="Action" style="align-content: center">
+
+                            <p:commandButton actionListener="#{postingsManagedBean.selectProjectToUpdate}"
+                                             update="ccUpdateProject:formUpdateProject"
+                                             oncomplete="PF('dialogUpdateProject').show()"
+                                             icon="ui-icon-pencil" title="Update" >
                                 <f:attribute name="selectedProjectToUpdate" value="#{project}" />
                                 <f:attribute name="selectedProjectToUpdateIndustry" value="#{project.industry}"/>
                                 <f:attribute name="selectedProjectToUpdateRequiredSkills" value="#{project.requiredSkills}"/>
                             </p:commandButton>
 
-                            <p:commandButton actionListener="#{postingsManagedBean.deleteProject}" update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages" icon="ui-icon-trash" title="Delete">
+                            <p:commandButton actionListener="#{postingsManagedBean.deleteProject}"
+                                             update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages" icon="ui-icon-trash" title="Delete">
                                 <f:attribute name="postingToDelete" value="#{project}" />
                             </p:commandButton>
+
+                            <p:commandButton actionListener="#{postingsManagedBean.doProjectPayment}"
+                                             update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages"
+                                             icon="pi pi-dollar" title="Payment">
+                                <p:confirm header="Confirm Payment" message="Are you sure you want to proceed?" icon="ui-icon-exclamation-triangle"/>
+                                <f:attribute name="projectToPayId" value="#{project.postingId}" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            </p:confirmDialog>
                         </p:column>
 
                     </p:dataTable>
@@ -82,8 +137,6 @@
             </h:form>            
             <ez:UpdateProject id="ccUpdateProject"/>
             <ez:DeleteProject id="ccDeleteProject"/>
-            
-            
         </div>
 
 

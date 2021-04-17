@@ -10,9 +10,6 @@
                     <file>${libs.jsf20.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library dirs="100">
-                    <file>${reference.PerfectMatch-ejb.dist}</file>
-                </library>
                 <library dirs="200">
                     <file>${libs.PrimeFaces_8.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
@@ -24,6 +21,9 @@
                 <library dirs="200">
                     <file>${libs.javaee-web-api-8.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="100">
+                    <file>${reference.PerfectMatch-ejb.dist}</file>
                 </library>
             </web-module-libraries>
             <web-module-additional-libraries/>

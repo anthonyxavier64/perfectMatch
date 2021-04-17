@@ -6,6 +6,8 @@
 package ejb.session.stateless;
 
 import entity.ReviewOfStartUp;
+import entity.StartUp;
+import entity.Student;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -56,6 +58,37 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
     }
 
     @Override
+    public StartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException {
+        StartUp startup = em.find(StartUp.class, startupId);
+        Student stud = em.find(Student.class, studentId);
+        try {
+            ReviewOfStartUp newReview = createNewStartUp(review);
+        } catch (CreateNewReviewOfStartUpException | InputDataValidationException ex) {
+            throw ex;
+        }
+
+        startup.getReviews().add(review);
+        review.setStartUpBeingRated(startup);
+        review.setStudent(stud);
+        em.flush();
+
+        return startup;
+    }
+
+    @Override
+    public ReviewOfStartUp retrieveReviewOfStartUpByStartUpId(Long startUpId) throws ReviewOfStartUpNotFoundException {
+        try {
+        Query query = em.createQuery("SELECT r FROM ReviewOfStartUp r WHERE r.startupId = :startupId");
+        query.setParameter("startupId", startUpId);
+        ReviewOfStartUp review = (ReviewOfStartUp) query.getSingleResult();
+        return review;
+
+        } catch (Exception ex) {
+            throw new ReviewOfStartUpNotFoundException("ReviewOfStartUp with startup ID: " + startUpId + " does not exist");
+        }
+    }
+
+    @Override
     public List<ReviewOfStartUp> retrieveAllReviewOfStartUp() {
         Query q = em.createQuery("SELECT r FROM ReviewOfStartUp r");
         List<ReviewOfStartUp> results = q.getResultList();
@@ -70,12 +103,12 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
         }
         return review;
     }
-    
+
     @Override
     public void updateReviewOfStartUp(ReviewOfStartUp review) {
         em.merge(review);
     }
-    
+
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<ReviewOfStartUp>> constraintViolations) {
         String msg = "Input data validation error!:";
 

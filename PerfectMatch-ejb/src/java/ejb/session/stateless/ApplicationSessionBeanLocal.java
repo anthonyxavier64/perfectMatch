@@ -33,5 +33,7 @@ public interface ApplicationSessionBeanLocal {
     public Student getStudentFromApplicationId(Long appId) throws ApplicationNotFoundException;
 
     public Posting getPostingFromApplicationId(Long appId) throws ApplicationNotFoundException;
+
+    public void deleteApplication(Long applicationId) throws ApplicationNotFoundException;
     
 }
