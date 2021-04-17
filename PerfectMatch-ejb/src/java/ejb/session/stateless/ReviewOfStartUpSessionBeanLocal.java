@@ -30,4 +30,6 @@ public interface ReviewOfStartUpSessionBeanLocal {
 
     StartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException;
 
+    public ReviewOfStartUp retrieveReviewOfStartUpByStartUpId(Long startUpId) throws ReviewOfStartUpNotFoundException;
+
 }

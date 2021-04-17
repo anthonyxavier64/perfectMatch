@@ -9,7 +9,7 @@ import entity.Application;
 import entity.Offer;
 import entity.Payment;
 import entity.Posting;
-import entity.StartUp;
+import entity.ReviewOfStartUp;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -164,6 +164,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         Student stud = em.find(Student.class, studentId);
 
         stud.getFavorites().remove(post);
+    }
+    
+    @Override
+    public List<ReviewOfStartUp> getReviewsByStudent(Long studentId) {
+        Query query = em.createQuery("SELECT r FROM ReviewOfStartUp r WHERE r.student.studentId = :studentId");
+        query.setParameter("studentId", studentId);
+        List<ReviewOfStartUp> reviews = query.getResultList();
+        return reviews;
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {

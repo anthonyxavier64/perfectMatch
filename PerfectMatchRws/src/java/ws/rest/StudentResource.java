@@ -7,6 +7,8 @@ package ws.rest;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
+import ejb.session.stateless.ReviewOfStartUpSessionBeanLocal;
+import ejb.session.stateless.StartUpSessionBeanLocal;
 import ws.datamodel.StudentWrapper;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Application;
@@ -15,6 +17,8 @@ import entity.Offer;
 import entity.Payment;
 import entity.Posting;
 import entity.Project;
+import entity.ReviewOfStartUp;
+import entity.StartUp;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
@@ -43,6 +47,8 @@ import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
 import ws.datamodel.PostingWrapper;
 import ws.datamodel.ProjectWrapper;
+import ws.datamodel.ReviewOfStartUpWrapper;
+import ws.datamodel.ReviewWrapper;
 import ws.datamodel.StartUpWrapper;
 
 /**
@@ -53,11 +59,19 @@ import ws.datamodel.StartUpWrapper;
 @Path("Student")
 public class StudentResource {
 
+    StartUpSessionBeanLocal startUpSessionBeanLocal = lookupStartUpSessionBeanLocal();
+
+    ReviewOfStartUpSessionBeanLocal reviewOfStartUpSessionBeanLocal = lookupReviewOfStartUpSessionBeanLocal();
+
     PostingSessionBeanLocal postingSessionBeanLocal = lookupPostingSessionBeanLocal();
 
     ApplicationSessionBeanLocal applicationSessionBean = lookupApplicationSessionBeanLocal();
 
     StudentSessionBeanLocal studentSessionBeanLocal = lookupStudentSessionBeanLocal();
+    
+    
+    
+    
 
     @Context
     private UriInfo context;
@@ -289,6 +303,51 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
+    
+    @Path("createNewReview")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createNewReview(ReviewWrapper review) {
+        try {
+            ReviewOfStartUp newReview = new ReviewOfStartUp();
+            newReview.setRating(review.getRating());
+            newReview.setReview(review.getReview());
+            
+            StartUp startup = reviewOfStartUpSessionBeanLocal.addStartupReview(review.getStartUpBeingRatedId(), review.getStudentId(), newReview);            
+            newReview = reviewOfStartUpSessionBeanLocal.retrieveReviewOfStartUpByStartUpId(startup.getStartupId());
+            ReviewWrapper result = new ReviewWrapper();
+            result.setRating(newReview.getRating());
+            result.setReview(newReview.getReview());
+            result.setStartUpBeingRatedId(newReview.getStartUpBeingRated().getStartupId());
+            result.setStudentId(newReview.getStudent().getStudentId());
+
+            return Response.status(Status.OK).entity(result).build();
+        } catch (Exception ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @Path("getReviewsByStudent/{studentId}")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getReviewsByStudent(@PathParam("studentId") Long id) {
+        try {
+            List<ReviewOfStartUpWrapper> reviews = new ArrayList<>();         
+            List<ReviewOfStartUp> rs = studentSessionBeanLocal.getReviewsByStudent(id);
+            for (ReviewOfStartUp r : rs) {
+                ReviewOfStartUpWrapper rev = ReviewOfStartUpWrapper.convertReviewToWrapper(r);
+                rev.setStartUpBeingRated(StartUpWrapper.convertStartUpToStartUpWrapper(r.getStartUpBeingRated()));
+                reviews.add(rev);
+            }
+            GenericEntity<List<ReviewOfStartUpWrapper>> genericEntity = new GenericEntity<List<ReviewOfStartUpWrapper>>(reviews) {
+            };
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
 
     @Path("addFavourite")
     @GET
@@ -456,6 +515,26 @@ public class StudentResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (PostingSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/PostingSessionBean!ejb.session.stateless.PostingSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ReviewOfStartUpSessionBeanLocal lookupReviewOfStartUpSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ReviewOfStartUpSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/ReviewOfStartUpSessionBean!ejb.session.stateless.ReviewOfStartUpSessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private StartUpSessionBeanLocal lookupStartUpSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (StartUpSessionBeanLocal) c.lookup("java:global/PerfectMatch/PerfectMatch-ejb/StartUpSessionBean!ejb.session.stateless.StartUpSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

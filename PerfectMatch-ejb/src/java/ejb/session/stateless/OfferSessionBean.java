@@ -38,13 +38,10 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
-    
-    
+
     @PersistenceContext(unitName = "PerfectMatch-ejbPU")
     private EntityManager em;
-    
-    
-    
+
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
 
@@ -55,17 +52,17 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
 
     @Override
     public Offer createNewOffer(Offer offer, Long studentId, Long postingId) throws InputDataValidationException, CreateNewOfferException {
-        
+
         Set<ConstraintViolation<Offer>> constraintViolations = validator.validate(offer);
 
         if (!constraintViolations.isEmpty()) {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
-        
+
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
-            
+
             offer.setStudent(student);
             offer.setPosting(posting);
             em.persist(offer);
@@ -75,18 +72,18 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
             posting.getOffers().add(offer);
 
             return offer;
-            
-        } catch (StudentNotFoundException | PostingNotFoundException ex){
+
+        } catch (StudentNotFoundException | PostingNotFoundException ex) {
             throw new CreateNewOfferException(ex.getMessage());
         }
     }
-    
+
     @Override
     public List<Offer> retrieveAllOffers() {
         Query q = em.createQuery("SELECT o FROM Offer o");
         return q.getResultList();
     }
-    
+
     @Override
     public Offer retrieveOfferByOfferId(Long offerId) throws OfferNotFoundException {
         Offer offer = em.find(Offer.class, offerId);
@@ -95,35 +92,36 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
         }
         return offer;
     }
-    
+
     @Override
     public Student getStudentByOfferId(Long offerId) throws OfferNotFoundException {
         Offer offer = retrieveOfferByOfferId(offerId);
         return offer.getStudent();
     }
-    
+
     @Override
     public Posting getPostingByOfferId(Long offerId) throws OfferNotFoundException {
         Offer offer = retrieveOfferByOfferId(offerId);
         return offer.getPosting();
     }
-    
+
     @Override
     public void updateOffer(Offer offer) {
         em.merge(offer);
     }
-    
+
     @Override
     public void updatePostingResult(Offer offer) throws OfferNotFoundException {
         Posting post = getPostingByOfferId(offer.getOfferId());
         post.setAcceptedStudent(offer.getStudent());
         em.persist(post);
+        offer.setPosting(post);
+
         em.flush();
     }
-        
+
     @Override
-    public void deleteOffer(Long offerId) throws OfferNotFoundException
-    {
+    public void deleteOffer(Long offerId) throws OfferNotFoundException {
         try {
             Offer offerToRemove = retrieveOfferByOfferId(offerId);
 
@@ -134,14 +132,12 @@ public class OfferSessionBean implements OfferSessionBeanLocal {
             }
 
             em.remove(offerToRemove);
-        }
-        catch(NoResultException ex)
-        {
+        } catch (NoResultException ex) {
             throw new OfferNotFoundException("Offer ID" + offerId + "does not exist!");
         }
-        
+
     }
-    
+
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Offer>> constraintViolations) {
         String msg = "Input data validation error!:";
 
