@@ -75,9 +75,9 @@ public class StartUpResource {
 
             ReviewOfStartUp rev = ReviewOfStartUpWrapper.convertWrapperToReview(review);
 
-            StartUp startup = reviewOfStartUpSessionBean.addStartupReview(review.getStartUpBeingRated().getStartupId(), review.getStudent().getStudentId(), rev);
+            rev = reviewOfStartUpSessionBean.addStartupReview(review.getStartUpBeingRated().getStartupId(), review.getStudent().getStudentId(), rev);
 
-            StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(startup);
+            StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(rev.getStartUpBeingRated());
 
             return Response.status(Status.OK).entity(startWrap).build();
 

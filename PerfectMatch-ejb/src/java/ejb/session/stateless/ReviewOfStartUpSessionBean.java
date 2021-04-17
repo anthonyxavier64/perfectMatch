@@ -19,6 +19,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.CreateNewReviewOfStartUpException;
+import util.exception.DuplicateReviewException;
 import util.exception.InputDataValidationException;
 import util.exception.ReviewOfStartUpNotFoundException;
 
@@ -41,11 +42,18 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
     }
 
     @Override
-    public ReviewOfStartUp createNewStartUp(ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException {
+    public ReviewOfStartUp createNewStartUpReview(ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException, DuplicateReviewException {
         Set<ConstraintViolation<ReviewOfStartUp>> constraintViolations = validator.validate(review);
 
         if (!constraintViolations.isEmpty()) {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+        
+        List<ReviewOfStartUp> prevReviews = review.getStartUpBeingRated().getReviews();
+        for (ReviewOfStartUp r : prevReviews) {
+            if (r.getStudent().getStudentId() == review.getStudent().getStudentId()) {
+                throw new DuplicateReviewException("You have already reviewed this company");
+            }
         }
 
         if (review != null) {
@@ -58,34 +66,22 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
     }
 
     @Override
-    public StartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException {
+    public ReviewOfStartUp addStartupReview(Long startupId, Long studentId, ReviewOfStartUp review) throws CreateNewReviewOfStartUpException, InputDataValidationException, DuplicateReviewException {
         StartUp startup = em.find(StartUp.class, startupId);
         Student stud = em.find(Student.class, studentId);
+        review.setStartUpBeingRated(startup);
+        review.setStudent(stud);
         try {
-            ReviewOfStartUp newReview = createNewStartUp(review);
+            review = createNewStartUpReview(review);
         } catch (CreateNewReviewOfStartUpException | InputDataValidationException ex) {
             throw ex;
         }
 
         startup.getReviews().add(review);
-        review.setStartUpBeingRated(startup);
-        review.setStudent(stud);
+
         em.flush();
 
-        return startup;
-    }
-
-    @Override
-    public ReviewOfStartUp retrieveReviewOfStartUpByStartUpId(Long startUpId) throws ReviewOfStartUpNotFoundException {
-        try {
-        Query query = em.createQuery("SELECT r FROM ReviewOfStartUp r WHERE r.startupId = :startupId");
-        query.setParameter("startupId", startUpId);
-        ReviewOfStartUp review = (ReviewOfStartUp) query.getSingleResult();
         return review;
-
-        } catch (Exception ex) {
-            throw new ReviewOfStartUpNotFoundException("ReviewOfStartUp with startup ID: " + startUpId + " does not exist");
-        }
     }
 
     @Override

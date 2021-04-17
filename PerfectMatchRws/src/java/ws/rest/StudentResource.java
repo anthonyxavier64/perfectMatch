@@ -68,10 +68,6 @@ public class StudentResource {
     ApplicationSessionBeanLocal applicationSessionBean = lookupApplicationSessionBeanLocal();
 
     StudentSessionBeanLocal studentSessionBeanLocal = lookupStudentSessionBeanLocal();
-    
-    
-    
-    
 
     @Context
     private UriInfo context;
@@ -273,7 +269,7 @@ public class StudentResource {
                     } else {
                         pw.setIsProject(false);
                     }
-                    
+
                     StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(app.getPosting().getStartup());
                     pw.setStartup(sw);
                     postings.add(pw);
@@ -288,7 +284,7 @@ public class StudentResource {
                     } else {
                         pw.setIsProject(false);
                     }
-                    
+
                     StartUpWrapper sw = StartUpWrapper.convertStartUpToStartUpWrapper(o.getPosting().getStartup());
                     pw.setStartup(sw);
                     postings.add(pw);
@@ -303,7 +299,7 @@ public class StudentResource {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("createNewReview")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -313,10 +309,10 @@ public class StudentResource {
             ReviewOfStartUp newReview = new ReviewOfStartUp();
             newReview.setRating(review.getRating());
             newReview.setReview(review.getReview());
-            
-            StartUp startup = reviewOfStartUpSessionBeanLocal.addStartupReview(review.getStartUpBeingRatedId(), review.getStudentId(), newReview);            
-            newReview = reviewOfStartUpSessionBeanLocal.retrieveReviewOfStartUpByStartUpId(startup.getStartupId());
+            newReview = reviewOfStartUpSessionBeanLocal.addStartupReview(review.getStartUpBeingRatedId(), review.getStudentId(), newReview);
+
             ReviewWrapper result = new ReviewWrapper();
+            result.setReviewId(newReview.getReviewOfStartUpId());
             result.setRating(newReview.getRating());
             result.setReview(newReview.getReview());
             result.setStartUpBeingRatedId(newReview.getStartUpBeingRated().getStartupId());
@@ -327,14 +323,14 @@ public class StudentResource {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("getReviewsByStudent/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReviewsByStudent(@PathParam("studentId") Long id) {
         try {
-            List<ReviewOfStartUpWrapper> reviews = new ArrayList<>();         
+            List<ReviewOfStartUpWrapper> reviews = new ArrayList<>();
             List<ReviewOfStartUp> rs = studentSessionBeanLocal.getReviewsByStudent(id);
             for (ReviewOfStartUp r : rs) {
                 ReviewOfStartUpWrapper rev = ReviewOfStartUpWrapper.convertReviewToWrapper(r);
