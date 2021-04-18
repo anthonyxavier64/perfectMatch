@@ -118,6 +118,24 @@ public class studentManagementManagedBean implements Serializable {
         
     }
     
+    public void updateFavouritesList(ActionEvent event) throws IOException {
+        for (int i = 0; i < listOfStudents.size(); i++) {
+             if (getCurrentStartUp().getFavouriteStudents().contains(listOfStudents.get(i))) {
+                 int indexToUpdate = getCurrentStartUp().getFavouriteStudents().indexOf(listOfStudents.get(i));
+                 getCurrentStartUp().getFavouriteStudents().set(indexToUpdate, listOfStudents.get(i));
+             }
+        }        
+        FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/viewFavouriteStudents.xhtml");
+        
+    }
+    
+    public void compareStudents(ActionEvent event) throws IOException {
+     FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/compareStudents.xhtml");
+        
+    }
+    
 
 
     public StudentSessionBeanLocal getStudentSessionBean() {
