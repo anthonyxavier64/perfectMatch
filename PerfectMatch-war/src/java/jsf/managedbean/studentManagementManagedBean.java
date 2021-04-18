@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -35,18 +36,18 @@ public class studentManagementManagedBean implements Serializable {
 
     @EJB
     private StudentSessionBeanLocal studentSessionBean;
-    
+
     @Inject
     private viewStudentManagedBean viewStudentManagedBean;
-    
+
     private Student newStudent;
     private List<Student> listOfStudents;
-    
+
     private List<Student> filteredStudents;
-    
+
     private StartUp currentStartUp;
     private Student favouriteStudent;
-    
+
     private Student studentToView;
     private long studentIdToView;
 
@@ -56,17 +57,15 @@ public class studentManagementManagedBean implements Serializable {
     public studentManagementManagedBean() {
         newStudent = new Student();
     }
-    
+
     @PostConstruct
-    public void postConstruct() 
-    {
+    public void postConstruct() {
         listOfStudents = studentSessionBean.getAllStudents();
         setCurrentStartUp((StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp"));
     }
-    
-    public void viewStudentDetails(ActionEvent event) throws IOException 
-    {
+
+    public void viewStudentDetails(ActionEvent event) throws IOException {
         Long studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("studentManagement.xhtml");
@@ -98,24 +97,21 @@ public class studentManagementManagedBean implements Serializable {
         }
         
         getCurrentStartUp().getFavouriteStudents().add(getFavouriteStudent());
-        
+
         startUpSessionBean.updateStartUp(getCurrentStartUp());
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been added to favourites.", null));
-        
-        
+
     }
-    
-    public void removeStudentFromFavourite(ActionEvent event) 
-    {
-        setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
+
+    public void removeStudentFromFavourite(ActionEvent event) {
+        setFavouriteStudent((Student) event.getComponent().getAttributes().get("favStudent"));
         System.out.println(getFavouriteStudent().getStudentId());
-        
+
         getCurrentStartUp().getFavouriteStudents().remove(getFavouriteStudent());
-        
+
         startUpSessionBean.updateStartUp(getCurrentStartUp());
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been removed from favourites.", null));
-        
-        
+
     }
     
     public void updateFavouritesList(ActionEvent event) throws IOException {
@@ -135,8 +131,20 @@ public class studentManagementManagedBean implements Serializable {
             .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/compareStudents.xhtml");
         
     }
-    
 
+
+    public void viewReviews(ActionEvent event) throws IOException {
+        System.out.println("**************** studentManagementManagedBean.viewReviews");
+
+        Student toView = (Student) event.getComponent().getAttributes().get("studentToView");
+        System.out.println("**************** Student to View: " + toView.getName());
+
+        viewStudentManagedBean.setStudentEntityToView(toView);
+        System.out.println("**************** Student to View: " + viewStudentManagedBean.getStudentEntityToView().getName());
+        
+//        FacesContext.getCurrentInstance().getExternalContext()
+//                .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/reviewManagement/viewAllReviewsOfThisStudent.xhtml");
+    }
 
     public StudentSessionBeanLocal getStudentSessionBean() {
         return studentSessionBean;
@@ -209,7 +217,5 @@ public class studentManagementManagedBean implements Serializable {
     public void setStudentIdToView(long studentIdToView) {
         this.studentIdToView = studentIdToView;
     }
-    
-    
-    
+
 }

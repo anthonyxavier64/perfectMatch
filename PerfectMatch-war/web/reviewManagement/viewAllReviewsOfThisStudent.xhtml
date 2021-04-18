@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                template="./../template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <div>
+            <h3> View Reviews of Student </h3>
+            <h:form id="formViewReviewsOfThisStudent" >
+                <p:panel header="View Reviews of #{viewStudentManagedBean.studentEntityToView.name}">
+                    <p:messages id="messages"/>
+                    <p:dataTable id="dataTableViewReviewsOfThisStudent"
+                                 widgetVar="dataTableViewReviewsOfThisStudent"
+                                 value="#{viewStudentManagedBean.studentEntityToView.reviews}"
+                                 var="review">
+
+                        <p:column headerText="Review ID" sortBy="#{review.reviewOfStudentId}" filterBy="#{review.reviewOfStudentId}" filterMatchMode="contains">
+                            <h:outputText value="#{review.reviewOfStudentId}" />
+                        </p:column> 
+
+                        <p:column headerText="Rating" sortBy="#{review.rating}" filterBy="#{review.rating}" filterMatchMode="contains">
+                            <h:outputText value="#{review.rating}" />
+                        </p:column> 
+
+                        <p:column headerText="StartUp" sortBy="#{review.startup.companyName}" filterBy="#{review.startup.companyName}" filterMatchMode="contains">
+                            <h:outputText value="#{review.startup.companyName}" />
+                        </p:column> 
+
+
+                        <p:column headerText="View Details">
+                            <p:column headerText="Action">
+                                <p:commandButton update="ccViewReviewOfStudent:formViewReviewOfStudent"
+                                                 oncomplete="PF('dialogViewReviewOfStudent').show()"
+                                                 icon="ui-icon-document"
+                                                 title="View">
+                                    <f:setPropertyActionListener value="#{review}" target="#{reviewsManagedBean.reviewOfStudentToView}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            <ez:ViewReviewOfStudent id="ccViewReviewOfStudent" />
+        </div>
+    </ui:define>
+
+</ui:composition>

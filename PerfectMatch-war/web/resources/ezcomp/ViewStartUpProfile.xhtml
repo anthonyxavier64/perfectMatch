@@ -65,6 +65,14 @@
                         </p:column>
                     </p:row>
 
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Rating: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStartUpProfileManagedBean.startUpRating} / 5"/>
+                        </p:column>
+                    </p:row>
 
                     <p:row>
                         <p:column>
@@ -89,7 +97,7 @@
                 <p:linkButton outcome="/accountManagement/startUpProfile.xhtml"
                               value="Profile Page"
                               style="vertical-align: middle"/>
-                
+
             </p:dialog>
 
         </h:form>

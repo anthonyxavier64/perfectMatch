@@ -48,7 +48,8 @@ public class StartupManagementManagedBean implements Serializable {
     private Industry updateIndustry;
     private StartUpLocation updateLocation;
     private String passwordToVerify;
-    private String newPassword;
+    private String newPassword1;
+    private String newPassword2;
 
     /**
      * Creates a new instance of StartupManagementManagedBean
@@ -135,7 +136,11 @@ public class StartupManagementManagedBean implements Serializable {
                 throw new IncorrectStartUpPasswordException("Incorrect Pasword!");
             } else {
                 System.out.println("********** StartupManagementManagedBean.verifyPassword.password verified");
-                changePassword();
+                if (newPassword1.equals(newPassword2)) {
+                    changePassword();
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "New passwords do not match!", null));
+                }
             }
         } catch (IncorrectStartUpPasswordException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), null));
@@ -143,7 +148,7 @@ public class StartupManagementManagedBean implements Serializable {
     }
 
     private void changePassword() {
-        currentStartUp.setPassword(newPassword);
+        currentStartUp.setPassword(newPassword1);
         startUpSessionBean.updateStartUp(currentStartUp);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been changed successfully!", null));
     }
@@ -183,12 +188,20 @@ public class StartupManagementManagedBean implements Serializable {
         this.passwordToVerify = passwordToVerify;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getNewPassword1() {
+        return newPassword1;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+    public void setNewPassword1(String newPassword1) {
+        this.newPassword1 = newPassword1;
+    }
+
+    public String getNewPassword2() {
+        return newPassword2;
+    }
+
+    public void setNewPassword2(String newPassword2) {
+        this.newPassword2 = newPassword2;
     }
 
     public StartUp getCurrentStartUp() {

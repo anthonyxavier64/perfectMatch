@@ -44,7 +44,11 @@
                             </p:commandButton>   
                             <p:commandButton actionListener="#{studentManagementManagedBean.addStudentToFavourite}" update="@form" icon="ui-icon-star" title="Favourite">
                                 <f:attribute name="favStudent" value="#{student}" />
-                            </p:commandButton> 
+                            </p:commandButton>
+
+                            <p:commandButton onclick="test" actionListener="#{studentManagementManagedBean.viewReviews}" icon="ui-icon-rate-review" title="Reviews">
+                                <f:attribute name="studentToView" value="#{student}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

@@ -21,7 +21,6 @@ import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,7 +30,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import util.exception.CreateNewPostingException;
-import util.exception.InputDataValidationException;
 import util.exception.JobNotFoundException;
 import util.exception.OfferNotFoundException;
 import util.exception.PostingNotFoundException;
@@ -324,9 +322,9 @@ public class PostingsManagedBean implements Serializable {
             Long selectedProjectToUpdateId = (Long) event.getComponent().getAttributes().get("projectToPayId");
             System.out.println("********** doProjectPayment selectedProjectToUpdateId: " + selectedProjectToUpdateId);
 
-            Project toUpdate = projectSessionBean.retrieveProjectById(selectedProjectToUpdateId);
+            Project projectToUpdate = projectSessionBean.retrieveProjectById(selectedProjectToUpdateId);
             System.out.println("********** doProjectPayment Post Retrieve Project");
-            if (toUpdate.getAcceptedStudent() == null) {
+            if (projectToUpdate.getAcceptedStudent() == null) {
                 System.out.println("********** doProjectPayment Null Student");
 
                 FacesContext.getCurrentInstance()
@@ -334,14 +332,21 @@ public class PostingsManagedBean implements Serializable {
                                 new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                         "A Student has not been associated to the project for payment",
                                         null));
+            } else if (projectToUpdate.getProjectPayment() != null) {
+                System.out.println("********** doProjectPayment already paid error");
+                FacesContext.getCurrentInstance()
+                        .addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                        "Project ID: " + projectToUpdate.getPostingId() + " has already been paid for!",
+                                        null));
             } else {
                 System.out.println("********** doProjectPayment Student Not Null");
 
-                toUpdate.setIsComplete(true);
+                projectToUpdate.setIsComplete(true);
                 paymentManagementManagedBean
-                        .setProjectToPay(toUpdate);
+                        .setProjectToPay(projectToUpdate);
                 paymentManagementManagedBean
-                        .setStudentToPay(toUpdate.getAcceptedStudent());
+                        .setStudentToPay(projectToUpdate.getAcceptedStudent());
                 paymentManagementManagedBean.completePayment();
             }
         } catch (PostingNotFoundException ex) {
