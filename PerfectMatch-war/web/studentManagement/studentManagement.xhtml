@@ -12,8 +12,9 @@
          <h3>What would you like to do today? </h3>
          <p:row>
              <p:button id="students" outcome="/studentManagement/viewAllStudents.xhtml" value="View All Students" />
-             <p:button id="favStudents" outcome="/studentManagement/viewFavouriteStudents.xhtml" value="View Favourite Students" />
-             <p:button id="compareStudents" outcome="/studentManagement/compareStudents.xhtml" value="Compare Students" />
+             <p:commandButton id="favStudents" actionListener="#{studentManagementManagedBean.updateFavouritesList}" value="View Favourite Students" />
+             <p:commandButton id="compareStudents" actionListener="#{studentManagementManagedBean.compareStudents}" value="Compare Students" />
+
          </p:row>
     </ui:define>
 
