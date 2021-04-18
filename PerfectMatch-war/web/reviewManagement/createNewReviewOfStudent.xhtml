@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <div>
+            <h3>Create New Review of a Student</h3>
+
+            <h:form id="formCreateNewReviewOfStudent" >
+                <p:messages id="messagesCreateNewReviewOfStudent" redisplay="false" closable="true" />
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="studentName" value="Student Name: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="studentName"
+                                             value="#{reviewsManagedBean.newReviewOfStudent.studentBeingRated}"
+                                             converter="studentConverter">
+                                <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="true" />
+                                <f:selectItems value="#{reviewsManagedBean.allStudentsEmployedByCurrentStartUp}"
+                                               var="student"
+                                               itemValue="#{student}"
+                                               itemLabel="#{student.name}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="studentRating" value="Student Rating: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:rating id="studentRating" value="#{reviewsManagedBean.newReviewOfStudent.rating}" required="true" requiredMessage="Rating is required" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="review" value="Review: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="review" value="#{reviewsManagedBean.newReviewOfStudent.review}" required="true" requiredMessage="Review is required" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton type="reset" value="Clear" />&nbsp;
+                            <p:commandButton  value="Create new review of student"
+                                              update="@form"
+                                              actionListener="#{reviewsManagedBean.createNewReviewOfStudent}" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
