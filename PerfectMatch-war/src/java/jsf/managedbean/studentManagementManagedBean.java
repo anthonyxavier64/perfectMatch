@@ -88,8 +88,14 @@ public class studentManagementManagedBean implements Serializable {
     
     public void addStudentToFavourite(ActionEvent event) 
     {
+        
         setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
         System.out.println(getFavouriteStudent().getStudentId());
+     
+        if (getCurrentStartUp().getFavouriteStudents().contains(getFavouriteStudent())) {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student ID " + getFavouriteStudent().getStudentId() + " is already in your favourites.", null));
+           return;
+        }
         
         getCurrentStartUp().getFavouriteStudents().add(getFavouriteStudent());
         
@@ -109,6 +115,24 @@ public class studentManagementManagedBean implements Serializable {
         startUpSessionBean.updateStartUp(getCurrentStartUp());
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been removed from favourites.", null));
         
+        
+    }
+    
+    public void updateFavouritesList(ActionEvent event) throws IOException {
+        for (int i = 0; i < listOfStudents.size(); i++) {
+             if (getCurrentStartUp().getFavouriteStudents().contains(listOfStudents.get(i))) {
+                 int indexToUpdate = getCurrentStartUp().getFavouriteStudents().indexOf(listOfStudents.get(i));
+                 getCurrentStartUp().getFavouriteStudents().set(indexToUpdate, listOfStudents.get(i));
+             }
+        }        
+        FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/viewFavouriteStudents.xhtml");
+        
+    }
+    
+    public void compareStudents(ActionEvent event) throws IOException {
+     FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/compareStudents.xhtml");
         
     }
     

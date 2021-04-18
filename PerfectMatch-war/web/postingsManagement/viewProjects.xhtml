@@ -71,18 +71,13 @@
                         <p:column headerText="Required Skills"
                                   sortBy="#{project.requiredSkills}"
                                   filterBy="#{project.requiredSkills}"
-                                  filterMatchMode="contains">
+                                  filterMatchMode="contains"
+                                  style="width:180px;">
                             <p:dataList value="#{project.requiredSkills}" var="skills" type="unordered">
                                 #{skills}
                             </p:dataList>
                         </p:column> 
 
-                        <p:column headerText="Industry"
-                                  sortBy="#{project.industry}"
-                                  filterBy="#{project.industry}"
-                                  filterMatchMode="contains">
-                            <h:outputText value="#{project.industry}" />
-                        </p:column> 
 
                         <p:column headerText="Specialisation"
                                   sortBy="#{project.projectSpecialisation}"
@@ -95,10 +90,19 @@
                                   sortBy="#{project.projectSpecialisation}"
                                   filterBy="#{project.projectSpecialisation}"
                                   filterMatchMode="contains"
-                                  style="align-content: center">
+                                  style="align-content: center; width:100px;"
+                                  >
                             <p:selectBooleanCheckbox value="#{project.isComplete}"
                                                      disabled="true"
                                                      />
+                        </p:column> 
+                        
+                        <p:column headerText="Industry"
+                                  sortBy="#{project.industry}"
+                                  filterBy="#{project.industry}"
+                                  filterMatchMode="contains"
+                                  style="width:130px;">
+                            <h:outputText value="#{project.industry}" />
                         </p:column> 
 
                         <p:column headerText="Action" style="align-content: center">
@@ -128,6 +132,11 @@
                                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
                                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
                             </p:confirmDialog>
+                            
+                            <p:commandButton actionListener="#{postingsManagedBean.updateProjectComplete}"
+                                    update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages" icon="ui-icon-check" title="Complete">
+                                <f:attribute name="postingToComplete" value="#{project}" />
+                            </p:commandButton>
                         </p:column>
 
                     </p:dataTable>

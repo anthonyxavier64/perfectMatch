@@ -28,6 +28,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class StartUp implements Serializable {
 
+    public void setIsPremium(boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +60,8 @@ public class StartUp implements Serializable {
     private Industry industry;
 
     private StartUpLocation startupLocation;
+    
+    private boolean isPremium;
 
     @OneToMany(mappedBy = "startup")
     private List<Posting> postings;
@@ -79,6 +85,8 @@ public class StartUp implements Serializable {
     private List<ReviewOfStartUp> reviews = new ArrayList<>();
 
     public StartUp() {
+        this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public StartUp(String startupRegistrationNum, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
@@ -89,6 +97,7 @@ public class StartUp implements Serializable {
         this.industry = industry;
         this.startupLocation = startupLocation;
         this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public StartUp(String startupRegistrationNum, String companyName, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
@@ -100,6 +109,7 @@ public class StartUp implements Serializable {
         this.industry = industry;
         this.startupLocation = startupLocation;
         this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public Long getStartupId() {
@@ -224,13 +234,12 @@ public class StartUp implements Serializable {
     }
 
     public String getRating() {
-        BigDecimal sum = BigDecimal.ZERO;
+        int sum = 0;
         for (ReviewOfStartUp r : reviews) {
-            sum.add(BigDecimal.valueOf(r.getRating()));
+            sum += r.getRating();
         }
         if (reviews.size() > 0) {
-            BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
-            Double aveRating = ave.doubleValue();
+            int aveRating = sum/reviews.size();
             rating = String.valueOf(aveRating);
 
             return rating;
@@ -257,6 +266,10 @@ public class StartUp implements Serializable {
 
     public void setFavouriteStudents(List<Student> favouriteStudents) {
         this.favouriteStudents = favouriteStudents;
+    }
+
+    public boolean isIsPremium() {
+        return isPremium;
     }
 
 }

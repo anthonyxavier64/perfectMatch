@@ -9,6 +9,7 @@ import entity.Application;
 import entity.Offer;
 import entity.Payment;
 import entity.Posting;
+import entity.ReviewOfStartUp;
 import entity.Student;
 import java.util.List;
 import javax.ejb.Local;
@@ -47,4 +48,5 @@ public interface StudentSessionBeanLocal {
 
     void removeFavourite(Posting post, Long studentId);
 
+    public List<ReviewOfStartUp> getReviewsByStudent(Long studentId);
 }

@@ -6,8 +6,10 @@
 package ejb.session.stateless;
 
 import entity.Application;
+import entity.Offer;
 import entity.Posting;
 import entity.Student;
+import enumeration.OfferStatus;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -22,6 +24,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.ApplicationNotFoundException;
 import util.exception.CreateNewApplicationException;
 import util.exception.InputDataValidationException;
+import util.exception.OfferExistsException;
 import util.exception.PostingNotFoundException;
 import util.exception.RepeatedApplicationException;
 import util.exception.StudentNotFoundException;
@@ -62,10 +65,15 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
-
             for (Application a : student.getApplications()) {
-                if (a.getPosting().getPostingId() == postingId) {
+                if (a.getPosting().getPostingId().equals(postingId)) {
                     throw new RepeatedApplicationException("An application for this posting already exists");
+                }
+            }
+            
+            for (Offer o : student.getOffers()) {
+                if (o.getPosting().getPostingId().equals(postingId)) {
+                    o.setOfferStatus(OfferStatus.ACCEPTED);
                 }
             }
 

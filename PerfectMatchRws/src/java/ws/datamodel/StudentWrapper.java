@@ -5,6 +5,8 @@
  */
 package ws.datamodel;
 
+import entity.Posting;
+import entity.ReviewOfStudent;
 import entity.Student;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +33,8 @@ public class StudentWrapper {
     private String[] relevantSkills;
     private String[] availabilityPeriod;
     private FavouritesWrapper[] favorites;
+    private ReviewOfStudentWrapper[] reviews;
+    private String rating;
 
     public StudentWrapper() {
     }
@@ -59,11 +63,40 @@ public class StudentWrapper {
         availablePeriod[1] = simpleDateFormat.format(student.getAvailabilityPeriod()[1]);
         String[] skillsArray = student.getRelevantSkills().toArray(new String[0]);
 
+        List<FavouritesWrapper> faves = new ArrayList<>();
+
+        for (Posting p : student.getFavorites()) {
+            FavouritesWrapper fave = new FavouritesWrapper();
+            fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
+            faves.add(fave);
+        }
+        
+        FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
+
+        int index = 0;
+        for (FavouritesWrapper fw : faves) {
+            faveWraps[index] = fw;
+            index++;
+        }
+
+        ReviewOfStudentWrapper[] revWraps = new ReviewOfStudentWrapper[student.getReviews().size()];
+
+        index = 0;
+        for (ReviewOfStudent rw : student.getReviews()) {
+            revWraps[index] = ReviewOfStudentWrapper.convertReviewToWrapper(rw);
+            index++;
+        }
+
         StudentWrapper studentWrapper = new StudentWrapper(
                 student.getStudentId(), student.getName(), student.getBiography(), student.getEmail(),
                 student.getPassword(), student.getEducationalInstitute(), student.getCourseOfStudy(),
                 student.getYearOfStudy(), simpleDateFormat.format(student.getProjectedGraduationYear()),
                 skillsArray, availablePeriod);
+        
+        studentWrapper.setRating(student.getRating());
+
+        studentWrapper.setReviews(revWraps);
+        studentWrapper.setFavorites(faveWraps);
 
         return studentWrapper;
     }
@@ -176,6 +209,22 @@ public class StudentWrapper {
 
     public void setFavorites(FavouritesWrapper[] favorites) {
         this.favorites = favorites;
+    }
+
+    public ReviewOfStudentWrapper[] getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ReviewOfStudentWrapper[] reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
 }

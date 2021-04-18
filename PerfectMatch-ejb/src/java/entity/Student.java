@@ -280,15 +280,18 @@ public class Student implements Serializable {
     }
 
     public String getRating() {
-        BigDecimal sum = BigDecimal.ZERO;
+       int sum = 0;
         for (ReviewOfStudent r : reviews) {
-            sum.add(BigDecimal.valueOf(r.getRating()));
+            sum += r.getRating();
         }
-        BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
-        Double aveRating = ave.doubleValue();
-        rating = String.valueOf(aveRating);
+        if (reviews.size() > 0) {
+            int aveRating = sum/reviews.size();
+            rating = String.valueOf(aveRating);
 
-        return rating;
+            return rating;
+        } else {
+            return "0";
+        }
     }
 
     public void setRating(String rating) {

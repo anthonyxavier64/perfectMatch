@@ -28,8 +28,7 @@
                         </p:column>
                     </p:row>
 
-
-
+                    
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Project Title: " />
@@ -83,21 +82,6 @@
                         </p:column>
                     </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Project Industry: "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="industry"
-                                             value="#{postingsManagedBean.selectedProjectToUpdateIndustry}"
-                                             required="false" >
-                                <f:selectItems value="#{postingsManagedBean.industries}"
-                                               var="industry"
-                                               itemValue="#{industry}"
-                                               itemLabel="#{industry}" />
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
 
                     <p:row>
                         <p:column>
@@ -124,14 +108,7 @@
                         </p:column>
                     </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Is Complete?" />
-                        </p:column>
-                        <p:column>
-                            <p:selectBooleanCheckbox value="#{postingsManagedBean.selectedProjectToUpdate.isComplete}" />
-                        </p:column>
-                    </p:row>
+
 
                     <p:row>
                         <p:column colspan="2">

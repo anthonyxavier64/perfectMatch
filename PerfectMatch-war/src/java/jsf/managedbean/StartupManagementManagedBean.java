@@ -63,8 +63,8 @@ public class StartupManagementManagedBean implements Serializable {
     public void postConstruct() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
-        updateIndustry = currentStartUp.getIndustry();
-        updateLocation = currentStartUp.getStartupLocation();
+//        updateIndustry = currentStartUp.getIndustry();
+//        updateLocation = currentStartUp.getStartupLocation();
     }
 
     public void setProfilePic() {
@@ -119,6 +119,8 @@ public class StartupManagementManagedBean implements Serializable {
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "New StartUp registered (StartUp ID: " + startup.getStartupId() + ")",
                             null));
+            
+            System.out.println(startup.isIsPremium());
             newStartUp = new StartUp();
         } catch (InputDataValidationException | CreateNewStartUpException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while registering the new StartUp: " + ex.getMessage(), null));
@@ -156,6 +158,21 @@ public class StartupManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                 .put("currentStartUp", currentStartUp);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "StartUp has been updated successfully!", null));
+    }
+    
+    public void upgradeToPremium(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.upgradeToPremium");
+        
+        currentStartUp.setIsPremium(true);
+        startUpSessionBean.updateStartUp(currentStartUp);
+        System.out.println(currentStartUp.getStartupId() + " now has a premium account!");
+    }
+    
+    public void terminateSubscription(ActionEvent event) {
+       System.out.println("********** StartupManagementManagedBean.terminateSubscription");        
+       currentStartUp.setIsPremium(false); 
+       startUpSessionBean.updateStartUp(currentStartUp);
+       System.out.println(currentStartUp.getStartupId() + " now has a free account!");
     }
 
     public String getPasswordToVerify() {

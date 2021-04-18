@@ -105,8 +105,8 @@ public class OfferResource {
                     oriOffer.setOfferStatus(status);
                 }
             }
-                        
             offerSessionBeanLocal.updateOffer(oriOffer);
+            offerSessionBeanLocal.updatePostingResult(oriOffer);
             
             return Response.status(Status.OK).entity(offer).build();
         } catch (Exception ex) {
