@@ -59,9 +59,15 @@ public class StartUp implements Serializable {
     @Column(nullable = false)
     private Industry industry;
 
+    @Column(nullable = false, length = 4)
+    private String rating;
+
     private StartUpLocation startupLocation;
     
-    private boolean isPremium;
+
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isPremium;
 
     @OneToMany(mappedBy = "startup")
     private List<Posting> postings;
@@ -74,12 +80,9 @@ public class StartUp implements Serializable {
 
     @OneToMany(mappedBy = "startup")
     private List<Payment> payments = new ArrayList<>();
-    
+
     @OneToMany
     private List<Student> favouriteStudents = new ArrayList<>();
-
-    @Column(nullable = false, length = 4)
-    private String rating;
 
     @OneToMany(mappedBy = "startUpBeingRated", fetch = FetchType.LAZY)
     private List<ReviewOfStartUp> reviews = new ArrayList<>();
@@ -90,17 +93,17 @@ public class StartUp implements Serializable {
     }
 
     public StartUp(String startupRegistrationNum, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
+        this();
         this.startupRegistrationNum = startupRegistrationNum;
         this.description = description;
         this.email = email;
         this.password = password;
         this.industry = industry;
         this.startupLocation = startupLocation;
-        this.rating = "0.00";
-        this.isPremium = false;
     }
 
     public StartUp(String startupRegistrationNum, String companyName, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
+        this();
         this.startupRegistrationNum = startupRegistrationNum;
         this.companyName = companyName;
         this.description = description;
@@ -108,8 +111,6 @@ public class StartUp implements Serializable {
         this.password = password;
         this.industry = industry;
         this.startupLocation = startupLocation;
-        this.rating = "0.00";
-        this.isPremium = false;
     }
 
     public Long getStartupId() {
@@ -145,6 +146,14 @@ public class StartUp implements Serializable {
         return "entity.StartupEntity[ id=" + startupId + " ]";
     }
 
+    public Boolean getIsPremium() {
+        return isPremium;
+    }
+
+    public void setIsPremium(Boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+    
     public String getStartupRegistrationNum() {
         return startupRegistrationNum;
     }
