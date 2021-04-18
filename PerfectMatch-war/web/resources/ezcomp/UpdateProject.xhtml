@@ -113,8 +113,8 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton value="Update Project"
-                                             process="@form formViewAllProjects:dataTableViewAllProjects"
-                                             update="@form formViewAllProjects:dataTableViewAllProjects"
+                                             process="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages"
+                                             update="@form formViewAllProjects:dataTableViewAllProjects formViewAllProjects:messages"
                                              actionListener="#{postingsManagedBean.doUpdateProject}">
                                 <f:attribute name="selectedProjectToUpdate"
                                              value="#{postingsManagedBean.selectedProjectToUpdate}" />
