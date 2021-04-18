@@ -519,7 +519,7 @@ public class DataInitSessionBean {
         }
     }
 
-    private void initReviewOfStartUps() {
+    private void initReviewOfStartUps()  {
         try {
             ReviewOfStartUp review1 = new ReviewOfStartUp(4,
                     "Testing testing testing testing testing testing testing testing testing testing testing testing ",
