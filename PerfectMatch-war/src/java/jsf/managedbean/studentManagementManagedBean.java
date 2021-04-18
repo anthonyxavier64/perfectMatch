@@ -70,23 +70,32 @@ public class studentManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("studentIdToView", studentIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("studentManagement.xhtml");
     }
+    
+        
+    public void retrieveStudentByStudentId(ActionEvent event) throws IOException, StudentNotFoundException 
+    {
+            studentIdToView = (Long)event.getComponent().getAttributes().get("studentId");
+            System.out.println("Student ID is:" + getStudentIdToView());
 
-    public void retrieveStudentByStudentId(ActionEvent event) throws IOException, StudentNotFoundException {
-        studentIdToView = (Long) event.getComponent().getAttributes().get("studentId");
-        System.out.println("Student ID is:" + getStudentIdToView());
-
-        if (studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()) == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentIdToView() + " does not exist.", null));
-        } else {
-            setStudentToView(studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()));
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentToView().getStudentId() + " is selected.", null));
-        }
+            if (studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()) == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentIdToView() + " does not exist.", null));
+            } else {
+                setStudentToView(studentSessionBean.retrieveStudentByStudentId(getStudentIdToView()));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getStudentToView().getStudentId() + " is selected.", null));
+            }
     }
-
-    public void addStudentToFavourite(ActionEvent event) {
-        setFavouriteStudent((Student) event.getComponent().getAttributes().get("favStudent"));
+    
+    public void addStudentToFavourite(ActionEvent event) 
+    {
+        
+        setFavouriteStudent((Student)event.getComponent().getAttributes().get("favStudent"));
         System.out.println(getFavouriteStudent().getStudentId());
-
+     
+        if (getCurrentStartUp().getFavouriteStudents().contains(getFavouriteStudent())) {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student ID " + getFavouriteStudent().getStudentId() + " is already in your favourites.", null));
+           return;
+        }
+        
         getCurrentStartUp().getFavouriteStudents().add(getFavouriteStudent());
 
         startUpSessionBean.updateStartUp(getCurrentStartUp());
@@ -104,6 +113,25 @@ public class studentManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student ID " + getFavouriteStudent().getStudentId() + " has been removed from favourites.", null));
 
     }
+    
+    public void updateFavouritesList(ActionEvent event) throws IOException {
+        for (int i = 0; i < listOfStudents.size(); i++) {
+             if (getCurrentStartUp().getFavouriteStudents().contains(listOfStudents.get(i))) {
+                 int indexToUpdate = getCurrentStartUp().getFavouriteStudents().indexOf(listOfStudents.get(i));
+                 getCurrentStartUp().getFavouriteStudents().set(indexToUpdate, listOfStudents.get(i));
+             }
+        }        
+        FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/viewFavouriteStudents.xhtml");
+        
+    }
+    
+    public void compareStudents(ActionEvent event) throws IOException {
+     FacesContext.getCurrentInstance().getExternalContext()
+            .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/studentManagement/compareStudents.xhtml");
+        
+    }
+
 
     public void viewReviews(ActionEvent event) throws IOException {
         System.out.println("**************** studentManagementManagedBean.viewReviews");

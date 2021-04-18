@@ -26,6 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import util.exception.CreateNewApplicationException;
 import util.exception.RepeatedApplicationException;
 import ws.datamodel.ApplicationWrapper;
 import ws.datamodel.PostingWrapper;
@@ -69,7 +70,7 @@ public class ApplicationResource {
                     newApp.setApplicationStatus(status);
                 }
             }
-
+            
 //            newApp.setApplicationStatus(app.getApplicationStatus());
             newApp.setOfferSent(app.getOfferSent());
 
@@ -79,8 +80,7 @@ public class ApplicationResource {
             app.setPosting(PostingWrapper.convertPostingToPostingWrapper(createdApp.getPosting()));
 
             return Response.status(Status.OK).entity(app).build();
-        } catch (RepeatedApplicationException ex) {
-            System.out.println(ex.getMessage());
+        } catch (RepeatedApplicationException | CreateNewApplicationException ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();

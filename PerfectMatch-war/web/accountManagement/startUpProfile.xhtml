@@ -40,7 +40,73 @@
                                      style="text-align: center;"
                                      onclick="PF('dlgChangePassword').show();"
                                      type="button"/>
+
+                    <p:commandButton title="Upgrade to Premium"
+                                     style="text-align: center;"
+                                     onclick="PF('dlgUpgradePremium').show();"
+                                     type="button"
+                                     rendered="#{startupManagementManagedBean.currentStartUp.isPremium == false}" />
+                    
+                    <p:commandButton title="Terminate Subscription"
+                                     style="text-align: center;"
+                                     onclick="PF('dlgTerminateSubscription').show();"
+                                     type="button"
+                                     rendered="#{startupManagementManagedBean.currentStartUp.isPremium == true}" />
+                    
+                    <p:dialog id="dlgUpdateProfilePicture"
+                              widgetVar="dlgUpdateProfilePicture"
+                              header="Update Profile Picture"
+                              closable="true"
+                              width="500px">
+                        <p:fileUpload listener="#{profilePictureManagedBean.handleFileUpload}" 
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/" />
+                    </p:dialog>
+
+                    <p:dialog id="dlgChangePassword"
+                              widgetVar="dlgChangePassword"
+                              header="Change Password"
+                              closable="true"
+                              width="500px">
+                        <p:outputLabel for="passwordToVerify" 
+                                       value="Old Password: "/>
+                        <p:inputText id="passwordToVerify"
+                                     value="#{startupManagementManagedBean.passwordToVerify}"
+                                     style="width: 200px;
+                                     padding-bottom: 10px"/>
+
+                        <br/>
+
+                        <p:outputLabel for="newPassword1" 
+                                       value="New Password: "/>
+
+                        <p:password id="newPassword1"
+                                    value="#{startupManagementManagedBean.newPassword}"
+                                    match="newPassword1"
+                                    required="true"
+                                    requiredMessage="A new password is required!"
+                                    style="width: 200px;
+                                    padding-bottom: 10px"/>
+
+                        <br/>
+                        <p:outputLabel for="newPassword2" 
+                                       value="Reenter New Password: "/>
+
+                        <p:password id="newPassword2"
+                                    value="#{startupManagementManagedBean.newPassword}"
+                                    required="true"
+                                    requiredMessage="A new password is required!"
+                                    style="width: 200px;
+                                    padding-bottom: 10px"/>
+
+                        <br/>
+                        <p:commandButton  value="Confirm" update="@form" actionListener="#{startupManagementManagedBean.verifyPassword}" />
+                        <p:growl>
+                            <p:autoUpdate/>
+                        </p:growl>
+                    </p:dialog>
                 </p:row>
+                
+
             </p:panelGrid>
             <p:dialog id="dlgUpdateProfilePicture"
                       widgetVar="dlgUpdateProfilePicture"
@@ -110,6 +176,31 @@
                 </p:panelGrid> 
             </p:dialog>
 
+
+        </h:form>
+        <h:form>
+
+            <p:dialog id="dlgUpgradePremium"
+                      widgetVar="dlgUpgradePremium"
+                      header="Upgrade to Premium"
+                      closable="true"
+                      width="500px">
+                <p:outputLabel value="Confirm Upgrade?"/>
+                <br/>
+                <p:commandButton value="Confirm" actionListener="#{startupManagementManagedBean.upgradeToPremium}" onclick="PF('dlgUpgradePremium').close();" />
+                <p:commandButton value="No" onclick="PF('dlgUpgradePremium').close();" />
+            </p:dialog>
+
+            <p:dialog id="dlgTerminateSubscription"
+                      widgetVar="dlgTerminateSubscription"
+                      header="Terminate Subscription"
+                      closable="true"
+                      width="500px">
+                <p:outputLabel value="Confirm Termination?"/>
+                <br/>
+                <p:commandButton value="Confirm" actionListener="#{startupManagementManagedBean.terminateSubscription}" onclick="PF('dlgTerminateSubscription').close();" />
+                <p:commandButton value="No" onclick="PF('dlgTerminateSubscription').close();" />
+            </p:dialog>
 
         </h:form>
 

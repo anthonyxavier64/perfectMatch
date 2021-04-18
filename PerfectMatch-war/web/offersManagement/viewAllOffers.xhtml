@@ -25,10 +25,6 @@
                             <h:outputText value="#{offer.student.name}" />
                         </p:column> 
 
-                        <p:column headerText="Offer Status" sortBy="#{offer.offerStatus}" filterBy="#{offer.offerStatus}" filterMatchMode="contains">
-                            <h:outputText value="#{offer.offerStatus}" />
-                        </p:column> 
-
                         <p:column headerText="Action">
                             <p:commandButton update="ccViewOffer:formViewOffer" oncomplete="PF('dialogViewOffer').show()" icon="ui-icon-document" title="View">
                                 <f:setPropertyActionListener value="#{offer}" target="#{offersManagementManagedBean.viewOfferManagedBean.offerEntityToView}" />

@@ -34,3 +34,8 @@ Code styling
 1. Make sure you are pushing to the correct branch
 2. Check which branch your local branch is tracking: git branch -vv
 3. Safe method to push to correct branch: git push origin *name*/*branch name*:*name*/*branch name*, where name and branch name is the same to the left and right of the colon
+
+**Loading up the JSF Page**
+1. If you encounter an error with regards to the file "bootstrap" when loading up the JSF site, look for the "bootstrap-1.0.10" JAR file in the root directory of the project. 
+2. Add the JAR file into the main project's library. The directory navigation is as such: perfectMatch/build/lib
+3. Redeploy the application. The site should appear with the bootstrap theme now.
