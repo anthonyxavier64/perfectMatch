@@ -10,6 +10,7 @@ import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Payment;
 import entity.Project;
+import entity.StartUp;
 import entity.Student;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -66,12 +67,26 @@ public class PaymentManagementManagedBean implements Serializable {
                             projectToPay.getPostingId(),
                             projectToPay.getStartup().getStartupId(),
                             studentToPay.getStudentId());
-            FacesContext.getCurrentInstance()
+            
+            StartUp currentStartUp = (StartUp) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("currentStartUp");
+            
+            if (currentStartUp.isIsPremium() == false) {
+                FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Payment has been transferred (Payment ID: " + payment.getPaymentId() + ") "
                             + "to Student ID: " + studentToPay.getStudentId()
-                            + " for Project ID: " + projectToPay.getPostingId(),
+                            + " for Project ID: " + projectToPay.getPostingId() 
+                            + ". A 5% commission has been charged.",
                             null));
+            } else {
+                FacesContext.getCurrentInstance()
+                        .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Payment has been transferred (Payment ID: " + payment.getPaymentId() + ") "
+                                + "to Student ID: " + studentToPay.getStudentId()
+                                + " for Project ID: " + projectToPay.getPostingId(),
+                                null));
+            }
             newPayment = new Payment();
             studentToPay = null;
             projectToPay = null;

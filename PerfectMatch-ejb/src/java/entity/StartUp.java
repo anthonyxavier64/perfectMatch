@@ -28,6 +28,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class StartUp implements Serializable {
 
+    public void setIsPremium(boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +60,8 @@ public class StartUp implements Serializable {
     private Industry industry;
 
     private StartUpLocation startupLocation;
+    
+    private boolean isPremium;
 
     @OneToMany(mappedBy = "startup")
     private List<Posting> postings;
@@ -256,6 +262,10 @@ public class StartUp implements Serializable {
 
     public void setFavouriteStudents(List<Student> favouriteStudents) {
         this.favouriteStudents = favouriteStudents;
+    }
+
+    public boolean isIsPremium() {
+        return isPremium;
     }
 
 }

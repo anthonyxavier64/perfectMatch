@@ -157,6 +157,21 @@ public class StartupManagementManagedBean implements Serializable {
                 .put("currentStartUp", currentStartUp);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "StartUp has been updated successfully!", null));
     }
+    
+    public void upgradeToPremium(ActionEvent event) {
+        System.out.println("********** StartupManagementManagedBean.upgradeToPremium");
+        
+        currentStartUp.setIsPremium(true);
+        startUpSessionBean.updateStartUp(currentStartUp);
+        System.out.println(currentStartUp.getStartupId() + " now has a premium account!");
+    }
+    
+    public void terminateSubscription(ActionEvent event) {
+       System.out.println("********** StartupManagementManagedBean.terminateSubscription");        
+       currentStartUp.setIsPremium(false); 
+       startUpSessionBean.updateStartUp(currentStartUp);
+       System.out.println(currentStartUp.getStartupId() + " now has a free account!");
+    }
 
     public String getPasswordToVerify() {
         return passwordToVerify;
