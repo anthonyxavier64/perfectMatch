@@ -227,6 +227,9 @@ public class PostingsManagedBean implements Serializable {
         getSelectedProjectToUpdate()
                 .setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedProjectToUpdate());
+        
+        
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project has been updated successfully! (Project ID: " + getSelectedProjectToUpdate().getPostingId() + ")", null));
     }
     
     public void updateProjectComplete(ActionEvent event) {
@@ -272,7 +275,8 @@ public class PostingsManagedBean implements Serializable {
 
 //        getSelectedJobToUpdate().setRequiredSkills(getSelectedJobToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedJobToUpdate());
-
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Job has been updated successfully! (Job ID: " + getSelectedJobToUpdate().getPostingId() + ")", null));
+  
     }
 
     public void deleteJob(ActionEvent event) {
