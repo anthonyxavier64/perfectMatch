@@ -158,12 +158,27 @@ public class PostingsManagedBean implements Serializable {
 
         setStartUpId(currentStartUp.getStartupId());
 
+        if (currentStartUp.isIsPremium() == false) {
+            int numOfUncompletedProjects = 0;
+            for (int i = 0; i < listOfProjects.size(); i++) {
+                if (!listOfProjects.get(i).isIsComplete()) {
+                    numOfUncompletedProjects++;
+                    System.out.println(numOfUncompletedProjects);
+                } 
+            }
+            if (numOfUncompletedProjects >= 5) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Project limit reached. Please upgrade to premium account!", null));
+                return;
+            }
+        }
+        
         long projectId = projectSessionBean.createNewProject(getNewProject(), getStartUpId());
         Project project = postingSessionBean.retrieveProjectByProjectId(projectId);
         getListOfPostings().add(project);
         if (getFilteredPostings() != null) {
             getFilteredPostings().add(project);
         }
+        getListOfProjects().add(project);
         setNewProject(new Project());
         setStartUpId(null);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Project created successfully (Project ID: " + projectId + ")", null));
@@ -177,7 +192,12 @@ public class PostingsManagedBean implements Serializable {
         System.out.println(currentStartUp.getCompanyName());
 
         setStartUpId(currentStartUp.getStartupId());
-
+        
+        if (currentStartUp.isIsPremium() == false && currentStartUp.getJobs().size() >= 5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Job limit reached. Please upgrade to premium account!", null));
+            return;
+        }
+        
         long jobId = jobSessionBean.createNewJob(getNewJob(), getStartUpId());
         Job job = postingSessionBean.retrieveJobByJobId(jobId);
         getListOfPostings().add(job);
@@ -218,6 +238,8 @@ public class PostingsManagedBean implements Serializable {
                 } else {
                     getSelectedProjectToUpdate().setIsComplete(false);
                 }
+                
+                postingSessionBean.updatePosting(getSelectedProjectToUpdate());
 
     }
     
