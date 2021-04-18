@@ -85,6 +85,8 @@ public class StartUp implements Serializable {
     private List<ReviewOfStartUp> reviews = new ArrayList<>();
 
     public StartUp() {
+        this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public StartUp(String startupRegistrationNum, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
@@ -95,6 +97,7 @@ public class StartUp implements Serializable {
         this.industry = industry;
         this.startupLocation = startupLocation;
         this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public StartUp(String startupRegistrationNum, String companyName, String description, String email, String password, Industry industry, StartUpLocation startupLocation) {
@@ -106,6 +109,7 @@ public class StartUp implements Serializable {
         this.industry = industry;
         this.startupLocation = startupLocation;
         this.rating = "0.00";
+        this.isPremium = false;
     }
 
     public Long getStartupId() {
