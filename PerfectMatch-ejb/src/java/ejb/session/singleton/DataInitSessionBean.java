@@ -413,7 +413,7 @@ public class DataInitSessionBean {
                             new Offer(
                                     "TestOffer3",
                                     OfferStatus.PENDING),
-                            (long) 3, (long) 12);
+                            (long) 3, (long) 11);
             offerSessionBean
                     .createNewOffer(
                             new Offer(
