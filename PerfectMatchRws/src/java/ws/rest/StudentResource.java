@@ -18,7 +18,6 @@ import entity.Payment;
 import entity.Posting;
 import entity.Project;
 import entity.ReviewOfStartUp;
-import entity.StartUp;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
@@ -45,6 +44,7 @@ import ws.datamodel.ApplicationWrapper;
 import ws.datamodel.FavouritesWrapper;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
+import ws.datamodel.PaymentWrapper;
 import ws.datamodel.PostingWrapper;
 import ws.datamodel.ProjectWrapper;
 import ws.datamodel.ReviewOfStartUpWrapper;
@@ -107,24 +107,7 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-
-            List<FavouritesWrapper> faves = new ArrayList<>();
-
-            for (Posting p : student.getFavorites()) {
-                FavouritesWrapper fave = new FavouritesWrapper();
-                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
-                faves.add(fave);
-            }
-
-            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
-            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
-
-            int index = 0;
-            for (FavouritesWrapper fw : faves) {
-                faveWraps[index] = fw;
-                index++;
-            }
-            studWrapper.setFavorites(faveWraps);
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);    
 
             return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
@@ -139,8 +122,10 @@ public class StudentResource {
     public Response retrieveStudentById(@PathParam("studentId") Long id) {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
+            
+            StudentWrapper studWrap = StudentWrapper.convertStudentToStudentWrapper(student);
 
-            return Response.status(Status.OK).entity(student).build();
+            return Response.status(Status.OK).entity(studWrap).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
@@ -202,17 +187,22 @@ public class StudentResource {
         }
     }
 
-    @Path("getStudentPayments")
+    @Path("getStudentPayments/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentPayments(@PathParam("studentId") Long id) {
         try {
             List<Payment> payments = studentSessionBeanLocal.getStudentPayments(id);
-
-            GenericEntity<List<Payment>> genericEntity = new GenericEntity<List<Payment>>(payments) {
+            List<PaymentWrapper> results = new ArrayList<>();
+            for (Payment p : payments) {
+                PaymentWrapper pwrap = PaymentWrapper.convertPaymentToWrapper(p);
+                pwrap.setProject(ProjectWrapper.convertProjectToProjectWrapper(p.getProject()));
+                pwrap.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(p.getStartup()));
+                results.add(pwrap);
+            }
+            GenericEntity<List<PaymentWrapper>> genericEntity = new GenericEntity<List<PaymentWrapper>>(results) {
             };
-
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
