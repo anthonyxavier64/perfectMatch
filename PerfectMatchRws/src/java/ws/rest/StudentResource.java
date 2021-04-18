@@ -18,7 +18,6 @@ import entity.Payment;
 import entity.Posting;
 import entity.Project;
 import entity.ReviewOfStartUp;
-import entity.StartUp;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
@@ -45,6 +44,7 @@ import ws.datamodel.ApplicationWrapper;
 import ws.datamodel.FavouritesWrapper;
 import ws.datamodel.JobWrapper;
 import ws.datamodel.OfferWrapper;
+import ws.datamodel.PaymentWrapper;
 import ws.datamodel.PostingWrapper;
 import ws.datamodel.ProjectWrapper;
 import ws.datamodel.ReviewOfStartUpWrapper;
@@ -202,17 +202,19 @@ public class StudentResource {
         }
     }
 
-    @Path("getStudentPayments")
+    @Path("getStudentPayments/{studentId}")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentPayments(@PathParam("studentId") Long id) {
         try {
             List<Payment> payments = studentSessionBeanLocal.getStudentPayments(id);
-
-            GenericEntity<List<Payment>> genericEntity = new GenericEntity<List<Payment>>(payments) {
+            List<PaymentWrapper> results = new ArrayList<>();
+            for (Payment p :  payments) {
+                results.add(PaymentWrapper.convertPaymentToWrapper(p));
+            }
+            GenericEntity<List<PaymentWrapper>> genericEntity = new GenericEntity<List<PaymentWrapper>>(results) {
             };
-
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
