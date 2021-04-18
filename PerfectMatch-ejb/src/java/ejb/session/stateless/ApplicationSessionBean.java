@@ -9,6 +9,7 @@ import entity.Application;
 import entity.Offer;
 import entity.Posting;
 import entity.Student;
+import enumeration.OfferStatus;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -72,7 +73,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             
             for (Offer o : student.getOffers()) {
                 if (o.getPosting().getPostingId().equals(postingId)) {
-                    throw new OfferExistsException("An offer has already been made!");
+                    o.setOfferStatus(OfferStatus.ACCEPTED);
                 }
             }
 
@@ -85,7 +86,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             posting.getApplications().add(app);
             return app;
 
-        } catch (StudentNotFoundException | PostingNotFoundException | OfferExistsException ex) {
+        } catch (StudentNotFoundException | PostingNotFoundException ex) {
             throw new CreateNewApplicationException(ex.getMessage());
         }
     }

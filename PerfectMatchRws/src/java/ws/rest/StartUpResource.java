@@ -77,27 +77,7 @@ public class StartUpResource {
         }
 
     }
-
-    @Path("addReview")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addStartUpReview(ReviewOfStartUpWrapper review) {
-        try {
-
-            ReviewOfStartUp rev = ReviewOfStartUpWrapper.convertWrapperToReview(review);
-
-            rev = reviewOfStartUpSessionBean.addStartupReview(review.getStartUpBeingRated().getStartupId(), review.getStudent().getStudentId(), rev);
-
-            StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(rev.getStartUpBeingRated());
-
-            return Response.status(Status.OK).entity(startWrap).build();
-
-        } catch (Exception ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
-        }
-    }
-
+    
     private ReviewOfStartUpSessionBeanLocal lookupReviewOfStartUpSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();

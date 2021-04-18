@@ -107,24 +107,7 @@ public class StudentResource {
             @QueryParam("password") String password) {
         try {
             Student student = studentSessionBeanLocal.loginStudent(email, password);
-
-            List<FavouritesWrapper> faves = new ArrayList<>();
-
-            for (Posting p : student.getFavorites()) {
-                FavouritesWrapper fave = new FavouritesWrapper();
-                fave.setPost(PostingWrapper.convertPostingToPostingWrapper(p));
-                faves.add(fave);
-            }
-
-            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);
-            FavouritesWrapper[] faveWraps = new FavouritesWrapper[faves.size()];
-
-            int index = 0;
-            for (FavouritesWrapper fw : faves) {
-                faveWraps[index] = fw;
-                index++;
-            }
-            studWrapper.setFavorites(faveWraps);
+            StudentWrapper studWrapper = StudentWrapper.convertStudentToStudentWrapper(student);    
 
             return Response.status(Status.OK).entity(studWrapper).build();
         } catch (Exception ex) {
@@ -139,8 +122,10 @@ public class StudentResource {
     public Response retrieveStudentById(@PathParam("studentId") Long id) {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(id);
+            
+            StudentWrapper studWrap = StudentWrapper.convertStudentToStudentWrapper(student);
 
-            return Response.status(Status.OK).entity(student).build();
+            return Response.status(Status.OK).entity(studWrap).build();
         } catch (Exception ex) {
             return Response.status(Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
