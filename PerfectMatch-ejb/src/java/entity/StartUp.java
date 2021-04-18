@@ -230,13 +230,12 @@ public class StartUp implements Serializable {
     }
 
     public String getRating() {
-        BigDecimal sum = BigDecimal.ZERO;
+        int sum = 0;
         for (ReviewOfStartUp r : reviews) {
-            sum.add(BigDecimal.valueOf(r.getRating()));
+            sum += r.getRating();
         }
         if (reviews.size() > 0) {
-            BigDecimal ave = sum.divide(BigDecimal.valueOf(reviews.size())).setScale(2, RoundingMode.HALF_UP);
-            Double aveRating = ave.doubleValue();
+            int aveRating = sum/reviews.size();
             rating = String.valueOf(aveRating);
 
             return rating;

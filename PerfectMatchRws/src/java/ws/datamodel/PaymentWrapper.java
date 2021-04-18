@@ -5,11 +5,15 @@
  */
 package ws.datamodel;
 
+import entity.Payment;
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author yappeizhen
  */
 public class PaymentWrapper {
+
     private Long paymentId;
     private Double paymentAmount;
     private String description;
@@ -17,6 +21,16 @@ public class PaymentWrapper {
     private ProjectWrapper project;
     private StartUpWrapper startup;
     private StudentWrapper student;
+
+    public static PaymentWrapper convertPaymentToWrapper(Payment pay) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        PaymentWrapper result = new PaymentWrapper();
+        result.setPaymentId(pay.getPaymentId());
+        result.setPaymentAmount(pay.getPaymentAmount());
+        result.setDescription(pay.getDescription());
+        result.setDateOfTransaction(simpleDateFormat.format(pay.getDateOfTransaction()));
+        return result;
+    }
 
     public PaymentWrapper() {
     }
@@ -86,6 +100,5 @@ public class PaymentWrapper {
     public void setStudent(StudentWrapper student) {
         this.student = student;
     }
-    
-    
+
 }

@@ -81,7 +81,6 @@ public class ApplicationResource {
 
             return Response.status(Status.OK).entity(app).build();
         } catch (RepeatedApplicationException | CreateNewApplicationException ex) {
-            System.out.println(ex.getMessage());
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (Exception ex) {
             return Response.status(Status.BAD_REQUEST).entity(ex.getMessage()).build();
