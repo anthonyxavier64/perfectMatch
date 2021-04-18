@@ -29,8 +29,6 @@ public class PaymentWrapper {
         result.setPaymentAmount(pay.getPaymentAmount());
         result.setDescription(pay.getDescription());
         result.setDateOfTransaction(simpleDateFormat.format(pay.getDateOfTransaction()));
-        result.setProject(ProjectWrapper.convertProjectToProjectWrapper(pay.getProject()));
-        result.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(pay.getStartup()));
         return result;
     }
 

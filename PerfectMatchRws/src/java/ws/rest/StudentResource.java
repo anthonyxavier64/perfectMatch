@@ -210,8 +210,11 @@ public class StudentResource {
         try {
             List<Payment> payments = studentSessionBeanLocal.getStudentPayments(id);
             List<PaymentWrapper> results = new ArrayList<>();
-            for (Payment p :  payments) {
-                results.add(PaymentWrapper.convertPaymentToWrapper(p));
+            for (Payment p : payments) {
+                PaymentWrapper pwrap = PaymentWrapper.convertPaymentToWrapper(p);
+                pwrap.setProject(ProjectWrapper.convertProjectToProjectWrapper(p.getProject()));
+                pwrap.setStartup(StartUpWrapper.convertStartUpToStartUpWrapper(p.getStartup()));
+                results.add(pwrap);
             }
             GenericEntity<List<PaymentWrapper>> genericEntity = new GenericEntity<List<PaymentWrapper>>(results) {
             };
