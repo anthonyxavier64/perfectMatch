@@ -64,7 +64,6 @@ public class StartUp implements Serializable {
 
     private StartUpLocation startupLocation;
     
-    private boolean isPremium;
 
     @NotNull
     @Column(nullable = false)

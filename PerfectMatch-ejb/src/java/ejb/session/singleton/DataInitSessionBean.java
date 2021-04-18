@@ -55,6 +55,7 @@ import util.exception.CreateNewPostingException;
 import util.exception.CreateNewReviewOfStartUpException;
 import util.exception.CreateNewReviewOfStudentException;
 import util.exception.CreateNewStudentException;
+import util.exception.DuplicateReviewException;
 import util.exception.OfferNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.RepeatedApplicationException;
@@ -518,20 +519,21 @@ public class DataInitSessionBean {
         }
     }
 
-    private void initReviewOfStartUps() {
+    private void initReviewOfStartUps()  {
         try {
             ReviewOfStartUp review1 = new ReviewOfStartUp(4,
                     "Testing testing testing testing testing testing testing testing testing testing testing testing ",
                     studentSessionBean.retrieveStudentByStudentId(1l),
                     startUpSessionBean.retrieveStartUpByStartUpId(1l));
 
-            reviewOfStartUpSessionBean.createNewStartUp(review1);
+            reviewOfStartUpSessionBean.createNewStartUpReview(review1);
 
             System.out.println("**************** DataInitSessionBean.initReviewOfStartUps");
 
         } catch (StartUpNotFoundException
                 | StudentNotFoundException
                 | CreateNewReviewOfStartUpException
+                | DuplicateReviewException
                 | InputDataValidationException ex) {
             System.out.println("Exception occured with initReviewOfStartUps");
         }
