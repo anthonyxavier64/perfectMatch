@@ -66,13 +66,13 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
 
             for (Application a : student.getApplications()) {
-                if (a.getPosting().getPostingId() == postingId) {
+                if (a.getPosting().getPostingId().equals(postingId)) {
                     throw new RepeatedApplicationException("An application for this posting already exists");
                 }
             }
             
             for (Offer o : student.getOffers()) {
-                if (o.getPosting().getPostingId() == postingId) {
+                if (o.getPosting().getPostingId().equals(postingId)) {
                     throw new OfferExistsException("An offer has already been made!");
                 }
             }
