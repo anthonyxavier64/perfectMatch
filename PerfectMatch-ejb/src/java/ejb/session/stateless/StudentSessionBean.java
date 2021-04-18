@@ -131,7 +131,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public List<Payment> getStudentPayments(Long studentId) {
-        Query query = em.createQuery("SELECT p FROM Payment WHERE Payment.studentId = :studentId");
+        Query query = em.createQuery("SELECT p FROM Payment p WHERE p.student.studentId = :studentId");
         query.setParameter("studentId", studentId);
 
         List<Payment> payments = query.getResultList();
