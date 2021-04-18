@@ -36,6 +36,7 @@ import entity.Offer;
 import entity.Payment;
 import entity.Project;
 import entity.ReviewOfStartUp;
+import entity.ReviewOfStudent;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
@@ -52,11 +53,13 @@ import util.exception.CreateNewOfferException;
 import util.exception.CreateNewPaymentException;
 import util.exception.CreateNewPostingException;
 import util.exception.CreateNewReviewOfStartUpException;
+import util.exception.CreateNewReviewOfStudentException;
 import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.RepeatedApplicationException;
 import util.exception.ReviewOfStartUpNotFoundException;
+import util.exception.ReviewOfStudentNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -145,6 +148,12 @@ public class DataInitSessionBean {
             reviewOfStartUpSessionBean.retrieveReviewOfStartUpByReviewOfStartUpId(1l);
         } catch (ReviewOfStartUpNotFoundException ex) {
             initReviewOfStartUps();
+        }
+
+        try {
+            reviewOfStudentSessionBean.retrieveReviewOfStudentByReviewOfStudentId(1l);
+        } catch (ReviewOfStudentNotFoundException ex) {
+            initReviewOfStudents();
         }
 
         System.out.println("**************** DataInitSessionBean.postConstruct");
@@ -501,6 +510,26 @@ public class DataInitSessionBean {
                 | CreateNewReviewOfStartUpException
                 | InputDataValidationException ex) {
             System.out.println("Exception occured with initReviewOfStartUps");
+        }
+
+    }
+    
+    private void initReviewOfStudents() {
+        try {
+            ReviewOfStudent review1 = new  ReviewOfStudent(4,
+                    "Testing testing testing testing testing testing testing testing testing testing testing testing",
+                    startUpSessionBean.retrieveStartUpByStartUpId(1l),
+                    studentSessionBean.retrieveStudentByStudentId(1l));
+                    
+            reviewOfStudentSessionBean.createNewStartUp(review1);
+
+            System.out.println("**************** DataInitSessionBean.initReviewOfStudents");
+
+        } catch (StartUpNotFoundException
+                | StudentNotFoundException
+                | CreateNewReviewOfStudentException
+                | InputDataValidationException ex) {
+            System.out.println("Exception occured with initReviewOfStudents");
         }
 
     }
