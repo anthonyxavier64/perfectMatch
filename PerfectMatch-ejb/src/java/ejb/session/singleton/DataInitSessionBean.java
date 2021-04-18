@@ -11,6 +11,8 @@ import ejb.session.stateless.OfferSessionBeanLocal;
 import ejb.session.stateless.PaymentSessionBeanLocal;
 import ejb.session.stateless.PostingSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
+import ejb.session.stateless.ReviewOfStartUpSessionBeanLocal;
+import ejb.session.stateless.ReviewOfStudentSessionBeanLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,6 +35,7 @@ import entity.Job;
 import entity.Offer;
 import entity.Payment;
 import entity.Project;
+import entity.ReviewOfStartUp;
 import entity.Student;
 import enumeration.ApplicationStatus;
 import enumeration.OfferStatus;
@@ -48,10 +51,12 @@ import util.exception.CreateNewApplicationException;
 import util.exception.CreateNewOfferException;
 import util.exception.CreateNewPaymentException;
 import util.exception.CreateNewPostingException;
+import util.exception.CreateNewReviewOfStartUpException;
 import util.exception.CreateNewStudentException;
 import util.exception.OfferNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.RepeatedApplicationException;
+import util.exception.ReviewOfStartUpNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -62,6 +67,12 @@ import util.exception.StudentNotFoundException;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private ReviewOfStudentSessionBeanLocal reviewOfStudentSessionBean;
+
+    @EJB
+    private ReviewOfStartUpSessionBeanLocal reviewOfStartUpSessionBean;
 
     @EJB
     private ApplicationSessionBeanLocal applicationSessionBean;
@@ -129,7 +140,13 @@ public class DataInitSessionBean {
         } catch (PaymentNotFoundException ex) {
             //initPayments();
         }
-        
+
+        try {
+            reviewOfStartUpSessionBean.retrieveReviewOfStartUpByReviewOfStartUpId(1l);
+        } catch (ReviewOfStartUpNotFoundException ex) {
+            initReviewOfStartUps();
+        }
+
         System.out.println("**************** DataInitSessionBean.postConstruct");
     }
 
@@ -466,6 +483,26 @@ public class DataInitSessionBean {
             System.out.println("There was an error in initialising the Application entities: "
                     + ex.getMessage());
         }
+    }
+
+    private void initReviewOfStartUps() {
+        try {
+            ReviewOfStartUp review1 = new ReviewOfStartUp(4,
+                    "Testing testing testing testing testing testing testing testing testing testing testing testing ",
+                    studentSessionBean.retrieveStudentByStudentId(1l),
+                    startUpSessionBean.retrieveStartUpByStartUpId(1l));
+
+            reviewOfStartUpSessionBean.createNewStartUp(review1);
+
+            System.out.println("**************** DataInitSessionBean.initReviewOfStartUps");
+
+        } catch (StartUpNotFoundException
+                | StudentNotFoundException
+                | CreateNewReviewOfStartUpException
+                | InputDataValidationException ex) {
+            System.out.println("Exception occured with initReviewOfStartUps");
+        }
+
     }
 
     // Add business logic below. (Right-click in editor and choose

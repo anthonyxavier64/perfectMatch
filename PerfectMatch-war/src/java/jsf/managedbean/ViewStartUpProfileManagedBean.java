@@ -28,7 +28,7 @@ public class ViewStartUpProfileManagedBean {
     public ViewStartUpProfileManagedBean() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
-        startUpRating = Integer.valueOf(currentStartUp.getRating());
+        startUpRating = Double.valueOf(currentStartUp.getRating());
         email = currentStartUp.getEmail();
     }
 
