@@ -142,8 +142,10 @@ public class studentManagementManagedBean implements Serializable {
         viewStudentManagedBean.setStudentEntityToView(toView);
         System.out.println("**************** Student to View: " + viewStudentManagedBean.getStudentEntityToView().getName());
         
-//        FacesContext.getCurrentInstance().getExternalContext()
-//                .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/reviewManagement/viewAllReviewsOfThisStudent.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("studentToView", toView);
+        
+        FacesContext.getCurrentInstance().getExternalContext()
+                .redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/reviewManagement/viewAllReviewsOfThisStudent.xhtml");
     }
 
     public StudentSessionBeanLocal getStudentSessionBean() {

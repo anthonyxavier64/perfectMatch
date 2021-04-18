@@ -63,8 +63,6 @@ public class StartUp implements Serializable {
     private String rating;
 
     private StartUpLocation startupLocation;
-    
-    private boolean isPremium;
 
     @NotNull
     @Column(nullable = false)
