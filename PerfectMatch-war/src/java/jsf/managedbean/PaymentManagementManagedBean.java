@@ -42,6 +42,9 @@ public class PaymentManagementManagedBean implements Serializable {
     private Student studentToPay;
     private Project projectToPay;
     private Payment newPayment;
+    
+    private Payment paymentToView;
+    
 
     /**
      * Creates a new instance of PaymentManagementManagedBean
@@ -79,7 +82,7 @@ public class PaymentManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while transfering payment: " + ex.getMessage(), null));
         }
     }
-
+    
     public Student getStudentToPay() {
         return studentToPay;
     }
@@ -102,6 +105,14 @@ public class PaymentManagementManagedBean implements Serializable {
 
     public void setNewPayment(Payment newPayment) {
         this.newPayment = newPayment;
+    }
+
+    public Payment getPaymentToView() {
+        return paymentToView;
+    }
+
+    public void setPaymentToView(Payment paymentToView) {
+        this.paymentToView = paymentToView;
     }
 
 }

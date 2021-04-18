@@ -20,6 +20,7 @@ public class ViewStartUpProfileManagedBean {
 
    private StartUp currentStartUp;
    private double startUpRating;
+   private String email;
     
     /**
      * Creates a new instance of ViewStartUpProfileManagedBean
@@ -28,6 +29,15 @@ public class ViewStartUpProfileManagedBean {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
         startUpRating = Integer.valueOf(currentStartUp.getRating());
+        email = currentStartUp.getEmail();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public StartUp getCurrentStartUp() {

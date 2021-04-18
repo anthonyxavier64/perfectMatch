@@ -8,7 +8,10 @@
 
     <ui:define name="content">
         <f:facet name="header">
-            #{sessionScope.currentStartUp.companyName}'s Profile Page
+            <h:outputText rendered="#{sessionScope.currentStartUp.isPremium == false}"
+                          value="#{sessionScope.currentStartUp.companyName}'s Profile Page"/>
+            <h:outputText rendered="#{sessionScope.currentStartUp.isPremium}"
+                          value="#{sessionScope.currentStartUp.companyName}'s Profile Page - Premium account"/>
         </f:facet>
         <h:form>
             <p:growl>
