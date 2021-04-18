@@ -6,12 +6,9 @@
 package jsf.managedbean;
 
 import entity.Student;
-import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
 /**

@@ -17,7 +17,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "viewPostingManagedBean")
 @ViewScoped
-public class viewPostingManagedBean implements Serializable{
+public class viewPostingManagedBean implements Serializable {
 
          private Posting postingToView;
     

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/defTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <div>
+            <h3> View All Payments </h3>
+            <h:form id="formViewAllPayments" >
+                <p:messages id="messages" redisplay="false" closable="true" />
+                <p:panel header="View All Payments">
+                    <p:dataTable id="dataTableViewAllPayments"
+                                 widgetVar="dataTableViewAllPayments"
+                                 value="#{sessionScope.currentStartUp.payments}"
+                                 var="payment">
+
+                        <p:column headerText="Payment ID" sortBy="#{payment.paymentId}" filterBy="#{payment.paymentId}" filterMatchMode="contains">
+                            <h:outputText value="#{payment.paymentId}" />
+                        </p:column> 
+
+                        <p:column headerText="Payment amount" sortBy="#{payment.paymentAmount}" filterBy="#{payment.paymentAmount}" filterMatchMode="contains">
+                            <h:outputText value="#{payment.paymentAmount}" />
+                        </p:column> 
+
+                        <p:column headerText="Date" sortBy="#{payment.dateOfTransaction}" filterBy="#{payment.dateOfTransaction}" filterMatchMode="contains">
+                            <h:outputText value="#{payment.dateOfTransaction}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column> 
+
+                        <p:column headerText="Paid to" sortBy="#{payment.student.name}" filterBy="#{payment.student.name}" filterMatchMode="contains">
+                            <h:outputText value="#{payment.student.name}" />
+                        </p:column> 
+
+                        <p:column headerText="Project" sortBy="#{payment.project.title}" filterBy="#{payment.project.title}" filterMatchMode="contains">
+                            <h:outputText value="#{payment.project.title}" />
+                        </p:column> 
+
+                        <p:column headerText="Action">
+                            <p:commandButton update="formViewPayment" oncomplete="PF('dialogViewPayment').show()" icon="ui-icon-document" title="View">
+                                <f:setPropertyActionListener value="#{payment}" target="#{paymentManagementManagedBean.paymentToView}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <h:form id="formViewPayment">
+                <p:dialog id="dialogViewPayment" widgetVar="dialogViewPayment" header="View Payment" closable="true">
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Payment ID: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.paymentId}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Payment Description: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.description}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Payment Date: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.dateOfTransaction}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Paid Student ID: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.student.studentId}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Paid Student Name: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.student.name}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Associated Project: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.project.postingId}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Associated Project Title:" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.project.title}" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </p:dialog>
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
