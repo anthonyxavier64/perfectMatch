@@ -64,7 +64,6 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         try {
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             Posting posting = postingSessionBeanLocal.retrievePostingByPostingId(postingId);
-
             for (Application a : student.getApplications()) {
                 if (a.getPosting().getPostingId() == postingId) {
                     throw new RepeatedApplicationException("An application for this posting already exists");
