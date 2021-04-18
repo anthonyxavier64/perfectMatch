@@ -46,8 +46,9 @@
                                 <f:attribute name="favStudent" value="#{student}" />
                             </p:commandButton>
 
-                            <p:commandButton onclick="test" actionListener="#{studentManagementManagedBean.viewReviews}" icon="ui-icon-rate-review" title="Reviews">
+                            <p:commandButton actionListener="#{studentManagementManagedBean.viewReviews}" icon="ui-icon-rate-review" title="Reviews">
                                 <f:attribute name="studentToView" value="#{student}"/>
+                                <f:setPropertyActionListener value="#{student}" target="#{viewStudentManagedBean.studentEntityToView}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>

@@ -121,7 +121,6 @@ public class StartupManagementManagedBean implements Serializable {
                             "New StartUp registered (StartUp ID: " + startup.getStartupId() + ")",
                             null));
             
-            System.out.println(startup.isIsPremium());
             newStartUp = new StartUp();
         } catch (InputDataValidationException | CreateNewStartUpException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while registering the new StartUp: " + ex.getMessage(), null));
