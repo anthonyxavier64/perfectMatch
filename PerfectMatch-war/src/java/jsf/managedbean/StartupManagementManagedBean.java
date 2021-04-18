@@ -63,8 +63,8 @@ public class StartupManagementManagedBean implements Serializable {
     public void postConstruct() {
         currentStartUp = (StartUp) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("currentStartUp");
-        updateIndustry = currentStartUp.getIndustry();
-        updateLocation = currentStartUp.getStartupLocation();
+//        updateIndustry = currentStartUp.getIndustry();
+//        updateLocation = currentStartUp.getStartupLocation();
     }
 
     public void setProfilePic() {
@@ -119,6 +119,8 @@ public class StartupManagementManagedBean implements Serializable {
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "New StartUp registered (StartUp ID: " + startup.getStartupId() + ")",
                             null));
+            
+            System.out.println(startup.isIsPremium());
             newStartUp = new StartUp();
         } catch (InputDataValidationException | CreateNewStartUpException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while registering the new StartUp: " + ex.getMessage(), null));

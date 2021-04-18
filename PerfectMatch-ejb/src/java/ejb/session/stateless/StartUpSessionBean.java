@@ -68,6 +68,7 @@ public class StartUpSessionBean implements StartUpSessionBeanLocal {
 
         try {
             StartUp startup = (StartUp) query.getSingleResult();
+            System.out.println(startup.isIsPremium());
             return startup;
         } catch (NonUniqueResultException | NoResultException ex) {
             throw ex;
