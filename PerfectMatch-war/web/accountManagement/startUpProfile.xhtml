@@ -52,58 +52,6 @@
                                      onclick="PF('dlgTerminateSubscription').show();"
                                      type="button"
                                      rendered="#{startupManagementManagedBean.currentStartUp.isPremium == true}" />
-                    
-                    <p:dialog id="dlgUpdateProfilePicture"
-                              widgetVar="dlgUpdateProfilePicture"
-                              header="Update Profile Picture"
-                              closable="true"
-                              width="500px">
-                        <p:fileUpload listener="#{profilePictureManagedBean.handleFileUpload}" 
-                                      allowTypes="/(\.|\/)(jpe?g|png)$/" />
-                    </p:dialog>
-
-                    <p:dialog id="dlgChangePassword"
-                              widgetVar="dlgChangePassword"
-                              header="Change Password"
-                              closable="true"
-                              width="500px">
-                        <p:outputLabel for="passwordToVerify" 
-                                       value="Old Password: "/>
-                        <p:inputText id="passwordToVerify"
-                                     value="#{startupManagementManagedBean.passwordToVerify}"
-                                     style="width: 200px;
-                                     padding-bottom: 10px"/>
-
-                        <br/>
-
-                        <p:outputLabel for="newPassword1" 
-                                       value="New Password: "/>
-
-                        <p:password id="newPassword1"
-                                    value="#{startupManagementManagedBean.newPassword}"
-                                    match="newPassword1"
-                                    required="true"
-                                    requiredMessage="A new password is required!"
-                                    style="width: 200px;
-                                    padding-bottom: 10px"/>
-
-                        <br/>
-                        <p:outputLabel for="newPassword2" 
-                                       value="Reenter New Password: "/>
-
-                        <p:password id="newPassword2"
-                                    value="#{startupManagementManagedBean.newPassword}"
-                                    required="true"
-                                    requiredMessage="A new password is required!"
-                                    style="width: 200px;
-                                    padding-bottom: 10px"/>
-
-                        <br/>
-                        <p:commandButton  value="Confirm" update="@form" actionListener="#{startupManagementManagedBean.verifyPassword}" />
-                        <p:growl>
-                            <p:autoUpdate/>
-                        </p:growl>
-                    </p:dialog>
                 </p:row>
                 
 

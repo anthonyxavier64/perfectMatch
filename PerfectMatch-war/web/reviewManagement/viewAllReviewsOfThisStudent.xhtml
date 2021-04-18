@@ -9,13 +9,12 @@
 
     <ui:define name="content">
         <div>
-            <h3> View Reviews of Student </h3>
             <h:form id="formViewReviewsOfThisStudent" >
-                <p:panel header="View Reviews of #{viewStudentManagedBean.studentEntityToView.name}">
+                <p:panel header="View Reviews of #{sessionScope.studentToView.name}">
                     <p:messages id="messages"/>
                     <p:dataTable id="dataTableViewReviewsOfThisStudent"
                                  widgetVar="dataTableViewReviewsOfThisStudent"
-                                 value="#{viewStudentManagedBean.studentEntityToView.reviews}"
+                                 value="#{sessionScope.studentToView.reviews}"
                                  var="review">
 
                         <p:column headerText="Review ID" sortBy="#{review.reviewOfStudentId}" filterBy="#{review.reviewOfStudentId}" filterMatchMode="contains">
