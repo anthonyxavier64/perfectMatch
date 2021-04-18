@@ -208,13 +208,28 @@ public class PostingsManagedBean implements Serializable {
                 .setRequiredSkills(getSelectedProjectToUpdateRequiredSkills());
         postingSessionBean.updatePosting(getSelectedProjectToUpdate());
     }
+    
+    public void updateProjectComplete(ActionEvent event) {
+                setSelectedProjectToUpdate((Project) event.getComponent().getAttributes().get("postingToComplete"));
+                System.out.println(getSelectedProjectToUpdate().getPostingId());
+                
+                if (getSelectedProjectToUpdate().isIsComplete() == false) {
+                    getSelectedProjectToUpdate().setIsComplete(true);
+                } else {
+                    getSelectedProjectToUpdate().setIsComplete(false);
+                }
 
+    }
+    
+    
     public void selectJobToUpdate(ActionEvent event) throws JobNotFoundException, OfferNotFoundException {
         setSelectedJobToUpdate((Job) event.getComponent().getAttributes().get("selectedJobToUpdate"));
         setSelectedJobToUpdateIndustry((Industry) event.getComponent().getAttributes().get("selectedJobToUpdateIndustry"));
         setSelectedJobToUpdateRequiredSkills((List<String>) event.getComponent().getAttributes().get("selectedJobToUpdateRequiredSkills"));
 
     }
+    
+
     
     public String[] outputJobSkills() {
         String[] outputString = new String[getListOfSkillSets().size()];

@@ -37,14 +37,17 @@ public class ReviewOfStartUpWrapper {
 
         return newReview;
     }
-
-    public static ReviewOfStartUpWrapper convertReviewToWrapper(ReviewOfStartUp review) {
-        ReviewOfStartUpWrapper newReview = new ReviewOfStartUpWrapper();
-        newReview.setReviewOfStartUpId(review.getReviewOfStartUpId());
-        newReview.setRating(review.getRating());
-        newReview.setReview(review.getReview());
-
-        return newReview;
+    
+    public static ReviewOfStartUpWrapper convertReviewToWrapper(ReviewOfStartUp review) { 
+        ReviewOfStartUpWrapper newWrap = new ReviewOfStartUpWrapper();
+        
+        newWrap.setRating(review.getRating());
+        newWrap.setReview(review.getReview());
+        
+        newWrap.setStudent(StudentWrapper.convertStudentToStudentWrapper(review.getStudent()));
+        newWrap.setStartUpBeingRated(StartUpWrapper.convertStartUpToStartUpWrapper(review.getStartUpBeingRated()));
+        
+        return newWrap;
     }
 
     public Long getReviewOfStartUpId() {

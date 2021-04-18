@@ -158,7 +158,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             stud.getFavorites().add(post);
         }
     }
-
+    
     @Override
     public void removeFavourite(Posting post, Long studentId) {
         Student stud = em.find(Student.class, studentId);

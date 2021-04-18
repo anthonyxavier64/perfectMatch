@@ -29,7 +29,7 @@ public class StartUpWrapper {
     private JobWrapper[] jobs;
     private PaymentWrapper[] payments;
     private String rating;
-    private ReviewOfStartUpWrapper[] reviews;    
+    private ReviewOfStartUpWrapper[] reviews;
 
     public StartUpWrapper() {
     }

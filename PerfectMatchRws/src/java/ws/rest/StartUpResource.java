@@ -9,6 +9,8 @@ import ejb.session.stateless.ReviewOfStartUpSessionBeanLocal;
 import ejb.session.stateless.StartUpSessionBeanLocal;
 import entity.ReviewOfStartUp;
 import entity.StartUp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -57,6 +59,16 @@ public class StartUpResource {
             StartUp startup = startUpSessionBean.retrieveStartUpByStartUpId(id);
 
             StartUpWrapper startWrap = StartUpWrapper.convertStartUpToStartUpWrapper(startup);
+            
+            ReviewOfStartUpWrapper[] revs = new ReviewOfStartUpWrapper[startup.getReviews().size()];
+            int index = 0;
+            for(ReviewOfStartUp rw: startup.getReviews()) {
+                ReviewOfStartUpWrapper newWrap = ReviewOfStartUpWrapper.convertReviewToWrapper(rw);
+                revs[0] = newWrap;
+                index++;
+            }
+            
+            startWrap.setReviews(revs);
 
             return Response.status(Status.OK).entity(startWrap).build();
 
