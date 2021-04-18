@@ -8,9 +8,15 @@
 
     <ui:define name="content">
         <f:facet name="header">
-            #{sessionScope.currentStartUp.companyName}'s Profile Page
+            <h:outputText rendered="#{sessionScope.currentStartUp.isPremium == false}"
+                          value="#{sessionScope.currentStartUp.companyName}'s Profile Page"/>
+            <h:outputText rendered="#{sessionScope.currentStartUp.isPremium}"
+                          value="#{sessionScope.currentStartUp.companyName}'s Profile Page - Premium account"/>
         </f:facet>
         <h:form>
+            <p:growl>
+                <p:autoUpdate/>
+            </p:growl>
 
             <p:panelGrid>
 
@@ -24,6 +30,8 @@
                                         alt="profilePicture"
                                         style="max-height: 50px"/>
                     </p:column> 
+                </p:row>
+                <p:row>
                     <p:commandButton title="Update Profile Picture"
                                      style="text-align: center;"
                                      onclick="PF('dlgUpdateProfilePicture').show();"
@@ -96,12 +104,78 @@
                             <p:autoUpdate/>
                         </p:growl>
                     </p:dialog>
-
-                
                 </p:row>
                 
 
             </p:panelGrid>
+            <p:dialog id="dlgUpdateProfilePicture"
+                      widgetVar="dlgUpdateProfilePicture"
+                      header="Update Profile Picture"
+                      closable="true"
+                      width="500px">
+                <p:fileUpload listener="#{profilePictureManagedBean.handleFileUpload}" 
+                              allowTypes="/(\.|\/)(jpe?g|png)$/" />
+            </p:dialog>
+
+            <p:dialog id="dlgChangePassword"
+                      widgetVar="dlgChangePassword"
+                      header="Change Password"
+                      closable="true"
+                      width="500px">
+                <p:panelGrid> 
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="passwordToVerify" 
+                                           value="Old Password: "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="passwordToVerify"
+                                         value="#{startupManagementManagedBean.passwordToVerify}"
+                                         style="width: 200px;
+                                         padding-bottom: 10px"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="newPassword1" 
+                                           value="New Password: "/>
+                        </p:column>
+                        <p:column>
+                            <p:password id="newPassword1"
+                                        value="#{startupManagementManagedBean.newPassword1}"
+                                        match="newPassword1"
+                                        required="true"
+                                        requiredMessage="A new password is required!"
+                                        style="width: 200px;
+                                        padding-bottom: 10px"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="newPassword2" 
+                                           value="Reenter New Password: "/>
+                        </p:column>
+                        <p:column>
+                            <p:password id="newPassword2"
+                                        value="#{startupManagementManagedBean.newPassword2}"
+                                        required="true"
+                                        requiredMessage="A new password is required!"
+                                        style="width: 200px;
+                                        padding-bottom: 10px"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:commandButton  value="Confirm"
+                                          process="@form"
+                                          update="@form"
+                                          actionListener="#{startupManagementManagedBean.verifyPassword}" />
+                    </p:row>
+                </p:panelGrid> 
+            </p:dialog>
+
 
         </h:form>
         <h:form>
@@ -143,9 +217,6 @@
                                      required="true" 
                                      requiredMessage="The StartUp requires a registration number!"/>
                     </p:column>
-                    <p:column>
-                        <p:message for="startupRegistrationNum" />
-                    </p:column>
                 </p:row>
 
                 <p:row>
@@ -157,9 +228,6 @@
                                      value="#{startupManagementManagedBean.currentStartUp.companyName}"
                                      required="true" 
                                      requiredMessage="The StartUp requires a name!"/>
-                    </p:column>
-                    <p:column>
-                        <p:message for="companyName" />
                     </p:column>
                 </p:row>
 
@@ -173,9 +241,6 @@
                                      required="true" 
                                      requiredMessage="The StartUp requires a description!"/>
                     </p:column>
-                    <p:column>
-                        <p:message for="description" />
-                    </p:column>
                 </p:row>
 
                 <p:row>
@@ -187,9 +252,6 @@
                                      value="#{startupManagementManagedBean.currentStartUp.email}"
                                      required="true" 
                                      requiredMessage="The StartUp requires an email!"/>
-                    </p:column>
-                    <p:column>
-                        <p:message for="email" />
                     </p:column>
                 </p:row>
 
@@ -203,9 +265,6 @@
                             <f:selectItems value="#{startupManagementManagedBean.industries}" var="industry" itemValue="#{industry}" itemLabel="#{industry}" />
                         </p:selectOneMenu>
                     </p:column>
-                    <p:column>
-                        <p:message for="selIndustry" />
-                    </p:column>
                 </p:row>
 
                 <p:row>
@@ -217,9 +276,6 @@
                             <f:selectItem itemValue="0" itemLabel="[Select One]" noSelectionOption="true" />
                             <f:selectItems value="#{startupManagementManagedBean.startUpLocations}" var="startUpLocation" itemValue="#{startUpLocation}" itemLabel="#{startUpLocation}" />
                         </p:selectOneMenu>
-                    </p:column>
-                    <p:column>
-                        <p:message for="selStartupLocation" />
                     </p:column>
                 </p:row>
 

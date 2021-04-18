@@ -109,5 +109,13 @@ public class ReviewOfStudent implements Serializable {
     public void setStudentBeingRated(Student studentBeingRated) {
         this.studentBeingRated = studentBeingRated;
     }
+
+    public Long getReviewOfStudentId() {
+        return reviewOfStudentId;
+    }
+
+    public void setReviewOfStudentId(Long reviewOfStudentId) {
+        this.reviewOfStudentId = reviewOfStudentId;
+    }
         
 }

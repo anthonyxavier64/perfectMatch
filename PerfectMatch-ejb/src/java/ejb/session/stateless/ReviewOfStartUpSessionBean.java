@@ -58,6 +58,7 @@ public class ReviewOfStartUpSessionBean implements ReviewOfStartUpSessionBeanLoc
 
         if (review != null) {
             em.persist(review);
+            
             em.flush();
             return review;
         } else {
